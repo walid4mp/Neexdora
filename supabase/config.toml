@@ -1,0 +1,16 @@
+# Supabase CLI config (functions only). JWT verification stays ON for every user-facing function.
+project_id = "nexora"
+[functions.send-notification]
+verify_jwt = false      # verified manually: user JWT OR x-cron-secret (DB triggers)
+[functions.sync-reels]
+verify_jwt = false      # verified manually: admin JWT OR x-cron-secret
+[functions.delete-media-asset]
+verify_jwt = false      # verified manually: user JWT OR x-cron-secret (queue flush)
+[functions.ai-gateway]
+verify_jwt = true
+[functions.generate-livekit-token]
+verify_jwt = true
+[functions.link-preview]
+verify_jwt = true
+[functions.admin-action]
+verify_jwt = true
