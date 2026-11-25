@@ -176,8 +176,8 @@ class _SuspensionScreenState extends State<SuspensionScreen> {
         Text(
           expiresAt != null
               ? l10n.systemSuspendedUntil(
-                DateFormat.yMMMd(locale).add_jm().format(expiresAt),
-              )
+                  DateFormat.yMMMd(locale).add_jm().format(expiresAt),
+                )
               : l10n.systemSuspendedPermanent,
           textAlign: TextAlign.center,
           style: theme.textTheme.bodyMedium?.copyWith(
@@ -202,14 +202,13 @@ class _SuspensionScreenState extends State<SuspensionScreen> {
         const SizedBox(height: 8),
         TextButton.icon(
           onPressed: _busy ? null : _handleCheckAgain,
-          icon:
-              _busy
-                  ? const SizedBox(
-                    width: 14,
-                    height: 14,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                  : const Icon(Icons.refresh_rounded, size: 18),
+          icon: _busy
+              ? const SizedBox(
+                  width: 14,
+                  height: 14,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.refresh_rounded, size: 18),
           label: Text(
             _busy
                 ? (AppL10n.isArabic ? 'جاري التحقق...' : 'Checking...')

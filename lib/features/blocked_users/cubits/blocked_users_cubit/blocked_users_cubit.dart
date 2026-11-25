@@ -33,8 +33,9 @@ class BlockedUsersCubit extends Cubit<BlockedUsersState>
     if (currentState is! BlockedUsersLoaded) return;
 
     final previousItems = currentState.items;
-    final updatedItems =
-        previousItems.where((item) => item.user.id != blockedUserId).toList();
+    final updatedItems = previousItems
+        .where((item) => item.user.id != blockedUserId)
+        .toList();
     emit(BlockedUsersLoaded(updatedItems));
 
     try {

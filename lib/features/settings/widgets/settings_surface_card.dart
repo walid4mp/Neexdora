@@ -23,20 +23,18 @@ class SettingsSurfaceCard extends StatelessWidget {
       width: double.infinity,
       padding: padding,
       decoration: BoxDecoration(
-        color:
-            accent != null
-                ? accent.withValues(alpha: isDark ? 0.10 : 0.07)
-                : (isDark
-                    ? Colors.white.withValues(alpha: 0.04)
-                    : Colors.grey.shade50),
+        color: accent != null
+            ? accent.withValues(alpha: isDark ? 0.10 : 0.07)
+            : (isDark
+                  ? Colors.white.withValues(alpha: 0.04)
+                  : Colors.grey.shade50),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color:
-              accent != null
-                  ? accent.withValues(alpha: 0.35)
-                  : (isDark
-                      ? Colors.white.withValues(alpha: 0.07)
-                      : Colors.black.withValues(alpha: 0.06)),
+          color: accent != null
+              ? accent.withValues(alpha: 0.35)
+              : (isDark
+                    ? Colors.white.withValues(alpha: 0.07)
+                    : Colors.black.withValues(alpha: 0.06)),
           width: 0.8,
         ),
       ),

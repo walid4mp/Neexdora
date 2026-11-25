@@ -63,12 +63,11 @@ class UserStoriesGridView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Builder(
                     builder: (context) {
-                      final int storyCount =
-                          _isMe
-                              ? storiesCubit.cachedStories
-                                  .where((s) => s.authorId == userId)
-                                  .length
-                              : 0;
+                      final int storyCount = _isMe
+                          ? storiesCubit.cachedStories
+                                .where((s) => s.authorId == userId)
+                                .length
+                          : 0;
 
                       return Row(
                         mainAxisSize: MainAxisSize.min,
@@ -103,22 +102,21 @@ class UserStoriesGridView extends StatelessWidget {
           ];
         },
 
-        body:
-            _isMe ? _buildMyStoriesGrid(context) : _buildOtherUserGrid(context),
+        body: _isMe
+            ? _buildMyStoriesGrid(context)
+            : _buildOtherUserGrid(context),
       ),
     );
   }
 
   Widget _buildMyStoriesGrid(BuildContext context) {
     return BlocProvider(
-      create:
-          (_) => MyStoriesCubit(
-            initialStories:
-                storiesCubit.cachedStories
-                    .where((s) => s.authorId == userId)
-                    .toList(),
-            storiesCubit: storiesCubit,
-          ),
+      create: (_) => MyStoriesCubit(
+        initialStories: storiesCubit.cachedStories
+            .where((s) => s.authorId == userId)
+            .toList(),
+        storiesCubit: storiesCubit,
+      ),
       child: BlocBuilder<MyStoriesCubit, MyStoriesState>(
         builder: (context, state) {
           final loaded = state as MyStoriesLoaded;

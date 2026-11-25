@@ -178,8 +178,9 @@ class PresenceCubit extends Cubit<Map<String, PresenceInfo>>
     final now = DateTime.now();
     _firstPendingAt ??= now;
     final waited = now.difference(_firstPendingAt!);
-    final delay =
-        waited >= _reconcileMaxWait ? Duration.zero : _reconcileDebounce;
+    final delay = waited >= _reconcileMaxWait
+        ? Duration.zero
+        : _reconcileDebounce;
 
     _reconcileTimer?.cancel();
     _reconcileTimer = Timer(delay, () {

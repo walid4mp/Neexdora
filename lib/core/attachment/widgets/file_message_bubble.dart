@@ -176,48 +176,46 @@ class _FileMessageBubbleState extends State<FileMessageBubble> {
     final ext = _getFileExtension();
     final (fileIcon, iconAccent) = FileIconHelper.getIconAndColor(ext, primary);
 
-    final Color fg =
-        widget.isMe
-            ? Colors.white
-            : (isDark
-                ? Colors.white
-                : (iconAccent.computeLuminance() < 0.45
+    final Color fg = widget.isMe
+        ? Colors.white
+        : (isDark
+              ? Colors.white
+              : (iconAccent.computeLuminance() < 0.45
                     ? iconAccent
                     : theme.colorScheme.onSurface));
 
-    final Color bg =
-        widget.isMe
-            ? Colors.white.withValues(alpha: 0.18)
-            : (isDark
-                ? iconAccent.withValues(alpha: 0.16)
-                : iconAccent.withValues(alpha: 0.08));
+    final Color bg = widget.isMe
+        ? Colors.white.withValues(alpha: 0.18)
+        : (isDark
+              ? iconAccent.withValues(alpha: 0.16)
+              : iconAccent.withValues(alpha: 0.08));
 
     final Border border = Border.all(
-      color:
-          widget.isMe
-              ? Colors.white.withValues(alpha: 0.28)
-              : iconAccent.withValues(alpha: isDark ? 0.35 : 0.22),
+      color: widget.isMe
+          ? Colors.white.withValues(alpha: 0.28)
+          : iconAccent.withValues(alpha: isDark ? 0.35 : 0.22),
       width: 1,
     );
 
     final bool isTransferring = widget.isUploading || _isDownloading;
-    final double currentProgress =
-        widget.isUploading ? (widget.uploadProgress ?? 0.0) : _downloadProgress;
+    final double currentProgress = widget.isUploading
+        ? (widget.uploadProgress ?? 0.0)
+        : _downloadProgress;
 
     final sizeStr = _formatSize(widget.fileSizeBytes);
     final bool isDownloaded = _localPath != null || widget.isMe;
-    final rawName =
-        widget.fileName?.trim().isNotEmpty == true
-            ? widget.fileName!.trim()
-            : context.l10n.file;
+    final rawName = widget.fileName?.trim().isNotEmpty == true
+        ? widget.fileName!.trim()
+        : context.l10n.file;
     final dotIndex = rawName.lastIndexOf('.');
     final baseName = dotIndex != -1 ? rawName.substring(0, dotIndex) : rawName;
     final extPart = dotIndex != -1 ? rawName.substring(dotIndex + 1) : '';
     final isArabicName =
         BidiTextHelper.detectDirection(baseName) == TextDirection.rtl;
 
-    final displayName =
-        isArabicName && extPart.isNotEmpty ? '$baseName .$extPart' : rawName;
+    final displayName = isArabicName && extPart.isNotEmpty
+        ? '$baseName .$extPart'
+        : rawName;
 
     return InkWell(
       borderRadius: BorderRadius.circular(16),
@@ -236,9 +234,8 @@ class _FileMessageBubbleState extends State<FileMessageBubble> {
               duration: const Duration(milliseconds: 300),
               switchInCurve: Curves.easeInOutCubic,
               switchOutCurve: Curves.easeInOutCubic,
-              transitionBuilder:
-                  (child, animation) =>
-                      ScaleTransition(scale: animation, child: child),
+              transitionBuilder: (child, animation) =>
+                  ScaleTransition(scale: animation, child: child),
               child: Container(
                 key: ValueKey<String>(
                   isTransferring
@@ -248,40 +245,36 @@ class _FileMessageBubbleState extends State<FileMessageBubble> {
                 width: 46,
                 height: 46,
                 decoration: BoxDecoration(
-                  color:
-                      isTransferring
-                          ? Colors.transparent
-                          : (isDownloaded
-                              ? (widget.isMe ? Colors.white : Colors.white)
-                              : iconAccent.withValues(alpha: 0.15)),
+                  color: isTransferring
+                      ? Colors.transparent
+                      : (isDownloaded
+                            ? (widget.isMe ? Colors.white : Colors.white)
+                            : iconAccent.withValues(alpha: 0.15)),
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow:
-                      isTransferring || !isDownloaded
-                          ? null
-                          : [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.08),
-                              blurRadius: 6,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
+                  boxShadow: isTransferring || !isDownloaded
+                      ? null
+                      : [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.08),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                 ),
                 alignment: Alignment.center,
-                child:
-                    isTransferring
-                        ? _TransferProgressIcon(
-                          progress: currentProgress,
-                          color: widget.isMe ? Colors.white : iconAccent,
-                          totalBytes: widget.fileSizeBytes,
-                          formatTransfer: _formatTransfer,
-                          onCancel:
-                              widget.isUploading
-                                  ? widget.onCancelTap
-                                  : _cancelDownload,
-                        )
-                        : (isDownloaded
-                            ? FaIcon(fileIcon, color: iconAccent, size: 24)
-                            : Icon(
+                child: isTransferring
+                    ? _TransferProgressIcon(
+                        progress: currentProgress,
+                        color: widget.isMe ? Colors.white : iconAccent,
+                        totalBytes: widget.fileSizeBytes,
+                        formatTransfer: _formatTransfer,
+                        onCancel: widget.isUploading
+                            ? widget.onCancelTap
+                            : _cancelDownload,
+                      )
+                    : (isDownloaded
+                          ? FaIcon(fileIcon, color: iconAccent, size: 24)
+                          : Icon(
                               Icons.arrow_downward_rounded,
                               color: widget.isMe ? Colors.white : iconAccent,
                               size: 22,
@@ -292,25 +285,25 @@ class _FileMessageBubbleState extends State<FileMessageBubble> {
 
             Expanded(
               child: Column(
-                crossAxisAlignment:
-                    isArabicName
-                        ? CrossAxisAlignment.end
-                        : CrossAxisAlignment.start,
+                crossAxisAlignment: isArabicName
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Align(
-                    alignment:
-                        isArabicName
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
+                    alignment: isArabicName
+                        ? Alignment.centerRight
+                        : Alignment.centerLeft,
                     child: Text(
                       displayName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      textDirection:
-                          isArabicName ? TextDirection.rtl : TextDirection.ltr,
-                      textAlign:
-                          isArabicName ? TextAlign.right : TextAlign.left,
+                      textDirection: isArabicName
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
+                      textAlign: isArabicName
+                          ? TextAlign.right
+                          : TextAlign.left,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: fg,
                         fontWeight: FontWeight.w700,
@@ -330,10 +323,9 @@ class _FileMessageBubbleState extends State<FileMessageBubble> {
                           vertical: 2.5,
                         ),
                         decoration: BoxDecoration(
-                          color:
-                              widget.isMe
-                                  ? Colors.white.withValues(alpha: 0.25)
-                                  : iconAccent.withValues(alpha: 0.16),
+                          color: widget.isMe
+                              ? Colors.white.withValues(alpha: 0.25)
+                              : iconAccent.withValues(alpha: 0.16),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: Text(

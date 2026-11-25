@@ -81,13 +81,13 @@ class StoryReplyCubit extends Cubit<StoryReplyState>
         imageUrl = remoteMediaUrl;
       }
 
-      final resolvedMessageType =
-          mediaFile != null
-              ? mediaMessageType!
-              : (remoteMediaUrl != null ? mediaMessageType! : 'text');
+      final resolvedMessageType = mediaFile != null
+          ? mediaMessageType!
+          : (remoteMediaUrl != null ? mediaMessageType! : 'text');
 
-      final String? storyPreviewText =
-          story.storyType == StoryType.text ? story.contentText : story.caption;
+      final String? storyPreviewText = story.storyType == StoryType.text
+          ? story.contentText
+          : story.caption;
 
       await _chatServices.sendMessage(
         senderId: currentUserId,
@@ -101,8 +101,8 @@ class StoryReplyCubit extends Cubit<StoryReplyState>
         fileName: effectiveName,
         caption:
             (mediaFile != null || remoteMediaUrl != null) && text.isNotEmpty
-                ? text
-                : null,
+            ? text
+            : null,
         imagePublicId: imagePublicId,
         videoPublicId: videoPublicId,
         replyToStoryId: story.id,
@@ -111,10 +111,9 @@ class StoryReplyCubit extends Cubit<StoryReplyState>
         replyToStoryMediaUrl: story.imageUrl ?? story.videoUrl,
         replyToStoryText: storyPreviewText,
         replyToStoryBgColor: story.backgroundColor,
-        replyToStoryDurationSeconds:
-            story.storyType == StoryType.video
-                ? story.videoDurationSeconds
-                : null,
+        replyToStoryDurationSeconds: story.storyType == StoryType.video
+            ? story.videoDurationSeconds
+            : null,
       );
 
       emit(StoryReplySent());
@@ -145,10 +144,9 @@ class StoryReplyCubit extends Cubit<StoryReplyState>
       final me = await _chatServices.getCurrentUserInfo(currentUserId);
       final senderName = me['name'] ?? 'Someone';
       final senderImageUrl = me['imageUrl'] ?? '';
-      final body =
-          text.isNotEmpty
-              ? text
-              : (messageType == 'video' ? '🎥 Video' : '📷 Photo');
+      final body = text.isNotEmpty
+          ? text
+          : (messageType == 'video' ? '🎥 Video' : '📷 Photo');
 
       await NotificationRepository.instance.notifyChatMessage(
         receiverId: story.authorId,
@@ -164,8 +162,9 @@ class StoryReplyCubit extends Cubit<StoryReplyState>
       final pushInfo = await _chatServices.getReceiverPushInfo(story.authorId);
       if (pushInfo == null) return;
 
-      final String? storyPreviewText =
-          story.storyType == StoryType.text ? story.contentText : story.caption;
+      final String? storyPreviewText = story.storyType == StoryType.text
+          ? story.contentText
+          : story.caption;
 
       await FcmService.instance.sendStoryReplyNotification(
         receiverFcmToken: pushInfo.fcmToken,

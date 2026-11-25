@@ -21,9 +21,8 @@ class AboutUsSocialLinks extends StatelessWidget {
     final links = <_SocialLink>[
       if (BrandConfig.websiteUrl.isNotEmpty)
         _SocialLink(
-          iconBuilder:
-              (color, size) =>
-                  FaIcon(FontAwesomeIcons.globe, color: color, size: size),
+          iconBuilder: (color, size) =>
+              FaIcon(FontAwesomeIcons.globe, color: color, size: size),
           label: context.l10n.website,
           value: BrandConfig.websiteLabel,
           url: BrandConfig.websiteUrl,
@@ -31,9 +30,8 @@ class AboutUsSocialLinks extends StatelessWidget {
         ),
       if (BrandConfig.linkedinUrl.isNotEmpty)
         _SocialLink(
-          iconBuilder:
-              (color, size) =>
-                  FaIcon(FontAwesomeIcons.linkedin, color: color, size: size),
+          iconBuilder: (color, size) =>
+              FaIcon(FontAwesomeIcons.linkedin, color: color, size: size),
           label: 'LinkedIn',
           value: BrandConfig.linkedinUrl.replaceFirst('https://', ''),
           url: BrandConfig.linkedinUrl,
@@ -41,9 +39,8 @@ class AboutUsSocialLinks extends StatelessWidget {
         ),
       if (BrandConfig.githubUrl.isNotEmpty)
         _SocialLink(
-          iconBuilder:
-              (color, size) =>
-                  FaIcon(FontAwesomeIcons.github, color: color, size: size),
+          iconBuilder: (color, size) =>
+              FaIcon(FontAwesomeIcons.github, color: color, size: size),
           label: 'GitHub',
           value: BrandConfig.githubUrl.replaceFirst('https://', ''),
           url: BrandConfig.githubUrl,
@@ -51,9 +48,8 @@ class AboutUsSocialLinks extends StatelessWidget {
         ),
       if (BrandConfig.whatsappNumber.isNotEmpty)
         _SocialLink(
-          iconBuilder:
-              (color, size) =>
-                  FaIcon(FontAwesomeIcons.whatsapp, color: color, size: size),
+          iconBuilder: (color, size) =>
+              FaIcon(FontAwesomeIcons.whatsapp, color: color, size: size),
           label: 'WhatsApp',
           value: BrandConfig.whatsappNumber,
           url: 'https://wa.me/${BrandConfig.whatsappNumber}',
@@ -61,12 +57,8 @@ class AboutUsSocialLinks extends StatelessWidget {
         ),
       if (BrandConfig.supportEmail.isNotEmpty)
         _SocialLink(
-          iconBuilder:
-              (color, size) => FaIcon(
-                FontAwesomeIcons.solidEnvelope,
-                color: color,
-                size: size,
-              ),
+          iconBuilder: (color, size) =>
+              FaIcon(FontAwesomeIcons.solidEnvelope, color: color, size: size),
           label: context.l10n.email,
           value: BrandConfig.supportEmail,
           url:
@@ -78,120 +70,110 @@ class AboutUsSocialLinks extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color:
-            isDark ? Colors.white.withValues(alpha: 0.04) : Colors.grey.shade50,
+        color: isDark
+            ? Colors.white.withValues(alpha: 0.04)
+            : Colors.grey.shade50,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color:
-              isDark
-                  ? Colors.white.withValues(alpha: 0.07)
-                  : Colors.grey.shade200,
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.07)
+              : Colors.grey.shade200,
           width: 0.8,
         ),
       ),
       child: Column(
-        children:
-            links.asMap().entries.map((entry) {
-              final i = entry.key;
-              final link = entry.value;
-              final isLast = i == links.length - 1;
-              return Column(
-                children: [
-                  InkWell(
-                    borderRadius: BorderRadius.circular(18),
-                    onTap: () async {
-                      HapticFeedback.selectionClick();
+        children: links.asMap().entries.map((entry) {
+          final i = entry.key;
+          final link = entry.value;
+          final isLast = i == links.length - 1;
+          return Column(
+            children: [
+              InkWell(
+                borderRadius: BorderRadius.circular(18),
+                onTap: () async {
+                  HapticFeedback.selectionClick();
 
-                      if (link.label == 'Email') {
-                        final uri = Uri(
-                          scheme: 'mailto',
-                          path: BrandConfig.supportEmail,
-                          queryParameters: {
-                            'subject': 'Contact from ${BrandConfig.appName}',
-                            'body': 'Hello,',
-                          },
-                        );
+                  if (link.label == 'Email') {
+                    final uri = Uri(
+                      scheme: 'mailto',
+                      path: BrandConfig.supportEmail,
+                      queryParameters: {
+                        'subject': 'Contact from ${BrandConfig.appName}',
+                        'body': 'Hello,',
+                      },
+                    );
 
-                        await launchUrl(
-                          uri,
-                          mode: LaunchMode.externalApplication,
-                        );
+                    await launchUrl(uri, mode: LaunchMode.externalApplication);
 
-                        return;
-                      }
+                    return;
+                  }
 
-                      final uri = Uri.parse(link.url);
-                      if (await canLaunchUrl(uri)) {
-                        launchUrl(uri, mode: LaunchMode.externalApplication);
-                      }
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 38,
-                            height: 38,
-                            decoration: BoxDecoration(
-                              color: link.color.withValues(alpha: 0.12),
-                              borderRadius: BorderRadius.circular(11),
-                            ),
-                            child: Center(
-                              child: link.iconBuilder(link.color, 18),
-                            ),
-                          ),
-                          const Gap(14),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  link.label,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                    color:
-                                        isDark ? Colors.white : Colors.black87,
-                                  ),
-                                ),
-                                Text(
-                                  link.value,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color:
-                                        isDark
-                                            ? Colors.white38
-                                            : Colors.grey.shade500,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Icon(
-                            Icons.open_in_new_rounded,
-                            size: 15,
-                            color:
-                                isDark ? Colors.white24 : Colors.grey.shade300,
-                          ),
-                        ],
-                      ),
-                    ),
+                  final uri = Uri.parse(link.url);
+                  if (await canLaunchUrl(uri)) {
+                    launchUrl(uri, mode: LaunchMode.externalApplication);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
                   ),
-                  if (!isLast)
-                    Divider(
-                      height: 1,
-                      indent: 68,
-                      color:
-                          isDark
-                              ? Colors.white.withValues(alpha: 0.06)
-                              : Colors.grey.shade200,
-                    ),
-                ],
-              );
-            }).toList(),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 38,
+                        height: 38,
+                        decoration: BoxDecoration(
+                          color: link.color.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(11),
+                        ),
+                        child: Center(child: link.iconBuilder(link.color, 18)),
+                      ),
+                      const Gap(14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              link.label,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: isDark ? Colors.white : Colors.black87,
+                              ),
+                            ),
+                            Text(
+                              link.value,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: isDark
+                                    ? Colors.white38
+                                    : Colors.grey.shade500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.open_in_new_rounded,
+                        size: 15,
+                        color: isDark ? Colors.white24 : Colors.grey.shade300,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              if (!isLast)
+                Divider(
+                  height: 1,
+                  indent: 68,
+                  color: isDark
+                      ? Colors.white.withValues(alpha: 0.06)
+                      : Colors.grey.shade200,
+                ),
+            ],
+          );
+        }).toList(),
       ),
     );
   }

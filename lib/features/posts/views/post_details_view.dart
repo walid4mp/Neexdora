@@ -193,8 +193,9 @@ class _PostDetailsViewState extends State<PostDetailsView> {
                 }
 
                 final bool isSharedPost = currentPost.isSharedPost;
-                final PostModel? displayPost =
-                    isSharedPost ? currentPost.originalPost : currentPost;
+                final PostModel? displayPost = isSharedPost
+                    ? currentPost.originalPost
+                    : currentPost;
 
                 if (isSharedPost && displayPost == null) {
                   return Center(child: Text(context.l10n.contentNotAvailable));
@@ -254,14 +255,14 @@ class _PostDetailsViewState extends State<PostDetailsView> {
                                         const Gap(12),
                                         displayPost.hasBackgroundTheme
                                             ? ThemedPostCard(
-                                              post: displayPost,
-                                              postsCubit: postsCubit,
-                                              heroTag:
-                                                  'themed-post-details-${currentPost.id}-${displayPost.id}',
-                                            )
+                                                post: displayPost,
+                                                postsCubit: postsCubit,
+                                                heroTag:
+                                                    'themed-post-details-${currentPost.id}-${displayPost.id}',
+                                              )
                                             : PostTxtContentWidget(
-                                              post: displayPost,
-                                            ),
+                                                post: displayPost,
+                                              ),
                                         const Gap(8),
 
                                         ClipRRect(
@@ -279,14 +280,12 @@ class _PostDetailsViewState extends State<PostDetailsView> {
                                       const Gap(16),
                                       PostInteractionsRow(
                                         postId: displayPost.id,
-                                        onCommentsTap:
-                                            () => _toggleView(
-                                              PostDetailsActiveMode.comments,
-                                            ),
-                                        onReactionsTap:
-                                            () => _toggleView(
-                                              PostDetailsActiveMode.reactions,
-                                            ),
+                                        onCommentsTap: () => _toggleView(
+                                          PostDetailsActiveMode.comments,
+                                        ),
+                                        onReactionsTap: () => _toggleView(
+                                          PostDetailsActiveMode.reactions,
+                                        ),
                                       ),
 
                                       const Gap(6),
@@ -335,11 +334,11 @@ class _PostDetailsViewState extends State<PostDetailsView> {
                                 child: SizedBox(
                                   height:
                                       _activeMode ==
-                                              PostDetailsActiveMode.comments
-                                          ? (_composerHeight > 0
-                                              ? _composerHeight
-                                              : 72)
-                                          : 24,
+                                          PostDetailsActiveMode.comments
+                                      ? (_composerHeight > 0
+                                            ? _composerHeight
+                                            : 72)
+                                      : 24,
                                 ),
                               ),
                             ],
@@ -350,17 +349,14 @@ class _PostDetailsViewState extends State<PostDetailsView> {
                               right: 12,
                               bottom: 16,
                               child: BlocBuilder<CommentsCubit, CommentsState>(
-                                buildWhen:
-                                    (previous, current) =>
-                                        current is CommentsPendingChanged ||
-                                        current is CommentsUiChanged,
+                                buildWhen: (previous, current) =>
+                                    current is CommentsPendingChanged ||
+                                    current is CommentsUiChanged,
                                 builder: (context, state) {
                                   return NewCommentsPill(
                                     count: _commentsCubit.pendingCommentsCount,
-                                    onTap:
-                                        () =>
-                                            _inlineSectionKey.currentState
-                                                ?.jumpToNewComments(),
+                                    onTap: () => _inlineSectionKey.currentState
+                                        ?.jumpToNewComments(),
                                   );
                                 },
                               ),
@@ -391,8 +387,8 @@ class _PostDetailsViewState extends State<PostDetailsView> {
                               });
                             },
                             onEditSaved: _cancelEdit,
-                            onControllerReady:
-                                (controller) => _commentController = controller,
+                            onControllerReady: (controller) =>
+                                _commentController = controller,
                           ),
                         ),
                       ),

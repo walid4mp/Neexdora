@@ -35,11 +35,10 @@ class _DisableSheetBody extends StatelessWidget {
     final hasPassword =
         user != null && AccountAuthInfo.fromUser(user).hasPassword;
     return BlocProvider(
-      create:
-          (_) => TwoFactorDisableCubit(
-            const TwoFactorService(),
-            hasPassword: hasPassword,
-          ),
+      create: (_) => TwoFactorDisableCubit(
+        const TwoFactorService(),
+        hasPassword: hasPassword,
+      ),
       child: _DisableForm(canUsePassword: hasPassword),
     );
   }
@@ -68,9 +67,8 @@ class _DisableFormState extends State<_DisableForm> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return BlocConsumer<TwoFactorDisableCubit, TwoFactorDisableState>(
-      listenWhen:
-          (p, c) =>
-              (!p.done && c.done) || (c.error != null && c.error != p.error),
+      listenWhen: (p, c) =>
+          (!p.done && c.done) || (c.error != null && c.error != p.error),
       listener: (context, state) {
         if (state.done) {
           AppToast.success(context.l10n.twoFactorAuthenticationIs);
@@ -162,14 +160,13 @@ class _DisableFormState extends State<_DisableForm> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: TextButton(
-                        onPressed:
-                            state.submitting
-                                ? null
-                                : () => cubit.setMethod(
-                                  isPassword
-                                      ? TwoFactorDisableMethod.totp
-                                      : TwoFactorDisableMethod.password,
-                                ),
+                        onPressed: state.submitting
+                            ? null
+                            : () => cubit.setMethod(
+                                isPassword
+                                    ? TwoFactorDisableMethod.totp
+                                    : TwoFactorDisableMethod.password,
+                              ),
                         child: Text(
                           isPassword
                               ? context.l10n.useAnAuthenticatorCode
@@ -194,10 +191,9 @@ class _DisableFormState extends State<_DisableForm> {
                   const SizedBox(height: 4),
                   Center(
                     child: TextButton(
-                      onPressed:
-                          state.submitting
-                              ? null
-                              : () => Navigator.of(context).pop(),
+                      onPressed: state.submitting
+                          ? null
+                          : () => Navigator.of(context).pop(),
                       child: Text(context.l10n.cancel),
                     ),
                   ),

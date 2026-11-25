@@ -37,18 +37,16 @@ class SharedDocumentsGrid extends StatelessWidget {
               context: context,
               globalPosition: details.globalPosition,
               isMe: isMe,
-              onShowInChat:
-                  () => MediaActionHelper.handleShowInChat(
-                    context,
-                    item,
-                    onShowInChat,
-                  ),
-              onConfirmedDelete:
-                  () => MediaActionHelper.handleDelete(
-                    context,
-                    item,
-                    forEveryone: isMe,
-                  ),
+              onShowInChat: () => MediaActionHelper.handleShowInChat(
+                context,
+                item,
+                onShowInChat,
+              ),
+              onConfirmedDelete: () => MediaActionHelper.handleDelete(
+                context,
+                item,
+                forEveryone: isMe,
+              ),
               onOpen: () => DocumentGridTile.openLocalFile(context, fileToOpen),
               openLabel: context.l10n.open,
               openIcon: Icons.open_in_new_rounded,

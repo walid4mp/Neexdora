@@ -39,91 +39,88 @@ class PostActionsMenu extends StatelessWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       onSelected: (value) => _handleMenuSelection(context, value!),
-      itemBuilder:
-          (context) => [
-            if (isMine) ...[
-              // Above "Delete", profile view + owner only.
-              if (showPinAction)
-                PopupMenuItem(
-                  value: 'pin',
-                  child: Row(
-                    children: [
-                      if (post.isPinned)
-                        FaIcon(
-                          FontAwesomeIcons.thumbtackSlash,
-                          size: 16,
-                          color: neutral,
-                        )
-                      else
-                        Icon(Icons.push_pin_outlined, color: neutral),
-                      const Gap(8),
-                      Text(
-                        post.isPinned
-                            ? context.l10n.unpinPost
-                            : context.l10n.pinPost,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleSmall!.copyWith(color: neutral),
-                      ),
-                    ],
+      itemBuilder: (context) => [
+        if (isMine) ...[
+          // Above "Delete", profile view + owner only.
+          if (showPinAction)
+            PopupMenuItem(
+              value: 'pin',
+              child: Row(
+                children: [
+                  if (post.isPinned)
+                    FaIcon(
+                      FontAwesomeIcons.thumbtackSlash,
+                      size: 16,
+                      color: neutral,
+                    )
+                  else
+                    Icon(Icons.push_pin_outlined, color: neutral),
+                  const Gap(8),
+                  Text(
+                    post.isPinned
+                        ? context.l10n.unpinPost
+                        : context.l10n.pinPost,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall!.copyWith(color: neutral),
                   ),
-                ),
-              PopupMenuItem(
-                value: 'delete',
-                child: Row(
-                  children: [
-                    Icon(
-                      isShareWrapper
-                          ? Icons.repeat_rounded
-                          : Icons.delete_outline,
-                      color: Colors.red,
-                    ),
-                    Gap(8),
-                    Text(
-                      isShareWrapper
-                          ? context.l10n.removeShare
-                          : context.l10n.delete,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleSmall!.copyWith(color: Colors.red),
-                    ),
-                  ],
-                ),
+                ],
               ),
-            ] else ...[
-              if (canModerateGroupPost)
-                PopupMenuItem(
-                  value: 'delete',
-                  child: Row(
-                    children: [
-                      const Icon(Icons.delete_outline, color: Colors.red),
-                      const Gap(8),
-                      Text(
-                        context.l10n.removeGroupPost,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleSmall!.copyWith(color: Colors.red),
-                      ),
-                    ],
+            ),
+          PopupMenuItem(
+            value: 'delete',
+            child: Row(
+              children: [
+                Icon(
+                  isShareWrapper ? Icons.repeat_rounded : Icons.delete_outline,
+                  color: Colors.red,
+                ),
+                Gap(8),
+                Text(
+                  isShareWrapper
+                      ? context.l10n.removeShare
+                      : context.l10n.delete,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall!.copyWith(color: Colors.red),
+                ),
+              ],
+            ),
+          ),
+        ] else ...[
+          if (canModerateGroupPost)
+            PopupMenuItem(
+              value: 'delete',
+              child: Row(
+                children: [
+                  const Icon(Icons.delete_outline, color: Colors.red),
+                  const Gap(8),
+                  Text(
+                    context.l10n.removeGroupPost,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleSmall!.copyWith(color: Colors.red),
                   ),
-                ),
-              PopupMenuItem(
-                value: 'report',
-                child: Row(
-                  children: [
-                    Icon(Icons.report_gmailerrorred, color: neutral),
-                    Gap(8),
-                    Text(
-                      context.l10n.reportPost,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleSmall!.copyWith(color: neutral),
-                    ),
-                  ],
-                ),
+                ],
               ),
-            ],
-          ],
+            ),
+          PopupMenuItem(
+            value: 'report',
+            child: Row(
+              children: [
+                Icon(Icons.report_gmailerrorred, color: neutral),
+                Gap(8),
+                Text(
+                  context.l10n.reportPost,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall!.copyWith(color: neutral),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
     );
   }
 
@@ -143,30 +140,28 @@ class PostActionsMenu extends StatelessWidget {
     } else if (value == 'delete') {
       showDialog(
         context: context,
-        builder:
-            (ctx) => CustomConfirmationDialog(
-              title:
-                  isShareWrapper
-                      ? context.l10n.removeThisShareFrom
-                      : context.l10n.areYouSureYou2,
-              textAlign: TextAlign.center,
-              img: AppImages.deleteFilesAnimationLot,
-              onConfirm: () async {
-                Navigator.pop(ctx);
-                if (isShareWrapper) {
-                  await postsCubit.toggleSharePost(post);
-                } else {
-                  await postsCubit.deletePost(post.id);
-                }
-                if (context.mounted) {
-                  AppToast.info(
-                    isShareWrapper
-                        ? context.l10n.shareRemoved
-                        : context.l10n.postDeletedSuccessfully,
-                  );
-                }
-              },
-            ),
+        builder: (ctx) => CustomConfirmationDialog(
+          title: isShareWrapper
+              ? context.l10n.removeThisShareFrom
+              : context.l10n.areYouSureYou2,
+          textAlign: TextAlign.center,
+          img: AppImages.deleteFilesAnimationLot,
+          onConfirm: () async {
+            Navigator.pop(ctx);
+            if (isShareWrapper) {
+              await postsCubit.toggleSharePost(post);
+            } else {
+              await postsCubit.deletePost(post.id);
+            }
+            if (context.mounted) {
+              AppToast.info(
+                isShareWrapper
+                    ? context.l10n.shareRemoved
+                    : context.l10n.postDeletedSuccessfully,
+              );
+            }
+          },
+        ),
       );
     } else if (value == 'report') {
       if (!context.mounted) return;

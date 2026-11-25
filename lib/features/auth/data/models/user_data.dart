@@ -70,27 +70,26 @@ class UserData {
       id: map['id'] as String? ?? '',
       name: map['name'] as String? ?? '',
       email: map['email'] as String? ?? '',
-      userName:
-          map['username'] != null ? map['username'] as String? ?? '' : null,
+      userName: map['username'] != null
+          ? map['username'] as String? ?? ''
+          : null,
       title: map['title'] != null ? map['title'] as String? ?? '' : null,
       bio: map['bio'] != null ? map['bio'] as String? ?? '' : null,
-      tagline:
-          map[UserColumns.tagline] != null
-              ? map[UserColumns.tagline] as String? ?? ''
-              : null,
+      tagline: map[UserColumns.tagline] != null
+          ? map[UserColumns.tagline] as String? ?? ''
+          : null,
       isTaglineHidden: map[UserColumns.isTaglineHidden] as bool? ?? false,
-      imageUrl:
-          map['image_url'] != null ? map['image_url'] as String? ?? '' : null,
-      backgroundImageUrl:
-          map['background_image_url'] != null
-              ? map['background_image_url'] as String? ?? ''
-              : null,
+      imageUrl: map['image_url'] != null
+          ? map['image_url'] as String? ?? ''
+          : null,
+      backgroundImageUrl: map['background_image_url'] != null
+          ? map['background_image_url'] as String? ?? ''
+          : null,
       imagePublicId: map['image_public_id'] as String?,
       backgroundImagePublicId: map['background_image_public_id'] as String?,
-      lastSeen:
-          map[UserColumns.lastSeen] != null
-              ? DateTime.parse(map[UserColumns.lastSeen].toString())
-              : null,
+      lastSeen: map[UserColumns.lastSeen] != null
+          ? DateTime.parse(map[UserColumns.lastSeen].toString())
+          : null,
       presencePrivacy: PresencePrivacy.fromValue(
         map[UserColumns.presencePrivacy] as String?,
       ),
@@ -101,10 +100,9 @@ class UserData {
         (map[UserColumns.socialLinks] as Map?) ?? const {},
       ),
       isDeleted: map[UserColumns.isDeleted] as bool? ?? false,
-      deletedAt:
-          map[UserColumns.deletedAt] != null
-              ? DateTime.tryParse(map[UserColumns.deletedAt].toString())
-              : null,
+      deletedAt: map[UserColumns.deletedAt] != null
+          ? DateTime.tryParse(map[UserColumns.deletedAt].toString())
+          : null,
     );
   }
 
@@ -143,10 +141,9 @@ class UserData {
       backgroundImageUrl: map['background_image_url'] as String?,
       imagePublicId: map['image_public_id'] as String?,
       backgroundImagePublicId: map['background_image_public_id'] as String?,
-      lastSeen:
-          map['last_seen'] != null
-              ? DateTime.parse(map['last_seen'] as String)
-              : null,
+      lastSeen: map['last_seen'] != null
+          ? DateTime.parse(map['last_seen'] as String)
+          : null,
       presencePrivacy: PresencePrivacy.fromValue(
         map['presence_privacy'] as String?,
       ),
@@ -157,10 +154,9 @@ class UserData {
         (map['social_links'] as Map?) ?? const {},
       ),
       isDeleted: map['is_deleted'] as bool? ?? false,
-      deletedAt:
-          map['deleted_at'] != null
-              ? DateTime.tryParse(map['deleted_at'] as String)
-              : null,
+      deletedAt: map['deleted_at'] != null
+          ? DateTime.tryParse(map['deleted_at'] as String)
+          : null,
     );
   }
 

@@ -132,23 +132,23 @@ class _Content extends StatelessWidget {
                     children: [
                       hasCover
                           ? CachedCloudinaryImage(
-                            secureUrl: profile.coverUrl!,
-                            fit: BoxFit.cover,
-                            width: width,
-                            height: coverHeight,
-                          )
+                              secureUrl: profile.coverUrl!,
+                              fit: BoxFit.cover,
+                              width: width,
+                              height: coverHeight,
+                            )
                           : DecoratedBox(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                                colors: [
-                                  theme.primaryColor,
-                                  theme.primaryColor.withValues(alpha: 0.5),
-                                ],
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    theme.primaryColor,
+                                    theme.primaryColor.withValues(alpha: 0.5),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
                       DecoratedBox(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(

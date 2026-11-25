@@ -84,12 +84,11 @@ class GroupSocialService {
   }
 
   Future<void> updateWhoCanPost(String groupId, GroupWhoCanPost value) async {
-    final res =
-        await _supabase
-            .from(SupabaseConstants.groups)
-            .update({GroupColumns.whoCanPost: value.dbValue})
-            .eq(GroupColumns.id, groupId)
-            .select();
+    final res = await _supabase
+        .from(SupabaseConstants.groups)
+        .update({GroupColumns.whoCanPost: value.dbValue})
+        .eq(GroupColumns.id, groupId)
+        .select();
     if (res.isEmpty) throw Exception('Database update blocked by RLS Policy!');
   }
 
@@ -104,15 +103,14 @@ class GroupSocialService {
   }
 
   Future<void> updateCover(String groupId, String url, String? publicId) async {
-    final res =
-        await _supabase
-            .from(SupabaseConstants.groups)
-            .update({
-              GroupColumns.coverUrl: url,
-              if (publicId != null) GroupColumns.coverPublicId: publicId,
-            })
-            .eq(GroupColumns.id, groupId)
-            .select();
+    final res = await _supabase
+        .from(SupabaseConstants.groups)
+        .update({
+          GroupColumns.coverUrl: url,
+          if (publicId != null) GroupColumns.coverPublicId: publicId,
+        })
+        .eq(GroupColumns.id, groupId)
+        .select();
     if (res.isEmpty) throw Exception('Database update blocked by RLS Policy!');
   }
 

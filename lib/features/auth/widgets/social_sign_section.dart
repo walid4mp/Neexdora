@@ -16,21 +16,20 @@ class SocialSignSection extends StatelessWidget {
   Future<void> _handleFacebookTap(BuildContext context) async {
     final shouldContinue = await showDialog<bool>(
       context: context,
-      builder:
-          (dialogContext) => CustomConfirmationDialog(
-            title: context.l10n.facebookLogInIs,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: 17,
-            ),
-            textAlign: TextAlign.center,
-            img: AppImages.alertAnimationLot,
-            cancelBtnText: context.l10n.cancel,
-            confirmBtnText: context.l10n.continueLabel,
-            onConfirm: () {
-              Navigator.of(dialogContext, rootNavigator: true).pop(true);
-            },
-          ),
+      builder: (dialogContext) => CustomConfirmationDialog(
+        title: context.l10n.facebookLogInIs,
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+          fontWeight: FontWeight.w500,
+          fontSize: 17,
+        ),
+        textAlign: TextAlign.center,
+        img: AppImages.alertAnimationLot,
+        cancelBtnText: context.l10n.cancel,
+        confirmBtnText: context.l10n.continueLabel,
+        onConfirm: () {
+          Navigator.of(dialogContext, rootNavigator: true).pop(true);
+        },
+      ),
     );
 
     if (shouldContinue == true && context.mounted) {

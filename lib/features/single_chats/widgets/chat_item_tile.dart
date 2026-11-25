@@ -52,11 +52,12 @@ class ChatItemTile extends StatelessWidget {
         final primary = Theme.of(context).primaryColor;
 
         return Material(
-          color:
-              isSelected ? primary.withValues(alpha: 0.08) : Colors.transparent,
+          color: isSelected
+              ? primary.withValues(alpha: 0.08)
+              : Colors.transparent,
           child: InkWell(
-            onLongPress:
-                () => context.read<ConversationSelectionCubit>().toggle(ref),
+            onLongPress: () =>
+                context.read<ConversationSelectionCubit>().toggle(ref),
             onTap: () {
               if (isSelecting) {
                 context.read<ConversationSelectionCubit>().toggle(ref);
@@ -225,10 +226,9 @@ class ChatItemTile extends StatelessWidget {
           fontSize: 13,
           fontFamily: null,
           fontFamilyFallback: AppTypography.fontFallback,
-          color:
-              isUnread
-                  ? Theme.of(context).colorScheme.onSurface
-                  : Colors.grey.shade600,
+          color: isUnread
+              ? Theme.of(context).colorScheme.onSurface
+              : Colors.grey.shade600,
         );
 
     final isRtl = Directionality.of(context) == TextDirection.rtl;
@@ -249,19 +249,18 @@ class ChatItemTile extends StatelessWidget {
       final bool isAudio = callType == 'audio';
       final bool isMissed = status == 'rejected' || status == 'missed';
 
-      final IconData icon =
-          isMissed
-              ? (isAudio ? Icons.call_missed : Icons.missed_video_call)
-              : (isAudio ? Icons.call : Icons.videocam);
+      final IconData icon = isMissed
+          ? (isAudio ? Icons.call_missed : Icons.missed_video_call)
+          : (isAudio ? Icons.call : Icons.videocam);
 
-      final Color iconColor =
-          isMissed ? Colors.redAccent : Colors.grey.shade600;
-      final String label =
-          isMissed
-              ? (isAudio
-                  ? context.l10n.missedVoiceCall
-                  : context.l10n.missedVideoCall)
-              : (isAudio ? context.l10n.voiceCall : context.l10n.videoCall);
+      final Color iconColor = isMissed
+          ? Colors.redAccent
+          : Colors.grey.shade600;
+      final String label = isMissed
+          ? (isAudio
+                ? context.l10n.missedVoiceCall
+                : context.l10n.missedVideoCall)
+          : (isAudio ? context.l10n.voiceCall : context.l10n.videoCall);
 
       return Row(
         mainAxisSize: MainAxisSize.min,
@@ -371,8 +370,9 @@ class ChatItemTile extends StatelessWidget {
   Text _buildUserName(BuildContext context) {
     final isDeletedAccount =
         user.isDeleted || user.name.trim().toLowerCase() == 'deleted account';
-    final displayName =
-        isDeletedAccount ? context.l10n.deletedAccount : user.name;
+    final displayName = isDeletedAccount
+        ? context.l10n.deletedAccount
+        : user.name;
 
     return Text(
       displayName,
@@ -403,19 +403,17 @@ class ChatItemTile extends StatelessWidget {
             imageUrl: user.imageUrl,
             size: 52,
             heroTag: enableHero ? user.id : null,
-            onTap:
-                isSelecting
-                    ? null
-                    : () {
-                      showDialog(
-                        context: context,
-                        builder:
-                            (context) => UserPreviewDialog(
-                              user: user,
-                              showContactOptions: true,
-                            ),
-                      );
-                    },
+            onTap: isSelecting
+                ? null
+                : () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => UserPreviewDialog(
+                        user: user,
+                        showContactOptions: true,
+                      ),
+                    );
+                  },
           ),
         ),
         if (isSelecting)
@@ -457,10 +455,9 @@ class _ChatSelectionBadge extends StatelessWidget {
             width: 1.5,
           ),
         ),
-        child:
-            isSelected
-                ? const Icon(Icons.check_rounded, color: Colors.white, size: 13)
-                : null,
+        child: isSelected
+            ? const Icon(Icons.check_rounded, color: Colors.white, size: 13)
+            : null,
       ),
     );
   }

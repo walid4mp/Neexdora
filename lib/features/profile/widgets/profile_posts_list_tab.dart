@@ -40,8 +40,8 @@ class ProfilePostsListTab extends StatelessWidget {
               children: [
                 Text(profileState.message),
                 CupertinoButton(
-                  onPressed:
-                      () => context.read<ProfilePostsCubit>().loadInitial(),
+                  onPressed: () =>
+                      context.read<ProfilePostsCubit>().loadInitial(),
                   child: Text(context.l10n.retry),
                 ),
               ],
@@ -94,10 +94,9 @@ class ProfilePostsListTab extends StatelessWidget {
         return BlocBuilder<PostsCubit, PostsState>(
           buildWhen: (_, current) => current is PostsLoaded,
           builder: (context, feedState) {
-            final feed =
-                feedState is PostsLoaded
-                    ? feedState.posts
-                    : postsCubit.cachedPosts;
+            final feed = feedState is PostsLoaded
+                ? feedState.posts
+                : postsCubit.cachedPosts;
             final byId = {for (final p in feed) p.id: p};
             final posts = [
               for (final id in profileState.postIds)

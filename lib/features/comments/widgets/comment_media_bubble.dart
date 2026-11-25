@@ -46,10 +46,10 @@ class CommentMediaBubble extends StatelessWidget {
         return comment.fileUrl == null
             ? const SizedBox.shrink()
             : FileMessageBubble(
-              fileUrl: comment.fileUrl!,
-              fileName: comment.fileName,
-              fileSizeBytes: comment.fileSizeBytes,
-            );
+                fileUrl: comment.fileUrl!,
+                fileName: comment.fileName,
+                fileSizeBytes: comment.fileSizeBytes,
+              );
       case CommentType.text:
         return const SizedBox.shrink();
     }
@@ -94,55 +94,50 @@ class _ImageBubble extends StatelessWidget {
       secureUrl: comment.imageUrl!,
       fileSizeBytes: comment.fileSizeBytes,
       borderRadius: bubbleRadius,
-      previewBuilder:
-          (context) => CachedNetworkImage(
-            imageUrl: comment.imageUrl!.cloudinaryLowResPreviewUrl,
+      previewBuilder: (context) => CachedNetworkImage(
+        imageUrl: comment.imageUrl!.cloudinaryLowResPreviewUrl,
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        placeholder: (context, _) => MediaLoadingPlaceholder(
+          width: size,
+          height: size,
+          borderRadius: bubbleRadius,
+        ),
+        errorWidget: (context, _, __) => MediaLoadingPlaceholder(
+          width: size,
+          height: size,
+          isError: true,
+          borderRadius: bubbleRadius,
+        ),
+      ),
+      completedBuilder: (context, localPath) => GestureDetector(
+        onTap: () {
+          Navigator.of(context, rootNavigator: true).pushNamed(
+            AppRoutes.fullScreenImageViewRoute,
+            arguments: {
+              'url': comment.imageUrl,
+              'tag': heroTag,
+              'isAsset': false,
+              'caption': comment.text,
+            },
+          );
+        },
+        child: Hero(
+          tag: heroTag,
+          child: CachedCloudinaryImage(
+            secureUrl: comment.imageUrl!,
+            fit: BoxFit.cover,
             width: size,
             height: size,
-            fit: BoxFit.cover,
-            placeholder:
-                (context, _) => MediaLoadingPlaceholder(
-                  width: size,
-                  height: size,
-                  borderRadius: bubbleRadius,
-                ),
-            errorWidget:
-                (context, _, __) => MediaLoadingPlaceholder(
-                  width: size,
-                  height: size,
-                  isError: true,
-                  borderRadius: bubbleRadius,
-                ),
-          ),
-      completedBuilder:
-          (context, localPath) => GestureDetector(
-            onTap: () {
-              Navigator.of(context, rootNavigator: true).pushNamed(
-                AppRoutes.fullScreenImageViewRoute,
-                arguments: {
-                  'url': comment.imageUrl,
-                  'tag': heroTag,
-                  'isAsset': false,
-                  'caption': comment.text,
-                },
-              );
-            },
-            child: Hero(
-              tag: heroTag,
-              child: CachedCloudinaryImage(
-                secureUrl: comment.imageUrl!,
-                fit: BoxFit.cover,
-                width: size,
-                height: size,
-                placeholder:
-                    (context) => MediaLoadingPlaceholder(
-                      width: size,
-                      height: size,
-                      borderRadius: bubbleRadius,
-                    ),
-              ),
+            placeholder: (context) => MediaLoadingPlaceholder(
+              width: size,
+              height: size,
+              borderRadius: bubbleRadius,
             ),
           ),
+        ),
+      ),
     );
   }
 }
@@ -238,10 +233,9 @@ class _VideoBubbleState extends State<_VideoBubble> {
             child: SizedBox(
               width: width,
               height: height,
-              child:
-                  _localThumbnail != null
-                      ? AppFileImage(file: _localThumbnail!, fit: BoxFit.cover)
-                      : Container(color: Colors.grey.shade800),
+              child: _localThumbnail != null
+                  ? AppFileImage(file: _localThumbnail!, fit: BoxFit.cover)
+                  : Container(color: Colors.grey.shade800),
             ),
           );
         },
@@ -255,33 +249,24 @@ class _VideoBubbleState extends State<_VideoBubble> {
       fileSizeBytes: comment.fileSizeBytes,
       durationSeconds: comment.durationSeconds,
       borderRadius: BorderRadius.circular(14),
-      previewBuilder:
-          (context) => SizedBox(
-            width: width,
-            height: height,
-            child:
-                thumbnailUrl != null
-                    ? CachedCloudinaryImage(
-                      secureUrl: thumbnailUrl,
-                      fit: BoxFit.cover,
-                      placeholder:
-                          (context) => const MediaLoadingPlaceholder(
-                            width: width,
-                            height: height,
-                          ),
-                    )
-                    : const MediaLoadingPlaceholder(
-                      width: width,
-                      height: height,
-                    ),
-          ),
-      completedBuilder:
-          (context, localPath) => _InlineVideoPlayer(
-            localPath: localPath,
-            caption: comment.text,
-            width: width,
-            height: height,
-          ),
+      previewBuilder: (context) => SizedBox(
+        width: width,
+        height: height,
+        child: thumbnailUrl != null
+            ? CachedCloudinaryImage(
+                secureUrl: thumbnailUrl,
+                fit: BoxFit.cover,
+                placeholder: (context) =>
+                    const MediaLoadingPlaceholder(width: width, height: height),
+              )
+            : const MediaLoadingPlaceholder(width: width, height: height),
+      ),
+      completedBuilder: (context, localPath) => _InlineVideoPlayer(
+        localPath: localPath,
+        caption: comment.text,
+        width: width,
+        height: height,
+      ),
     );
   }
 }
@@ -314,14 +299,13 @@ class _InlineVideoPlayerState extends State<_InlineVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    _controller =
-        VideoPlayerController.file(File(widget.localPath))
-          ..addListener(_onControllerUpdate)
-          ..initialize().then((_) {
-            if (!mounted) return;
-            setState(() => _isInitialized = true);
-            _startHideTimer();
-          });
+    _controller = VideoPlayerController.file(File(widget.localPath))
+      ..addListener(_onControllerUpdate)
+      ..initialize().then((_) {
+        if (!mounted) return;
+        setState(() => _isInitialized = true);
+        _startHideTimer();
+      });
   }
 
   void _onControllerUpdate() {
@@ -386,21 +370,16 @@ class _InlineVideoPlayerState extends State<_InlineVideoPlayer> {
         .push(
           PageRouteBuilder(
             opaque: false,
-            pageBuilder:
-                (_, __, ___) => FullScreenMediaView(
-                  videoUrl: widget.localPath,
-                  isLocal: true,
-                  caption: widget.caption,
-                  controller: _controller,
-                ),
-            transitionsBuilder: (
-              context,
-              animation,
-              secondaryAnimation,
-              child,
-            ) {
-              return FadeTransition(opacity: animation, child: child);
-            },
+            pageBuilder: (_, __, ___) => FullScreenMediaView(
+              videoUrl: widget.localPath,
+              isLocal: true,
+              caption: widget.caption,
+              controller: _controller,
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
           ),
         )
         .then((_) {
@@ -458,8 +437,9 @@ class _InlineVideoPlayerState extends State<_InlineVideoPlayer> {
               ),
 
             AnimatedOpacity(
-              opacity:
-                  _showControls || !_controller.value.isPlaying ? 1.0 : 0.0,
+              opacity: _showControls || !_controller.value.isPlaying
+                  ? 1.0
+                  : 0.0,
               duration: const Duration(milliseconds: 300),
               child: Stack(
                 fit: StackFit.expand,
@@ -481,10 +461,9 @@ class _InlineVideoPlayerState extends State<_InlineVideoPlayer> {
                     child: GlassIconButton(
                       size: 28,
                       iconSize: 14,
-                      icon:
-                          _controller.value.volume > 0
-                              ? Icons.volume_up_rounded
-                              : Icons.volume_off_rounded,
+                      icon: _controller.value.volume > 0
+                          ? Icons.volume_up_rounded
+                          : Icons.volume_off_rounded,
                       onTap: _toggleMute,
                     ),
                   ),

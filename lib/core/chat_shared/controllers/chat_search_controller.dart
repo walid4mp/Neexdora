@@ -75,11 +75,10 @@ class ChatSearchController<T> {
     }
 
     final lower = trimmed.toLowerCase();
-    final ids =
-        getMessages()
-            .where((m) => getSearchableText(m).toLowerCase().contains(lower))
-            .map(getId)
-            .toList();
+    final ids = getMessages()
+        .where((m) => getSearchableText(m).toLowerCase().contains(lower))
+        .map(getId)
+        .toList();
 
     if (_areListsEqual(matchIds.value, ids)) {
       return;

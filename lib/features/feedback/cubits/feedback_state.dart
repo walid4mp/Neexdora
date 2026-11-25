@@ -75,8 +75,9 @@ class FeedbackState {
       quota: quota ?? this.quota,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       submitStage: clearSubmitStage ? null : (submitStage ?? this.submitStage),
-      justSubmitted:
-          clearJustSubmitted ? null : (justSubmitted ?? this.justSubmitted),
+      justSubmitted: clearJustSubmitted
+          ? null
+          : (justSubmitted ?? this.justSubmitted),
       // errorMessage is one-shot: never carried over.
       errorMessage: errorMessage,
       history: history ?? this.history,

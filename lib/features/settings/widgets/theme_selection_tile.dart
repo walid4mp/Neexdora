@@ -21,23 +21,21 @@ class ThemeSelectionTile extends StatelessWidget {
     final theme = Theme.of(context);
     final isAppDark = theme.brightness == Brightness.dark;
     final bool isCardDark = item.bgBase.computeLuminance() < 0.5;
-    final Color unselectedTextColor =
-        isAppDark
-            ? Colors.white.withValues(alpha: 0.9)
-            : (isCardDark ? Colors.white : Colors.black87);
+    final Color unselectedTextColor = isAppDark
+        ? Colors.white.withValues(alpha: 0.9)
+        : (isCardDark ? Colors.white : Colors.black87);
 
-    final Color tileBg =
-        isSelected
-            ? (isAppDark
-                ? (isCardDark
+    final Color tileBg = isSelected
+        ? (isAppDark
+              ? (isCardDark
                     ? item.bgCircle
                     : item.bgCircle.withValues(alpha: 0.4))
-                : item.bgCircle)
-            : (isAppDark
-                ? (isCardDark
+              : item.bgCircle)
+        : (isAppDark
+              ? (isCardDark
                     ? item.bgCircle.withValues(alpha: 0.25)
                     : item.bgCircle.withValues(alpha: 0.15))
-                : item.bgCircle.withValues(alpha: 0.45));
+              : item.bgCircle.withValues(alpha: 0.45));
 
     return GestureDetector(
       onTap: onTap,
@@ -52,27 +50,25 @@ class ThemeSelectionTile extends StatelessWidget {
             color: tileBg,
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color:
-                  isSelected
-                      ? item.primaryColor
-                      : (isAppDark
-                          ? Colors.white.withValues(alpha: 0.12)
-                          : Colors.black.withValues(alpha: 0.05)),
+              color: isSelected
+                  ? item.primaryColor
+                  : (isAppDark
+                        ? Colors.white.withValues(alpha: 0.12)
+                        : Colors.black.withValues(alpha: 0.05)),
               width: isSelected ? 2 : 1,
             ),
-            boxShadow:
-                isSelected
-                    ? [
-                      BoxShadow(
-                        color: item.primaryColor.withValues(
-                          alpha: isAppDark ? 0.25 : 0.15,
-                        ),
-                        blurRadius: 16,
-                        spreadRadius: -2,
-                        offset: const Offset(0, 6),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: item.primaryColor.withValues(
+                        alpha: isAppDark ? 0.25 : 0.15,
                       ),
-                    ]
-                    : [],
+                      blurRadius: 16,
+                      spreadRadius: -2,
+                      offset: const Offset(0, 6),
+                    ),
+                  ]
+                : [],
           ),
           child: Stack(
             children: [
@@ -108,15 +104,13 @@ class ThemeSelectionTile extends StatelessWidget {
                       width: 46,
                       height: 46,
                       decoration: BoxDecoration(
-                        color:
-                            isSelected
-                                ? (isAppDark ? item.bgCircle : item.bgBase)
-                                : item.bgCircle.withValues(
-                                  alpha:
-                                      isCardDark
-                                          ? 0.25
-                                          : (isAppDark ? 0.3 : 0.75),
-                                ),
+                        color: isSelected
+                            ? (isAppDark ? item.bgCircle : item.bgBase)
+                            : item.bgCircle.withValues(
+                                alpha: isCardDark
+                                    ? 0.25
+                                    : (isAppDark ? 0.3 : 0.75),
+                              ),
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
@@ -135,14 +129,14 @@ class ThemeSelectionTile extends StatelessWidget {
                     Text(
                       context.l10n.themeName(item.type),
                       style: TextStyle(
-                        fontWeight:
-                            isSelected ? FontWeight.w700 : FontWeight.w600,
+                        fontWeight: isSelected
+                            ? FontWeight.w700
+                            : FontWeight.w600,
                         fontSize: 14,
                         letterSpacing: context.ls(-0.2),
-                        color:
-                            isSelected
-                                ? (isAppDark ? Colors.white : item.primaryColor)
-                                : unselectedTextColor,
+                        color: isSelected
+                            ? (isAppDark ? Colors.white : item.primaryColor)
+                            : unselectedTextColor,
                       ),
                     ),
                   ],

@@ -87,15 +87,12 @@ class _SharedMediaViewState extends State<SharedMediaView> {
         body: BlocProvider.value(
           value: widget.mediaCubit,
           child: TabBarView(
-            children:
-                _tabs
-                    .map(
-                      (tab) => MediaTabView(
-                        tab: tab,
-                        onShowInChat: widget.onShowInChat,
-                      ),
-                    )
-                    .toList(),
+            children: _tabs
+                .map(
+                  (tab) =>
+                      MediaTabView(tab: tab, onShowInChat: widget.onShowInChat),
+                )
+                .toList(),
           ),
         ),
       ),

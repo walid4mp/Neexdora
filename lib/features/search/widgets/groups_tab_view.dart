@@ -86,8 +86,9 @@ class _GroupsTabViewState extends State<GroupsTabView>
               return _buildErrorState(context, theme, state.message, query);
             }
 
-            final groups =
-                state is SearchGroupsLoaded ? state.groups : <GroupModel>[];
+            final groups = state is SearchGroupsLoaded
+                ? state.groups
+                : <GroupModel>[];
 
             if (groups.isEmpty) {
               return _buildEmptyState(theme, query);
@@ -140,8 +141,8 @@ class _GroupsTabViewState extends State<GroupsTabView>
             Text(
               query.isEmpty
                   ? (isMyGroupsEmpty
-                      ? context.l10n.youHaventJoinedAny
-                      : context.l10n.searchForGroups)
+                        ? context.l10n.youHaventJoinedAny
+                        : context.l10n.searchForGroups)
                   : context.l10n.noGroupsFoundFor(query),
               textAlign: TextAlign.center,
               style: theme.textTheme.titleMedium!.copyWith(

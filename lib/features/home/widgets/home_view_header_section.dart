@@ -69,12 +69,16 @@ class _HomeViewHeaderSectionState extends State<HomeViewHeaderSection> {
                     return FadeTransition(
                       opacity: anim,
                       child: SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(0, 0.05),
-                          end: Offset.zero,
-                        ).animate(
-                          CurvedAnimation(parent: anim, curve: Curves.easeOut),
-                        ),
+                        position:
+                            Tween<Offset>(
+                              begin: const Offset(0, 0.05),
+                              end: Offset.zero,
+                            ).animate(
+                              CurvedAnimation(
+                                parent: anim,
+                                curve: Curves.easeOut,
+                              ),
+                            ),
                         child: child,
                       ),
                     );
@@ -101,12 +105,16 @@ class _HomeViewHeaderSectionState extends State<HomeViewHeaderSection> {
                     return FadeTransition(
                       opacity: anim,
                       child: SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(0, 0.05),
-                          end: Offset.zero,
-                        ).animate(
-                          CurvedAnimation(parent: anim, curve: Curves.easeOut),
-                        ),
+                        position:
+                            Tween<Offset>(
+                              begin: const Offset(0, 0.05),
+                              end: Offset.zero,
+                            ).animate(
+                              CurvedAnimation(
+                                parent: anim,
+                                curve: Curves.easeOut,
+                              ),
+                            ),
                         child: child,
                       ),
                     );
@@ -123,10 +131,9 @@ class _HomeViewHeaderSectionState extends State<HomeViewHeaderSection> {
                 Image.asset(
                   AppImages.notificationIcon,
                   width: 24,
-                  color:
-                      _unreadCount > 0
-                          ? iconColor
-                          : iconColor.withValues(alpha: isDark ? 0.6 : 0.5),
+                  color: _unreadCount > 0
+                      ? iconColor
+                      : iconColor.withValues(alpha: isDark ? 0.6 : 0.5),
                 ),
                 if (_unreadCount > 0)
                   Positioned(

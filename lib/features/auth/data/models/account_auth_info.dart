@@ -30,10 +30,9 @@ class AccountAuthInfo {
     final hasPasswordFlag = user.userMetadata?['has_password'] == true;
     final hasPassword = providers.contains('email') || hasPasswordFlag;
 
-    final oauth =
-        providers
-            .where((p) => p != 'email' && p != 'phone' && p != 'anonymous')
-            .toList();
+    final oauth = providers
+        .where((p) => p != 'email' && p != 'phone' && p != 'anonymous')
+        .toList();
 
     return AccountAuthInfo(hasPassword: hasPassword, oauthProviders: oauth);
   }

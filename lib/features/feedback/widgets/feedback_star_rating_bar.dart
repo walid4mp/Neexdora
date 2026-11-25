@@ -19,10 +19,9 @@ class FeedbackStarRatingBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const amber = Color(0xFFFFB400);
-    final empty =
-        Theme.of(context).brightness == Brightness.dark
-            ? Colors.white24
-            : Colors.black26;
+    final empty = Theme.of(context).brightness == Brightness.dark
+        ? Colors.white24
+        : Colors.black26;
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -34,13 +33,12 @@ class FeedbackStarRatingBar extends StatelessWidget {
           label: context.l10n.starsCount(star),
           child: GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap:
-                readOnly
-                    ? null
-                    : () {
-                      HapticFeedback.selectionClick();
-                      onChanged(value == star ? null : star);
-                    },
+            onTap: readOnly
+                ? null
+                : () {
+                    HapticFeedback.selectionClick();
+                    onChanged(value == star ? null : star);
+                  },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: AnimatedSwitcher(

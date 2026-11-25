@@ -7,20 +7,18 @@ class GroupChatTranscriptBuilder {
     required String currentUserId,
     required int maxMessages,
   }) {
-    final recent =
-        messages.length > maxMessages
-            ? messages.sublist(messages.length - maxMessages)
-            : messages;
+    final recent = messages.length > maxMessages
+        ? messages.sublist(messages.length - maxMessages)
+        : messages;
 
     final buffer = StringBuffer();
     for (final message in recent) {
       final text = message.text.trim();
       if (text.isEmpty) continue;
 
-      final who =
-          message.senderId == currentUserId
-              ? AppL10n.current.you
-              : message.senderName;
+      final who = message.senderId == currentUserId
+          ? AppL10n.current.you
+          : message.senderName;
       buffer.writeln('$who: $text');
     }
     return buffer.toString().trim();

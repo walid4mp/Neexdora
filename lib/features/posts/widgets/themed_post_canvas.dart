@@ -62,16 +62,15 @@ class ThemedPostCanvas extends StatelessWidget {
       fontSize: fontSize,
       fontWeight: FontWeight.w800,
       height: 1.35,
-      shadows:
-          theme.isLightText
-              ? const [
-                Shadow(
-                  color: Color(0x40000000),
-                  blurRadius: 6,
-                  offset: Offset(0, 1),
-                ),
-              ]
-              : null,
+      shadows: theme.isLightText
+          ? const [
+              Shadow(
+                color: Color(0x40000000),
+                blurRadius: 6,
+                offset: Offset(0, 1),
+              ),
+            ]
+          : null,
     );
   }
 
@@ -253,10 +252,9 @@ class _RenderAmbientMotifStage extends RenderShiftedBox {
   @override
   void performLayout() {
     final resolvedPadding = _padding.resolve(_textDirection);
-    final double maxWidth =
-        constraints.hasBoundedWidth
-            ? constraints.maxWidth
-            : resolvedPadding.horizontal + 280.0;
+    final double maxWidth = constraints.hasBoundedWidth
+        ? constraints.maxWidth
+        : resolvedPadding.horizontal + 280.0;
 
     if (child == null) {
       size = constraints.constrain(Size(maxWidth, _minHeight));
@@ -321,8 +319,9 @@ class _RenderAmbientMotifStage extends RenderShiftedBox {
       2 => 6 + rng.nextInt(6), // 6..11
       _ => 7 + rng.nextInt(6), // 7..12
     };
-    final int heightBonus =
-        size.height > 320 ? ((size.height - 320) / 150).floor().clamp(0, 4) : 0;
+    final int heightBonus = size.height > 320
+        ? ((size.height - 320) / 150).floor().clamp(0, 4)
+        : 0;
     final int targetCount = baseCount + heightBonus;
 
     final double edgePad = 7.0;
@@ -379,10 +378,9 @@ class _RenderAmbientMotifStage extends RenderShiftedBox {
 
       // Guarantee every user-picked motif appears at least once before random
       // sampling fills the remaining slots.
-      final String token =
-          results.length < _motifs.length
-              ? _motifs[results.length]
-              : _motifs[rng.nextInt(_motifs.length)];
+      final String token = results.length < _motifs.length
+          ? _motifs[results.length]
+          : _motifs[rng.nextInt(_motifs.length)];
 
       final double rotation = (rng.nextDouble() - 0.5) * 0.45;
 

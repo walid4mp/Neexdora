@@ -125,8 +125,10 @@ class _MutualFriendsRow extends StatelessWidget {
   }
 
   static String _buildSentence(List<ProfileMutualFriend> friends, int total) {
-    final names =
-        friends.map((f) => f.name.trim()).where((n) => n.isNotEmpty).toList();
+    final names = friends
+        .map((f) => f.name.trim())
+        .where((n) => n.isNotEmpty)
+        .toList();
     if (names.isEmpty || total <= 0) return '';
 
     if (total == 1) return AppL10n.current.isFriendsWithBoth(names[0]);

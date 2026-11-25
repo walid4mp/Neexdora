@@ -80,15 +80,12 @@ class AuthLinkExpiredView extends StatelessWidget {
                   ),
                   const Gap(32),
                   CustomElevatedButton(
-                    txtBtn:
-                        alreadySignedIn
-                            ? context.l10n.goToHome
-                            : context.l10n.requestNewLink,
-                    onPressed:
-                        () =>
-                            alreadySignedIn
-                                ? _goHome(context)
-                                : _requestNewLink(context),
+                    txtBtn: alreadySignedIn
+                        ? context.l10n.goToHome
+                        : context.l10n.requestNewLink,
+                    onPressed: () => alreadySignedIn
+                        ? _goHome(context)
+                        : _requestNewLink(context),
                   ),
                   if (!alreadySignedIn) ...[
                     const Gap(12),

@@ -13,14 +13,13 @@ class AiImageEncoder {
     final needsResize =
         decoded.width > _maxDimension || decoded.height > _maxDimension;
 
-    final resized =
-        !needsResize
-            ? decoded
-            : img.copyResize(
-              decoded,
-              width: decoded.width >= decoded.height ? _maxDimension : null,
-              height: decoded.height > decoded.width ? _maxDimension : null,
-            );
+    final resized = !needsResize
+        ? decoded
+        : img.copyResize(
+            decoded,
+            width: decoded.width >= decoded.height ? _maxDimension : null,
+            height: decoded.height > decoded.width ? _maxDimension : null,
+          );
 
     final jpegBytes = img.encodeJpg(resized, quality: _jpegQuality);
     return base64Encode(jpegBytes);

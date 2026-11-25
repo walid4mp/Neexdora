@@ -33,11 +33,10 @@ class ReelsPreferencesStore {
   Future<void> clearForUser(String userId) async {
     final box = await _openBox();
     final prefix = '$userId:';
-    final keys =
-        box.keys
-            .whereType<String>()
-            .where((k) => k.startsWith(prefix))
-            .toList();
+    final keys = box.keys
+        .whereType<String>()
+        .where((k) => k.startsWith(prefix))
+        .toList();
     await box.deleteAll(keys);
   }
 
@@ -77,10 +76,9 @@ class ReelsPreferencesStore {
     );
 
     final merged = <String>{...existing, ...newlyViewedIds}.toList();
-    final trimmed =
-        merged.length > maxStoredSeenIds
-            ? merged.sublist(merged.length - maxStoredSeenIds)
-            : merged;
+    final trimmed = merged.length > maxStoredSeenIds
+        ? merged.sublist(merged.length - maxStoredSeenIds)
+        : merged;
 
     await box.put(_key(_recentlyViewedIdsKey), trimmed);
   }

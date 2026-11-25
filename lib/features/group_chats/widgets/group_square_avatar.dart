@@ -23,19 +23,15 @@ class GroupSquareAvatar extends StatelessWidget {
       child: SizedBox(
         width: size,
         height: size,
-        child:
-            has
-                ? CachedCloudinaryImage(
-                  secureUrl: url!,
-                  fit: BoxFit.cover,
-                  isAvatar: true,
-                  errorWidget:
-                      (_, __) => Image.asset(
-                        AppImages.defaultGroupImg,
-                        fit: BoxFit.cover,
-                      ),
-                )
-                : Image.asset(AppImages.defaultGroupImg, fit: BoxFit.cover),
+        child: has
+            ? CachedCloudinaryImage(
+                secureUrl: url!,
+                fit: BoxFit.cover,
+                isAvatar: true,
+                errorWidget: (_, __) =>
+                    Image.asset(AppImages.defaultGroupImg, fit: BoxFit.cover),
+              )
+            : Image.asset(AppImages.defaultGroupImg, fit: BoxFit.cover),
       ),
     );
   }

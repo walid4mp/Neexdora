@@ -38,17 +38,17 @@ class EditProfileCubit extends Cubit<EditProfileState>
       final uploadResults = await Future.wait([
         profileImage != null
             ? _editProfileServices.uploadImage(
-              file: profileImage,
-              userId: oldUser.id,
-              folder: 'avatars',
-            )
+                file: profileImage,
+                userId: oldUser.id,
+                folder: 'avatars',
+              )
             : Future.value(null),
         backgroundImage != null
             ? _editProfileServices.uploadImage(
-              file: backgroundImage,
-              userId: oldUser.id,
-              folder: 'backgrounds',
-            )
+                file: backgroundImage,
+                userId: oldUser.id,
+                folder: 'backgrounds',
+              )
             : Future.value(null),
       ]);
 
@@ -65,8 +65,8 @@ class EditProfileCubit extends Cubit<EditProfileState>
         'bio': bio,
         UserColumns.tagline:
             (normalizedTagline == null || normalizedTagline.isEmpty)
-                ? null
-                : normalizedTagline,
+            ? null
+            : normalizedTagline,
         UserColumns.isTaglineHidden: isTaglineHidden,
         if (socialLinks != null) UserColumns.socialLinks: socialLinks,
       };
@@ -108,10 +108,9 @@ class EditProfileCubit extends Cubit<EditProfileState>
           userName: userName,
           title: title,
           bio: bio,
-          tagline:
-              (normalizedTagline == null || normalizedTagline.isEmpty)
-                  ? null
-                  : normalizedTagline,
+          tagline: (normalizedTagline == null || normalizedTagline.isEmpty)
+              ? null
+              : normalizedTagline,
           isTaglineHidden: isTaglineHidden,
           imageUrl: profileUploadResult?.secureUrl ?? oldUser.imageUrl,
           backgroundImageUrl:

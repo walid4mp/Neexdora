@@ -46,21 +46,20 @@ class _SetupBody extends StatelessWidget {
       case TwoFactorSetupStep.recoveryCodes:
         final leave = await showDialog<bool>(
           context: context,
-          builder:
-              (ctx) => AlertDialog(
-                title: Text(context.l10n.leaveWithoutSaving),
-                content: Text(context.l10n.yourRecoveryCodesWill),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(ctx).pop(false),
-                    child: Text(context.l10n.stay),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(ctx).pop(true),
-                    child: Text(context.l10n.leave),
-                  ),
-                ],
+          builder: (ctx) => AlertDialog(
+            title: Text(context.l10n.leaveWithoutSaving),
+            content: Text(context.l10n.yourRecoveryCodesWill),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(false),
+                child: Text(context.l10n.stay),
               ),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(true),
+                child: Text(context.l10n.leave),
+              ),
+            ],
+          ),
         );
         if (leave == true && context.mounted) Navigator.of(context).pop(true);
       case TwoFactorSetupStep.codesError:

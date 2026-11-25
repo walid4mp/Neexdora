@@ -188,10 +188,9 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen> {
           iconTheme: const IconThemeData(color: AppColors.white),
           actions: [
             IconButton(
-              tooltip:
-                  widget.type == 'video'
-                      ? context.l10n.trim
-                      : context.l10n.edit,
+              tooltip: widget.type == 'video'
+                  ? context.l10n.trim
+                  : context.l10n.edit,
               icon: Icon(
                 widget.type == 'video'
                     ? Icons.content_cut_rounded
@@ -245,23 +244,21 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen> {
           children: [
             Expanded(
               child: Center(
-                child:
-                    widget.type == 'image'
-                        ? Image.file(_file, fit: BoxFit.contain)
-                        : _videoPlayerController != null &&
-                            _videoPlayerController!.value.isInitialized
-                        ? AspectRatio(
-                          aspectRatio:
-                              _videoPlayerController!.value.aspectRatio,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              VideoPlayer(_videoPlayerController!),
-                              _buildVideoControls(),
-                            ],
-                          ),
-                        )
-                        : const CustomLoadingIndicator(),
+                child: widget.type == 'image'
+                    ? Image.file(_file, fit: BoxFit.contain)
+                    : _videoPlayerController != null &&
+                          _videoPlayerController!.value.isInitialized
+                    ? AspectRatio(
+                        aspectRatio: _videoPlayerController!.value.aspectRatio,
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            VideoPlayer(_videoPlayerController!),
+                            _buildVideoControls(),
+                          ],
+                        ),
+                      )
+                    : const CustomLoadingIndicator(),
               ),
             ),
             Container(
@@ -335,14 +332,12 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen> {
                               generationAction:
                                   AiActionType.autocompleteCaption,
                               hasMediaAttached: true,
-                              targetMediaType:
-                                  widget.type == 'image'
-                                      ? AiTargetMediaType.image
-                                      : AiTargetMediaType.video,
-                              imageBytesProvider:
-                                  widget.type == 'image'
-                                      ? () => _file.readAsBytes()
-                                      : null,
+                              targetMediaType: widget.type == 'image'
+                                  ? AiTargetMediaType.image
+                                  : AiTargetMediaType.video,
+                              imageBytesProvider: widget.type == 'image'
+                                  ? () => _file.readAsBytes()
+                                  : null,
                             ),
                           ),
                         ),
@@ -366,10 +361,10 @@ class _MediaPreviewScreenState extends State<MediaPreviewScreen> {
                             final controller = _videoPlayerController;
                             final int? durationSeconds =
                                 widget.type == 'video' &&
-                                        controller != null &&
-                                        controller.value.isInitialized
-                                    ? controller.value.duration.inSeconds
-                                    : null;
+                                    controller != null &&
+                                    controller.value.isInitialized
+                                ? controller.value.duration.inSeconds
+                                : null;
                             Navigator.pop(context);
                             widget.onSend(
                               caption.isEmpty ? null : caption,

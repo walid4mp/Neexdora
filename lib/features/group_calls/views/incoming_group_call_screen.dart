@@ -182,12 +182,11 @@ class _IncomingGroupCallScreenState extends State<IncomingGroupCallScreen>
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder:
-              (_) => LiveKitGroupCallView(
-                call: updatedCall,
-                currentUserId: SupabaseProvider.id,
-                currentUserName: userName,
-              ),
+          builder: (_) => LiveKitGroupCallView(
+            call: updatedCall,
+            currentUserId: SupabaseProvider.id,
+            currentUserName: userName,
+          ),
         ),
       );
     } catch (e) {
@@ -246,14 +245,12 @@ class _IncomingGroupCallScreenState extends State<IncomingGroupCallScreen>
                     SizedBox(height: metrics.topGap),
 
                     CallStatusPill(
-                      icon:
-                          isVideo
-                              ? Icons.videocam_rounded
-                              : Icons.phone_callback_rounded,
-                      label:
-                          isVideo
-                              ? context.l10n.incomingGroupVideo
-                              : context.l10n.incomingGroupVoice,
+                      icon: isVideo
+                          ? Icons.videocam_rounded
+                          : Icons.phone_callback_rounded,
+                      label: isVideo
+                          ? context.l10n.incomingGroupVideo
+                          : context.l10n.incomingGroupVoice,
                       shake: _shakeAnim,
                     ),
 
@@ -323,10 +320,9 @@ class _IncomingGroupCallScreenState extends State<IncomingGroupCallScreen>
                             },
                           ),
                           GlassCallActionButton(
-                            icon:
-                                isVideo
-                                    ? Icons.videocam_rounded
-                                    : Icons.call_rounded,
+                            icon: isVideo
+                                ? Icons.videocam_rounded
+                                : Icons.call_rounded,
                             label: context.l10n.accept,
                             color: Colors.green.shade600,
                             size: metrics.buttonSize,

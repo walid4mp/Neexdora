@@ -150,8 +150,8 @@ class AddPostOptionsBottomSheet extends StatelessWidget {
                       Icons.video_camera_front_rounded,
                       context.l10n.liveVideo,
                       const Color(0xFFF44336),
-                      onTap:
-                          () => AppToast.info(context.l10n.liveVideoIsComing),
+                      onTap: () =>
+                          AppToast.info(context.l10n.liveVideoIsComing),
                     ),
                     const Gap(20),
                   ],

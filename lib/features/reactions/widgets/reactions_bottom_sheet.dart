@@ -88,16 +88,14 @@ class _ReactionsBottomSheetState extends State<ReactionsBottomSheet> {
         margin: const EdgeInsets.only(right: 8),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 1),
         decoration: BoxDecoration(
-          color:
-              isSelected
-                  ? theme.primaryColor.withValues(alpha: 0.1)
-                  : Colors.transparent,
+          color: isSelected
+              ? theme.primaryColor.withValues(alpha: 0.1)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
-            color:
-                isSelected
-                    ? theme.primaryColor
-                    : Colors.grey.withValues(alpha: 0.3),
+            color: isSelected
+                ? theme.primaryColor
+                : Colors.grey.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -108,10 +106,9 @@ class _ReactionsBottomSheetState extends State<ReactionsBottomSheet> {
               filterKey == 'All' ? context.l10n.reactionsFilterAll : '$count',
               style: TextStyle(
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.w600,
-                color:
-                    isSelected
-                        ? theme.primaryColor
-                        : theme.textTheme.bodyMedium?.color,
+                color: isSelected
+                    ? theme.primaryColor
+                    : theme.textTheme.bodyMedium?.color,
                 fontSize: 12,
               ),
             ),
@@ -138,14 +135,12 @@ class _ReactionsBottomSheetState extends State<ReactionsBottomSheet> {
     for (var r in _reactions) {
       emojiCounts[r.emoji] = (emojiCounts[r.emoji] ?? 0) + 1;
     }
-    final sortedEmojis =
-        emojiCounts.entries.toList()
-          ..sort((a, b) => b.value.compareTo(a.value));
+    final sortedEmojis = emojiCounts.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
 
-    final displayed =
-        _selectedFilter == 'All'
-            ? _reactions
-            : _reactions.where((r) => r.emoji == _selectedFilter).toList();
+    final displayed = _selectedFilter == 'All'
+        ? _reactions
+        : _reactions.where((r) => r.emoji == _selectedFilter).toList();
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -210,129 +205,119 @@ class _ReactionsBottomSheetState extends State<ReactionsBottomSheet> {
                     const Gap(8),
                   ],
                   Expanded(
-                    child:
-                        _isLoading
-                            ? const ReactionsBottomSheetSkeleton()
-                            : displayed.isEmpty
-                            ? Center(child: Text(context.l10n.noReactionsYet))
-                            : ListView.builder(
-                              physics: const ClampingScrollPhysics(),
-                              controller: scrollController,
-                              padding: const EdgeInsets.only(
-                                bottom: 100,
-                                top: 8,
-                              ),
-                              itemCount: displayed.length,
-                              itemBuilder: (context, index) {
-                                final r = displayed[index];
-                                final isMe = r.userId == currentUserId;
+                    child: _isLoading
+                        ? const ReactionsBottomSheetSkeleton()
+                        : displayed.isEmpty
+                        ? Center(child: Text(context.l10n.noReactionsYet))
+                        : ListView.builder(
+                            physics: const ClampingScrollPhysics(),
+                            controller: scrollController,
+                            padding: const EdgeInsets.only(bottom: 100, top: 8),
+                            itemCount: displayed.length,
+                            itemBuilder: (context, index) {
+                              final r = displayed[index];
+                              final isMe = r.userId == currentUserId;
 
-                                return ListTile(
-                                  leading: Stack(
-                                    clipBehavior: Clip.none,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
+                              return ListTile(
+                                leading: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (isMe) {
+                                          context.safePop();
+                                          navController?.jumpToTab(3);
+                                        } else {
+                                          showDialog(
+                                            context: context,
+                                            builder: (context) =>
+                                                UserPreviewDialog(
+                                                  user: ChatUserModel(
+                                                    id: r.userId,
+                                                    name: r.userName,
+                                                    imageUrl: r.userImageUrl,
+                                                    lastSeen: r.lastSeen,
+                                                    isDeleted:
+                                                        r.isDeletedAccount,
+                                                  ),
+                                                  showContactOptions: false,
+                                                ),
+                                          );
+                                        }
+                                      },
+                                      child: PresenceAvatarWidget(
+                                        userId: r.userId,
+                                        avatarSize: 44,
+                                        showDot: false,
+                                        showBorder: true,
+
+                                        child: AppAvatar(
+                                          imageUrl: r.userImageUrl,
+                                          size: 44,
+                                        ),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      bottom: -4,
+                                      right: -4,
+                                      child: Container(
+                                        padding: const EdgeInsets.all(2),
+                                        decoration: BoxDecoration(
+                                          color: theme.scaffoldBackgroundColor,
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Text(
+                                          r.emoji,
+                                          style: TextStyle(
+                                            inherit: false,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.normal,
+                                            fontFamilyFallback:
+                                                AppTypography.emojiFontFallback,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                title: GestureDetector(
+                                  onTap: r.isDeletedAccount
+                                      ? null
+                                      : () {
                                           if (isMe) {
                                             context.safePop();
                                             navController?.jumpToTab(3);
                                           } else {
-                                            showDialog(
-                                              context: context,
-                                              builder:
-                                                  (
-                                                    context,
-                                                  ) => UserPreviewDialog(
-                                                    user: ChatUserModel(
-                                                      id: r.userId,
-                                                      name: r.userName,
-                                                      imageUrl: r.userImageUrl,
-                                                      lastSeen: r.lastSeen,
-                                                      isDeleted:
-                                                          r.isDeletedAccount,
-                                                    ),
-                                                    showContactOptions: false,
-                                                  ),
+                                            context.safePopRoot();
+                                            Navigator.of(
+                                              context,
+                                              rootNavigator: true,
+                                            ).pushNamed(
+                                              AppRoutes.profileViewRoute,
+                                              arguments: r.userId,
                                             );
                                           }
                                         },
-                                        child: PresenceAvatarWidget(
-                                          userId: r.userId,
-                                          avatarSize: 44,
-                                          showDot: false,
-                                          showBorder: true,
-
-                                          child: AppAvatar(
-                                            imageUrl: r.userImageUrl,
-                                            size: 44,
-                                          ),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        bottom: -4,
-                                        right: -4,
-                                        child: Container(
-                                          padding: const EdgeInsets.all(2),
-                                          decoration: BoxDecoration(
-                                            color:
-                                                theme.scaffoldBackgroundColor,
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Text(
-                                            r.emoji,
-                                            style: TextStyle(
-                                              inherit: false,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.normal,
-                                              fontFamilyFallback:
-                                                  AppTypography
-                                                      .emojiFontFallback,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  title: GestureDetector(
-                                    onTap:
-                                        r.isDeletedAccount
-                                            ? null
-                                            : () {
-                                              if (isMe) {
-                                                context.safePop();
-                                                navController?.jumpToTab(3);
-                                              } else {
-                                                context.safePopRoot();
-                                                Navigator.of(
-                                                  context,
-                                                  rootNavigator: true,
-                                                ).pushNamed(
-                                                  AppRoutes.profileViewRoute,
-                                                  arguments: r.userId,
-                                                );
-                                              }
-                                            },
-                                    child: Text(
-                                      r.userName,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                  child: Text(
+                                    r.userName,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  trailing:
-                                      r.createdAt != null
-                                          ? Text(
-                                            FormattedDate.getFormattedDate(
-                                              r.createdAt!,
-                                              isShort: true,
-                                            ),
-                                            style: theme.textTheme.bodySmall
-                                                ?.copyWith(color: Colors.grey),
-                                          )
-                                          : null,
-                                );
-                              },
-                            ),
+                                ),
+                                trailing: r.createdAt != null
+                                    ? Text(
+                                        FormattedDate.getFormattedDate(
+                                          r.createdAt!,
+                                          isShort: true,
+                                        ),
+                                        style: theme.textTheme.bodySmall
+                                            ?.copyWith(color: Colors.grey),
+                                      )
+                                    : null,
+                              );
+                            },
+                          ),
                   ),
                 ],
               ),

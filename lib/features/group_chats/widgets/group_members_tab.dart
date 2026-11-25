@@ -39,24 +39,23 @@ class _GroupMembersTabState extends State<GroupMembersTab> {
   Future<void> _remove(GroupMemberModel member) async {
     final ok = await showDialog<bool>(
       context: context,
-      builder:
-          (ctx) => AlertDialog(
-            title: Text(context.l10n.removeMember),
-            content: Text(context.l10n.removeFromTheGroup(member.userName)),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(context.l10n.cancel),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, true),
-                child: Text(
-                  context.l10n.remove,
-                  style: const TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
+      builder: (ctx) => AlertDialog(
+        title: Text(context.l10n.removeMember),
+        content: Text(context.l10n.removeFromTheGroup(member.userName)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(context.l10n.cancel),
           ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(
+              context.l10n.remove,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
     );
     if (ok != true) return;
     try {
@@ -96,12 +95,11 @@ class _GroupMembersTabState extends State<GroupMembersTab> {
         }
         final loaded = state as GroupMembersLoaded;
         final q = _query.trim().toLowerCase();
-        final members =
-            q.isEmpty
-                ? loaded.members
-                : loaded.members
-                    .where((m) => m.userName.toLowerCase().contains(q))
-                    .toList();
+        final members = q.isEmpty
+            ? loaded.members
+            : loaded.members
+                  .where((m) => m.userName.toLowerCase().contains(q))
+                  .toList();
 
         return NotificationListener<ScrollNotification>(
           onNotification: (n) {

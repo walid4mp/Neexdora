@@ -66,17 +66,17 @@ class _VideoMessageWidgetState extends State<VideoMessageWidget> {
       bottomEnd: Radius.circular(widget.isMe ? 0 : 15),
     ).resolve(Directionality.of(context));
 
-    final thumbnailUrl =
-        _isLocal ? null : widget.videoUrl.cloudinaryVideoThumbnailUrl;
+    final thumbnailUrl = _isLocal
+        ? null
+        : widget.videoUrl.cloudinaryVideoThumbnailUrl;
 
     Widget frame(Widget content, {bool showPlay = false}) => Container(
       decoration: BoxDecoration(
         borderRadius: borderRadius,
         border: Border.all(
-          color:
-              isDarkMode
-                  ? Colors.white.withValues(alpha: 0.1)
-                  : AppColors.grey.withValues(alpha: 0.12),
+          color: isDarkMode
+              ? Colors.white.withValues(alpha: 0.1)
+              : AppColors.grey.withValues(alpha: 0.12),
           width: 1.8,
         ),
       ),
@@ -92,8 +92,8 @@ class _VideoMessageWidgetState extends State<VideoMessageWidget> {
                 imageUrl: thumbnailUrl,
                 fit: BoxFit.cover,
                 errorListener: (_) {},
-                errorWidget:
-                    (_, __, ___) => Container(color: Colors.grey.shade800),
+                errorWidget: (_, __, ___) =>
+                    Container(color: Colors.grey.shade800),
               )
             else
               Container(color: Colors.grey.shade800),
@@ -134,30 +134,23 @@ class _VideoMessageWidgetState extends State<VideoMessageWidget> {
       durationSeconds: widget.durationSeconds,
       borderRadius: borderRadius,
       previewBuilder: (context) => frame(const SizedBox.shrink()),
-      completedBuilder:
-          (context, localPath) => GestureDetector(
-            onTap:
-                () => Navigator.push(
-                  context,
-                  PageRouteBuilder(
-                    opaque: false,
-                    pageBuilder:
-                        (_, __, ___) => FullScreenMediaView(
-                          videoUrl: widget.videoUrl,
-                          caption: widget.caption,
-                        ),
-                    transitionsBuilder: (
-                      context,
-                      animation,
-                      secondaryAnimation,
-                      child,
-                    ) {
-                      return FadeTransition(opacity: animation, child: child);
-                    },
-                  ),
-                ),
-            child: frame(const SizedBox.shrink(), showPlay: true),
+      completedBuilder: (context, localPath) => GestureDetector(
+        onTap: () => Navigator.push(
+          context,
+          PageRouteBuilder(
+            opaque: false,
+            pageBuilder: (_, __, ___) => FullScreenMediaView(
+              videoUrl: widget.videoUrl,
+              caption: widget.caption,
+            ),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
           ),
+        ),
+        child: frame(const SizedBox.shrink(), showPlay: true),
+      ),
     );
   }
 }

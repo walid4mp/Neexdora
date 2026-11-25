@@ -21,8 +21,9 @@ class _HelpFaqViewState extends State<HelpFaqView> {
 
   Future<List<FaqCategory>> _load() async {
     final isAr = Localizations.localeOf(context).languageCode == 'ar';
-    final path =
-        isAr ? 'assets/docs/help_faq_ar.json' : 'assets/docs/help_faq.json';
+    final path = isAr
+        ? 'assets/docs/help_faq_ar.json'
+        : 'assets/docs/help_faq.json';
     final raw = await rootBundle.loadString(path);
     final decoded = jsonDecode(raw) as List<dynamic>;
     return decoded
@@ -74,10 +75,9 @@ class _HelpFaqViewState extends State<HelpFaqView> {
 
           final categories = snapshot.data!;
           final isSearching = _query.trim().isNotEmpty;
-          final results =
-              isSearching
-                  ? _searchResults(categories)
-                  : const <MapEntry<String, FaqItem>>[];
+          final results = isSearching
+              ? _searchResults(categories)
+              : const <MapEntry<String, FaqItem>>[];
 
           return CustomScrollView(
             physics: const ClampingScrollPhysics(),
@@ -99,21 +99,19 @@ class _HelpFaqViewState extends State<HelpFaqView> {
                       decoration: InputDecoration(
                         hintText: context.l10n.searchForAQuestion,
                         prefixIcon: const Icon(Icons.search_rounded),
-                        suffixIcon:
-                            isSearching
-                                ? IconButton(
-                                  icon: const Icon(Icons.close_rounded),
-                                  onPressed: () {
-                                    _searchController.clear();
-                                    setState(() => _query = '');
-                                  },
-                                )
-                                : null,
+                        suffixIcon: isSearching
+                            ? IconButton(
+                                icon: const Icon(Icons.close_rounded),
+                                onPressed: () {
+                                  _searchController.clear();
+                                  setState(() => _query = '');
+                                },
+                              )
+                            : null,
                         filled: true,
-                        fillColor:
-                            theme.brightness == Brightness.dark
-                                ? Colors.white.withValues(alpha: 0.06)
-                                : Colors.grey.shade100,
+                        fillColor: theme.brightness == Brightness.dark
+                            ? Colors.white.withValues(alpha: 0.06)
+                            : Colors.grey.shade100,
                         isDense: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -127,41 +125,41 @@ class _HelpFaqViewState extends State<HelpFaqView> {
               if (isSearching)
                 results.isEmpty
                     ? SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 40),
-                        child: Center(
-                          child: Text(
-                            context.l10n.noResultsFor(_query),
-                            style: theme.textTheme.bodyMedium,
+                        hasScrollBody: false,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: Center(
+                            child: Text(
+                              context.l10n.noResultsFor(_query),
+                              style: theme.textTheme.bodyMedium,
+                            ),
                           ),
                         ),
-                      ),
-                    )
+                      )
                     : SliverPadding(
-                      padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
-                      sliver: SliverList.builder(
-                        itemCount: results.length,
-                        itemBuilder: (context, index) {
-                          final entry = results[index];
-                          return AccordionTile(
-                            initiallyExpanded: results.length == 1,
-                            title: Text(
-                              entry.value.question,
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.w700,
+                        padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
+                        sliver: SliverList.builder(
+                          itemCount: results.length,
+                          itemBuilder: (context, index) {
+                            final entry = results[index];
+                            return AccordionTile(
+                              initiallyExpanded: results.length == 1,
+                              title: Text(
+                                entry.value.question,
+                                style: theme.textTheme.titleSmall?.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              entry.value.answer,
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                height: 1.55,
+                              child: Text(
+                                entry.value.answer,
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  height: 1.55,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    )
+                            );
+                          },
+                        ),
+                      )
               else
                 SliverPadding(
                   padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),

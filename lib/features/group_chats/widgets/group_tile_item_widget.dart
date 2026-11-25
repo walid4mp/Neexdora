@@ -45,11 +45,12 @@ class GroupTileItem extends StatelessWidget {
         final isSelected = selection.isSelected(ref);
 
         return Material(
-          color:
-              isSelected ? primary.withValues(alpha: 0.08) : Colors.transparent,
+          color: isSelected
+              ? primary.withValues(alpha: 0.08)
+              : Colors.transparent,
           child: InkWell(
-            onLongPress:
-                () => context.read<ConversationSelectionCubit>().toggle(ref),
+            onLongPress: () =>
+                context.read<ConversationSelectionCubit>().toggle(ref),
             onTap: () {
               if (isSelecting) {
                 context.read<ConversationSelectionCubit>().toggle(ref);
@@ -129,10 +130,9 @@ class GroupTileItem extends StatelessWidget {
     return Text(
       FormattedDate.getMessageTime(group.lastMessageAt!),
       style: TextStyle(
-        color:
-            group.unreadCount > 0
-                ? primary
-                : (isDark ? Colors.white38 : Colors.black38),
+        color: group.unreadCount > 0
+            ? primary
+            : (isDark ? Colors.white38 : Colors.black38),
         fontSize: 11,
       ),
     );
@@ -203,119 +203,112 @@ class GroupTileItem extends StatelessWidget {
         color: Colors.green.shade600,
         fontStyle: FontStyle.italic,
       ),
-      fallback:
-          group.lastMessage != null
-              ? Builder(
-                builder: (context) {
-                  final textStyle = TextStyle(
-                    color:
-                        highlightUnreadMessage
-                            ? Theme.of(context).colorScheme.onSurface
-                            : Colors.grey.shade600,
-                    fontSize: 13,
-                    fontWeight:
-                        highlightUnreadMessage
-                            ? FontWeight.w500
-                            : FontWeight.w400,
-                    fontFamily: null,
-                    fontFamilyFallback: AppTypography.fontFallback,
-                  );
-
-                  final isRtl = Directionality.of(context) == TextDirection.rtl;
-
-                  if (group.lastMessageType == 'file' ||
-                      group.lastMessageType == 'document') {
-                    final senderId = group.lastMessageSenderId;
-                    final senderNameFromData = group.lastMessageSenderName;
-                    final isMe = senderId != null && senderId == currentUserId;
-
-                    final senderName =
-                        isMe
-                            ? context.l10n.you
-                            : (senderNameFromData?.trim().isNotEmpty == true
-                                ? senderNameFromData!
-                                : context.l10n.someone);
-
-                    return Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          '$senderName: ',
-                          style: textStyle,
-                          textDirection:
-                              isRtl ? TextDirection.rtl : TextDirection.ltr,
-                        ),
-                        Flexible(
-                          child:
-                              MessageReactionPreviewHelper.buildDirectionalFilePreview(
-                                fileName:
-                                    group.lastMessage ?? context.l10n.file,
-                                style: textStyle,
-                                defaultIconColor: Colors.grey.shade600,
-                                iconSize: 12,
-                              ),
-                        ),
-                      ],
-                    );
-                  }
-
-                  final fullText = buildGroupLastMessagePreview(
-                    group: group,
-                    currentUserId: currentUserId,
-                  );
-
-                  if (group.lastMessageType == 'message_react') {
-                    return MessageReactionPreviewHelper.buildReactionPreviewWidget(
-                      rawPreview: EmojiHelper.normalize(fullText),
-                      style: textStyle,
-                      defaultIconColor: Colors.grey.shade600,
-                      iconSize: 12,
-                    );
-                  }
-
-                  String prefix = '';
-                  String content = fullText;
-
-                  final isEventOrReact =
-                      group.lastMessageType == 'system_event';
-
-                  final colonIndex =
-                      isEventOrReact ? -1 : fullText.indexOf(': ');
-                  if (colonIndex != -1 && colonIndex < 35) {
-                    prefix = fullText.substring(0, colonIndex + 2);
-                    content = fullText.substring(colonIndex + 2);
-                  }
-
-                  final normalText = EmojiHelper.normalize(content);
-
-                  return Text.rich(
-                    TextSpan(
-                      children: [
-                        if (prefix.isNotEmpty)
-                          TextSpan(
-                            text: prefix,
-                            style: textStyle.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        TextSpan(text: normalText, style: textStyle),
-                      ],
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textDirection:
-                        isRtl ? TextDirection.rtl : TextDirection.ltr,
-                    textAlign: isRtl ? TextAlign.right : TextAlign.left,
-                  );
-                },
-              )
-              : Text(
-                context.l10n.tapToOpenGroup,
-                style: TextStyle(
-                  color: isDark ? Colors.white38 : Colors.black38,
+      fallback: group.lastMessage != null
+          ? Builder(
+              builder: (context) {
+                final textStyle = TextStyle(
+                  color: highlightUnreadMessage
+                      ? Theme.of(context).colorScheme.onSurface
+                      : Colors.grey.shade600,
                   fontSize: 13,
-                ),
+                  fontWeight: highlightUnreadMessage
+                      ? FontWeight.w500
+                      : FontWeight.w400,
+                  fontFamily: null,
+                  fontFamilyFallback: AppTypography.fontFallback,
+                );
+
+                final isRtl = Directionality.of(context) == TextDirection.rtl;
+
+                if (group.lastMessageType == 'file' ||
+                    group.lastMessageType == 'document') {
+                  final senderId = group.lastMessageSenderId;
+                  final senderNameFromData = group.lastMessageSenderName;
+                  final isMe = senderId != null && senderId == currentUserId;
+
+                  final senderName = isMe
+                      ? context.l10n.you
+                      : (senderNameFromData?.trim().isNotEmpty == true
+                            ? senderNameFromData!
+                            : context.l10n.someone);
+
+                  return Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '$senderName: ',
+                        style: textStyle,
+                        textDirection: isRtl
+                            ? TextDirection.rtl
+                            : TextDirection.ltr,
+                      ),
+                      Flexible(
+                        child:
+                            MessageReactionPreviewHelper.buildDirectionalFilePreview(
+                              fileName: group.lastMessage ?? context.l10n.file,
+                              style: textStyle,
+                              defaultIconColor: Colors.grey.shade600,
+                              iconSize: 12,
+                            ),
+                      ),
+                    ],
+                  );
+                }
+
+                final fullText = buildGroupLastMessagePreview(
+                  group: group,
+                  currentUserId: currentUserId,
+                );
+
+                if (group.lastMessageType == 'message_react') {
+                  return MessageReactionPreviewHelper.buildReactionPreviewWidget(
+                    rawPreview: EmojiHelper.normalize(fullText),
+                    style: textStyle,
+                    defaultIconColor: Colors.grey.shade600,
+                    iconSize: 12,
+                  );
+                }
+
+                String prefix = '';
+                String content = fullText;
+
+                final isEventOrReact = group.lastMessageType == 'system_event';
+
+                final colonIndex = isEventOrReact ? -1 : fullText.indexOf(': ');
+                if (colonIndex != -1 && colonIndex < 35) {
+                  prefix = fullText.substring(0, colonIndex + 2);
+                  content = fullText.substring(colonIndex + 2);
+                }
+
+                final normalText = EmojiHelper.normalize(content);
+
+                return Text.rich(
+                  TextSpan(
+                    children: [
+                      if (prefix.isNotEmpty)
+                        TextSpan(
+                          text: prefix,
+                          style: textStyle.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      TextSpan(text: normalText, style: textStyle),
+                    ],
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+                  textAlign: isRtl ? TextAlign.right : TextAlign.left,
+                );
+              },
+            )
+          : Text(
+              context.l10n.tapToOpenGroup,
+              style: TextStyle(
+                color: isDark ? Colors.white38 : Colors.black38,
+                fontSize: 13,
               ),
+            ),
     );
   }
 
@@ -330,35 +323,29 @@ class GroupTileItem extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         GestureDetector(
-          onTap:
-              (!isSelecting)
-                  ? () => showDialog(
-                    context: context,
-                    barrierColor: Colors.black54,
-                    builder: (_) => GroupPreviewDialog(group: group),
-                  )
-                  : null,
+          onTap: (!isSelecting)
+              ? () => showDialog(
+                  context: context,
+                  barrierColor: Colors.black54,
+                  builder: (_) => GroupPreviewDialog(group: group),
+                )
+              : null,
           child: ClipOval(
             child: Container(
               width: 52,
               height: 52,
               color: primary.withValues(alpha: 0.12),
-              child:
-                  hasAvatar
-                      ? CachedCloudinaryImage(
-                        secureUrl: group.avatarUrl!,
-                        fit: BoxFit.cover,
-                        isAvatar: true,
-                        errorWidget:
-                            (context, error) => Image.asset(
-                              AppImages.defaultGroupImg,
-                              fit: BoxFit.cover,
-                            ),
-                      )
-                      : Image.asset(
+              child: hasAvatar
+                  ? CachedCloudinaryImage(
+                      secureUrl: group.avatarUrl!,
+                      fit: BoxFit.cover,
+                      isAvatar: true,
+                      errorWidget: (context, error) => Image.asset(
                         AppImages.defaultGroupImg,
                         fit: BoxFit.cover,
                       ),
+                    )
+                  : Image.asset(AppImages.defaultGroupImg, fit: BoxFit.cover),
             ),
           ),
         ),
@@ -398,10 +385,9 @@ class _SelectionBadge extends StatelessWidget {
             width: 1.5,
           ),
         ),
-        child:
-            isSelected
-                ? const Icon(Icons.check_rounded, color: Colors.white, size: 13)
-                : null,
+        child: isSelected
+            ? const Icon(Icons.check_rounded, color: Colors.white, size: 13)
+            : null,
       ),
     );
   }

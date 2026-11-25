@@ -65,11 +65,10 @@ class GroupChatAppBarSwitcher extends StatelessWidget
           if (context.mounted) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder:
-                    (_) => AiChatView(
-                      initialDraftImageRemoteUrl: msg.imageUrl,
-                      initialDraftImageCaption: msg.caption,
-                    ),
+                builder: (_) => AiChatView(
+                  initialDraftImageRemoteUrl: msg.imageUrl,
+                  initialDraftImageCaption: msg.caption,
+                ),
               ),
             );
           }
@@ -80,12 +79,11 @@ class GroupChatAppBarSwitcher extends StatelessWidget
           if (context.mounted) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder:
-                    (_) => AiChatView(
-                      initialDraftFileRemoteUrl: msg.fileUrl,
-                      initialDraftFileName: msg.fileName,
-                      initialDraftFileCaption: msg.caption,
-                    ),
+                builder: (_) => AiChatView(
+                  initialDraftFileRemoteUrl: msg.fileUrl,
+                  initialDraftFileName: msg.fileName,
+                  initialDraftFileCaption: msg.caption,
+                ),
               ),
             );
           }
@@ -114,10 +112,9 @@ class GroupChatAppBarSwitcher extends StatelessWidget
       return;
     }
 
-    final forwardableMessages =
-        selectedMessages
-            .map((m) => ForwardableMessage.fromGroupMessage(m))
-            .toList();
+    final forwardableMessages = selectedMessages
+        .map((m) => ForwardableMessage.fromGroupMessage(m))
+        .toList();
 
     try {
       await ForwardService().forwardMessages(
@@ -147,14 +144,13 @@ class GroupChatAppBarSwitcher extends StatelessWidget
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder:
-            (_) => MessageInfoView(
-              args: MessageInfoArgs.fromGroupChat(
-                message: message,
-                group: group,
-                currentUserId: cubit.currentUserId,
-              ),
-            ),
+        builder: (_) => MessageInfoView(
+          args: MessageInfoArgs.fromGroupChat(
+            message: message,
+            group: group,
+            currentUserId: cubit.currentUserId,
+          ),
+        ),
       ),
     );
   }
@@ -204,11 +200,10 @@ class GroupChatAppBarSwitcher extends StatelessWidget
                   isStarred: isStarred,
                   onStarToggle: cubit.toggleStarSelected,
                   onInfoTap: () => _openMessageInfo(context, cubit),
-                  onForwardTap:
-                      () => _openForwardPicker(
-                        context,
-                        messageCount: selectedIds.length,
-                      ),
+                  onForwardTap: () => _openForwardPicker(
+                    context,
+                    messageCount: selectedIds.length,
+                  ),
                   showCopy: _canCopySelectedMessage(cubit.selectedMessages),
                   onCopyTap: () => _copySelectedMessage(context, cubit),
                   onDeleteTap: () => _showBulkDeleteMenu(context, cubit),
@@ -242,50 +237,47 @@ class GroupChatAppBarSwitcher extends StatelessWidget
     showModalBottomSheet(
       context: context,
       backgroundColor: Colors.transparent,
-      builder:
-          (ctx) => Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
+      builder: (ctx) => Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              child: Text(
+                context.l10n.deleteNMessages(count),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Text(
-                    context.l10n.deleteNMessages(count),
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.person_outline),
-                  title: Text(context.l10n.deleteForMe),
-                  onTap: () {
-                    Navigator.pop(ctx);
-                    cubit.deleteSelectedForMe();
-                  },
-                ),
-                if (canDeleteForEveryone)
-                  ListTile(
-                    leading: const Icon(Icons.delete_outline),
-                    title: Text(
-                      context.l10n.deleteForEveryone,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.titleMedium!.copyWith(color: Colors.red),
-                    ),
-                    onTap: () {
-                      Navigator.pop(ctx);
-                      cubit.deleteSelectedForEveryone();
-                    },
-                  ),
-              ],
+            ListTile(
+              leading: const Icon(Icons.person_outline),
+              title: Text(context.l10n.deleteForMe),
+              onTap: () {
+                Navigator.pop(ctx);
+                cubit.deleteSelectedForMe();
+              },
             ),
-          ),
+            if (canDeleteForEveryone)
+              ListTile(
+                leading: const Icon(Icons.delete_outline),
+                title: Text(
+                  context.l10n.deleteForEveryone,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium!.copyWith(color: Colors.red),
+                ),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  cubit.deleteSelectedForEveryone();
+                },
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -73,10 +73,9 @@ class _SavedPostsViewState extends State<SavedPostsView> {
               isTopSafeArea: false,
               errorMessage: state is SavedPostsError ? state.message : null,
               loadingSkeleton: const PostsSkeletonItems(),
-              onRetry:
-                  () => context.read<SavedPostsCubit>().fetchSavedPosts(
-                    widget.userId,
-                  ),
+              onRetry: () => context.read<SavedPostsCubit>().fetchSavedPosts(
+                widget.userId,
+              ),
               child: _SavedPostsList(state: state, postsCubit: postsCubit),
             );
           },
@@ -103,15 +102,15 @@ class _SavedPostsCountBadge extends StatelessWidget {
 
         return BlocBuilder<PostsCubit, PostsState>(
           builder: (context, postsState) {
-            final allPosts =
-                postsState is PostsLoaded ? postsState.posts : <PostModel>[];
+            final allPosts = postsState is PostsLoaded
+                ? postsState.posts
+                : <PostModel>[];
 
-            final count =
-                postIds
-                    .map((id) => allPosts.findById(id))
-                    .whereType<PostModel>()
-                    .where((p) => p.isSavedByMe)
-                    .length;
+            final count = postIds
+                .map((id) => allPosts.findById(id))
+                .whereType<PostModel>()
+                .where((p) => p.isSavedByMe)
+                .length;
 
             if (count == 0) {
               return const SizedBox.shrink();
@@ -171,15 +170,15 @@ class _SavedPostsList extends StatelessWidget {
 
     return BlocBuilder<PostsCubit, PostsState>(
       builder: (context, postsState) {
-        final allPosts =
-            postsState is PostsLoaded ? postsState.posts : <PostModel>[];
+        final allPosts = postsState is PostsLoaded
+            ? postsState.posts
+            : <PostModel>[];
 
-        final visiblePosts =
-            loadedState.postIds
-                .map((id) => allPosts.findById(id))
-                .whereType<PostModel>()
-                .where((p) => p.isSavedByMe)
-                .toList();
+        final visiblePosts = loadedState.postIds
+            .map((id) => allPosts.findById(id))
+            .whereType<PostModel>()
+            .where((p) => p.isSavedByMe)
+            .toList();
 
         if (visiblePosts.isEmpty) {
           return const _EmptySavedPosts();

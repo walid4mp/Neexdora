@@ -109,8 +109,9 @@ class _FeedbackVoiceRecorderState extends State<FeedbackVoiceRecorder> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final surface =
-        isDark ? Colors.white.withValues(alpha: 0.05) : Colors.grey.shade100;
+    final surface = isDark
+        ? Colors.white.withValues(alpha: 0.05)
+        : Colors.grey.shade100;
 
     if (widget.file != null && !_recording) {
       return Container(

@@ -139,10 +139,9 @@ class OverflowFilter {
     if (sided != null) {
       pixels = double.tryParse(sided.group(1)!);
       final side = sided.group(2)!.toLowerCase();
-      direction =
-          (side == 'left' || side == 'right')
-              ? OverflowDirection.horizontal
-              : OverflowDirection.vertical;
+      direction = (side == 'left' || side == 'right')
+          ? OverflowDirection.horizontal
+          : OverflowDirection.vertical;
     } else {
       final axis = _orientation.firstMatch(text)?.group(1);
       if (axis == 'horizontal') direction = OverflowDirection.horizontal;

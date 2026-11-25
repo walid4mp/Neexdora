@@ -19,29 +19,29 @@ class MediaActionHelper {
     List<SharedMediaItem> tabItems,
     SharedMediaItem tappedItem,
   ) {
-    final playable =
-        tabItems
-            .where(
-              (i) =>
-                  i.messageType == 'image' ||
-                  i.messageType == 'video' ||
-                  (i.voiceUrl ?? '').isNotEmpty,
-            )
-            .toList();
+    final playable = tabItems
+        .where(
+          (i) =>
+              i.messageType == 'image' ||
+              i.messageType == 'video' ||
+              (i.voiceUrl ?? '').isNotEmpty,
+        )
+        .toList();
 
     final initialIndex = playable.indexWhere((i) => i.id == tappedItem.id);
-    final currentUserAvatar =
-        context.read<HomeCubit>().currentUserData?.imageUrl;
+    final currentUserAvatar = context
+        .read<HomeCubit>()
+        .currentUserData
+        ?.imageUrl;
 
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
-        pageBuilder:
-            (_, __, ___) => FullScreenMediaPager(
-              items: playable,
-              initialIndex: initialIndex < 0 ? 0 : initialIndex,
-              currentUserAvatar: currentUserAvatar,
-            ),
+        pageBuilder: (_, __, ___) => FullScreenMediaPager(
+          items: playable,
+          initialIndex: initialIndex < 0 ? 0 : initialIndex,
+          currentUserAvatar: currentUserAvatar,
+        ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },

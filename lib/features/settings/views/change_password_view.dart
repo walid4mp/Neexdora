@@ -77,21 +77,20 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
 
     final confirmed = await showDialog<bool>(
       context: context,
-      builder:
-          (ctx) => AlertDialog(
-            title: Text(context.l10n.sendResetLink),
-            content: Text(context.l10n.sendAPasswordReset(email)),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(false),
-                child: Text(context.l10n.cancel),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(ctx).pop(true),
-                child: Text(context.l10n.sendLink),
-              ),
-            ],
+      builder: (ctx) => AlertDialog(
+        title: Text(context.l10n.sendResetLink),
+        content: Text(context.l10n.sendAPasswordReset(email)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(context.l10n.cancel),
           ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(context.l10n.sendLink),
+          ),
+        ],
+      ),
     );
 
     if (confirmed == true && mounted) {
@@ -159,15 +158,14 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
-                child:
-                    info == null
-                        ? Padding(
-                          padding: EdgeInsets.only(top: 40),
-                          child: Center(
-                            child: Text(context.l10n.pleaseSignInAgain),
-                          ),
-                        )
-                        : _buildForm(context, info),
+                child: info == null
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 40),
+                        child: Center(
+                          child: Text(context.l10n.pleaseSignInAgain),
+                        ),
+                      )
+                    : _buildForm(context, info),
               ),
             ),
           ],
@@ -180,9 +178,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
     final needsCurrent = info.hasPassword;
 
     return BlocConsumer<AccountSecurityCubit, AccountSecurityState>(
-      listenWhen:
-          (prev, curr) =>
-              curr is AccountSecuritySuccess || curr is AccountSecurityFailure,
+      listenWhen: (prev, curr) =>
+          curr is AccountSecuritySuccess || curr is AccountSecurityFailure,
       listener: _onCubitState,
       builder: (context, state) {
         final busy = state is AccountSecurityBusy;
@@ -265,9 +262,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                     width: MediaQuery.sizeOf(context).width * 0.6,
                     child: ValueListenableBuilder<TextEditingValue>(
                       valueListenable: _newCtrl,
-                      builder:
-                          (context, value, _) =>
-                              PasswordStrengthBar(password: value.text),
+                      builder: (context, value, _) =>
+                          PasswordStrengthBar(password: value.text),
                     ),
                   ),
                 ),
@@ -279,11 +275,10 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   hintText: context.l10n.reEnterNewPassword,
                   isPassword: true,
                   inputFormatters: AppFormatters.noSpaces,
-                  validator:
-                      (value) => AppValidators.validateConfirmPassword(
-                        value,
-                        _newCtrl.text,
-                      ),
+                  validator: (value) => AppValidators.validateConfirmPassword(
+                    value,
+                    _newCtrl.text,
+                  ),
                 ),
                 const Gap(24),
                 SettingsInfoBanner(
@@ -292,10 +287,9 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 ),
                 const Gap(24),
                 CustomElevatedButton(
-                  txtBtn:
-                      needsCurrent
-                          ? context.l10n.updatePassword
-                          : context.l10n.setPassword,
+                  txtBtn: needsCurrent
+                      ? context.l10n.updatePassword
+                      : context.l10n.setPassword,
                   isLoading: changing,
                   isSuccess: _success,
                   onPressed: busy ? null : () => _submit(needsCurrent),

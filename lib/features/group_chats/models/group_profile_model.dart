@@ -114,14 +114,15 @@ class GroupProfileModel {
       id: id,
       name: name ?? this.name,
       title: identical(title, _unset) ? this.title : title as String?,
-      description:
-          identical(description, _unset)
-              ? this.description
-              : description as String?,
-      avatarUrl:
-          identical(avatarUrl, _unset) ? this.avatarUrl : avatarUrl as String?,
-      coverUrl:
-          identical(coverUrl, _unset) ? this.coverUrl : coverUrl as String?,
+      description: identical(description, _unset)
+          ? this.description
+          : description as String?,
+      avatarUrl: identical(avatarUrl, _unset)
+          ? this.avatarUrl
+          : avatarUrl as String?,
+      coverUrl: identical(coverUrl, _unset)
+          ? this.coverUrl
+          : coverUrl as String?,
       createdAt: createdAt,
       createdBy: createdBy,
       creatorName: creatorName,

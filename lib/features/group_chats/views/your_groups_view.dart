@@ -54,14 +54,13 @@ class _YourGroupsViewState extends State<YourGroupsView> {
   List<GroupModel> _visible(List<GroupModel> all) {
     final q = _query.trim().toLowerCase();
     final mine = all.where((g) => g.isMember && !g.isBlocked);
-    final filtered =
-        q.isEmpty
-            ? mine
-            : mine.where(
-              (g) =>
-                  g.name.toLowerCase().contains(q) ||
-                  (g.title ?? '').toLowerCase().contains(q),
-            );
+    final filtered = q.isEmpty
+        ? mine
+        : mine.where(
+            (g) =>
+                g.name.toLowerCase().contains(q) ||
+                (g.title ?? '').toLowerCase().contains(q),
+          );
     final list = filtered.toList();
     list.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     return list;
@@ -87,11 +86,10 @@ class _YourGroupsViewState extends State<YourGroupsView> {
           IconButton(
             tooltip: context.l10n.createGroup,
             icon: const Icon(Icons.group_add_rounded),
-            onPressed:
-                () => Navigator.of(
-                  context,
-                  rootNavigator: true,
-                ).pushNamed(AppRoutes.createGroupRoute),
+            onPressed: () => Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamed(AppRoutes.createGroupRoute),
           ),
           const Gap(4),
         ],
@@ -110,16 +108,15 @@ class _YourGroupsViewState extends State<YourGroupsView> {
               decoration: InputDecoration(
                 hintText: context.l10n.searchYourGroups,
                 prefixIcon: const Icon(Icons.search_rounded),
-                suffixIcon:
-                    _query.isEmpty
-                        ? null
-                        : IconButton(
-                          icon: const Icon(Icons.close_rounded),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() => _query = '');
-                          },
-                        ),
+                suffixIcon: _query.isEmpty
+                    ? null
+                    : IconButton(
+                        icon: const Icon(Icons.close_rounded),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() => _query = '');
+                        },
+                      ),
                 filled: true,
                 fillColor: theme.colorScheme.surfaceContainerHighest.withValues(
                   alpha: 0.5,
@@ -145,8 +142,8 @@ class _YourGroupsViewState extends State<YourGroupsView> {
                       children: [
                         Text(state.message),
                         CupertinoButton(
-                          onPressed:
-                              () => context.read<GroupListCubit>().loadGroups(),
+                          onPressed: () =>
+                              context.read<GroupListCubit>().loadGroups(),
                           child: Text(context.l10n.retry),
                         ),
                       ],
@@ -160,10 +157,9 @@ class _YourGroupsViewState extends State<YourGroupsView> {
                 if (groups.isEmpty) return _Empty(isSearch: _query.isNotEmpty);
 
                 return RefreshIndicator(
-                  onRefresh:
-                      () => context.read<GroupListCubit>().loadGroups(
-                        isRefresh: true,
-                      ),
+                  onRefresh: () => context.read<GroupListCubit>().loadGroups(
+                    isRefresh: true,
+                  ),
                   child: ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 96),
                     itemCount: groups.length,
@@ -173,12 +169,8 @@ class _YourGroupsViewState extends State<YourGroupsView> {
                       return _GroupTile(
                         group: g,
                         membersCount: _memberCounts[g.id],
-                        onTap:
-                            () => openGroupProfile(
-                              context,
-                              groupId: g.id,
-                              group: g,
-                            ),
+                        onTap: () =>
+                            openGroupProfile(context, groupId: g.id, group: g),
                       );
                     },
                   ),

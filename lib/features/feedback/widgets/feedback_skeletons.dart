@@ -11,8 +11,9 @@ class FeedbackListSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final baseColor = isDark ? Colors.grey[850]! : Colors.grey[300]!;
-    final highlightColor =
-        isDark ? Colors.grey[750] ?? Colors.grey[700]! : Colors.grey[100]!;
+    final highlightColor = isDark
+        ? Colors.grey[750] ?? Colors.grey[700]!
+        : Colors.grey[100]!;
 
     return Shimmer.fromColors(
       baseColor: baseColor,
@@ -113,8 +114,9 @@ class FeedbackDetailsSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final baseColor = isDark ? Colors.grey[850]! : Colors.grey[300]!;
-    final highlightColor =
-        isDark ? Colors.grey[750] ?? Colors.grey[700]! : Colors.grey[100]!;
+    final highlightColor = isDark
+        ? Colors.grey[750] ?? Colors.grey[700]!
+        : Colors.grey[100]!;
 
     return Shimmer.fromColors(
       baseColor: baseColor,

@@ -84,24 +84,19 @@ class ProfileShimmerLoading extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
-                    children:
-                        isCurrentUser
-                            ? [
-                              Expanded(
-                                child: _shimmerRect(double.infinity, 46),
-                              ),
-                              const Gap(8),
-                              _shimmerRect(46, 46),
-                            ]
-                            : [
-                              Expanded(
-                                child: _shimmerRect(double.infinity, 46),
-                              ),
-                              const Gap(8),
-                              _shimmerRect(104, 46),
-                              const Gap(8),
-                              _shimmerRect(46, 46),
-                            ],
+                    children: isCurrentUser
+                        ? [
+                            Expanded(child: _shimmerRect(double.infinity, 46)),
+                            const Gap(8),
+                            _shimmerRect(46, 46),
+                          ]
+                        : [
+                            Expanded(child: _shimmerRect(double.infinity, 46)),
+                            const Gap(8),
+                            _shimmerRect(104, 46),
+                            const Gap(8),
+                            _shimmerRect(46, 46),
+                          ],
                   ),
                 ),
                 const Gap(20),

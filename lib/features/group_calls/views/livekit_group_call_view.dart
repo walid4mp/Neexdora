@@ -433,12 +433,11 @@ class _LiveKitGroupCallViewState extends State<LiveKitGroupCallView> {
     return _profileCache.putIfAbsent(identity, () async {
       try {
         final column = CallIdentity.looksLikeUserId(identity) ? 'id' : 'name';
-        final data =
-            await SupabaseProvider.client
-                .from('users')
-                .select('name, image_url')
-                .eq(column, identity)
-                .maybeSingle();
+        final data = await SupabaseProvider.client
+            .from('users')
+            .select('name, image_url')
+            .eq(column, identity)
+            .maybeSingle();
         return _ParticipantProfile(
           name: (data?['name'] as String?)?.trim() ?? '',
           imageUrl: data?['image_url'] as String?,
@@ -483,8 +482,9 @@ class _LiveKitGroupCallViewState extends State<LiveKitGroupCallView> {
     if (localVideoTrack == null) return;
 
     _isSwitchingCamera = true;
-    final nextPosition =
-        _isFrontCamera ? CameraPosition.back : CameraPosition.front;
+    final nextPosition = _isFrontCamera
+        ? CameraPosition.back
+        : CameraPosition.front;
 
     try {
       await localVideoTrack.setCameraPosition(nextPosition);
@@ -562,17 +562,15 @@ class _LiveKitGroupCallViewState extends State<LiveKitGroupCallView> {
     await CallTerminationService.endActiveCall(
       pipCubit: _pipCubit,
       sessionCubit: _sessionCubit,
-      signalEnd:
-          () => GroupCallLeaveOrEndResolver.signal(
-            remainingAfterLeave: remainingAfterLeave,
-            signaling: _signaling,
-            callId: widget.call.callId,
-            durationIfEnding: duration,
-          ),
-      endMessage:
-          endForEveryone
-              ? CallControlMessage.groupEnded(widget.call.callId)
-              : null,
+      signalEnd: () => GroupCallLeaveOrEndResolver.signal(
+        remainingAfterLeave: remainingAfterLeave,
+        signaling: _signaling,
+        callId: widget.call.callId,
+        durationIfEnding: duration,
+      ),
+      endMessage: endForEveryone
+          ? CallControlMessage.groupEnded(widget.call.callId)
+          : null,
     );
     if (mounted) CallTerminationService.popRouteIfActive(context);
   }
@@ -692,12 +690,9 @@ class _LiveKitGroupCallViewState extends State<LiveKitGroupCallView> {
   String get _durationText => _formatDuration(_elapsed);
 
   Widget _buildTopBar(bool isConnectingUi) {
-    final label =
-        isConnectingUi
-            ? (widget.isJoining
-                ? context.l10n.joining
-                : context.l10n.connecting)
-            : _durationText;
+    final label = isConnectingUi
+        ? (widget.isJoining ? context.l10n.joining : context.l10n.connecting)
+        : _durationText;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
@@ -743,8 +738,8 @@ class _LiveKitGroupCallViewState extends State<LiveKitGroupCallView> {
                   ),
                 ),
                 IconButton(
-                  onPressed:
-                      () => GroupCallMembersSheet.show(context, widget.call),
+                  onPressed: () =>
+                      GroupCallMembersSheet.show(context, widget.call),
                   icon: const Icon(Icons.groups_rounded, color: Colors.white),
                 ),
               ],
@@ -911,10 +906,9 @@ class _LiveKitGroupCallViewState extends State<LiveKitGroupCallView> {
           CallControlButton(
             icon: _micEnabled ? Icons.mic_rounded : Icons.mic_off_rounded,
             label: _micEnabled ? context.l10n.mute : context.l10n.unmute,
-            variant:
-                _micEnabled
-                    ? CallControlVariant.neutral
-                    : CallControlVariant.warning,
+            variant: _micEnabled
+                ? CallControlVariant.neutral
+                : CallControlVariant.warning,
             size: buttonSize,
             onTap: _toggleMic,
           ),
@@ -923,15 +917,13 @@ class _LiveKitGroupCallViewState extends State<LiveKitGroupCallView> {
           _gated(
             isConnectingUi,
             CallControlButton(
-              icon:
-                  _cameraEnabled
-                      ? Icons.videocam_rounded
-                      : Icons.videocam_off_rounded,
+              icon: _cameraEnabled
+                  ? Icons.videocam_rounded
+                  : Icons.videocam_off_rounded,
               label: _cameraEnabled ? context.l10n.camera : context.l10n.off,
-              variant:
-                  _cameraEnabled
-                      ? CallControlVariant.neutral
-                      : CallControlVariant.warning,
+              variant: _cameraEnabled
+                  ? CallControlVariant.neutral
+                  : CallControlVariant.warning,
               size: buttonSize,
               onTap: _toggleCamera,
             ),
@@ -1043,21 +1035,21 @@ class _ParticipantTile extends StatelessWidget {
             color: Colors.black45,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color:
-                  isSpeaking
-                      ? Colors.greenAccent
-                      : Colors.white.withValues(alpha: 0.12),
+              color: isSpeaking
+                  ? Colors.greenAccent
+                  : Colors.white.withValues(alpha: 0.12),
               width: isSpeaking ? 2.4 : 1,
             ),
           ),
           child: LayoutBuilder(
             builder: (context, tileConstraints) {
-              final avatarDiameter = (math.min(
-                        tileConstraints.maxWidth,
-                        tileConstraints.maxHeight,
-                      ) *
-                      0.42)
-                  .clamp(36.0, 82.0);
+              final avatarDiameter =
+                  (math.min(
+                            tileConstraints.maxWidth,
+                            tileConstraints.maxHeight,
+                          ) *
+                          0.42)
+                      .clamp(36.0, 82.0);
               final videoTrack = _videoTrack;
 
               return FutureBuilder<_ParticipantProfile>(

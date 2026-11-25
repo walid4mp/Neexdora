@@ -74,9 +74,8 @@ class ProfileHeader extends StatelessWidget {
                 screenWidth: screenWidth,
                 backgroundHeight: bgHeight,
                 avatarSize: avatarSize,
-                onEditRequested:
-                    () =>
-                        _navigateToEditProfile(context, autofocusTagline: true),
+                onEditRequested: () =>
+                    _navigateToEditProfile(context, autofocusTagline: true),
               ),
             ),
 
@@ -92,14 +91,12 @@ class ProfileHeader extends StatelessWidget {
                 children: [
                   _buildCircularIconButton(
                     theme: theme,
-                    icon:
-                        isMe
-                            ? Icons.bookmark_outline_outlined
-                            : Icons.people_alt_outlined,
-                    tooltip:
-                        isMe
-                            ? context.l10n.savedPosts
-                            : context.l10n.friendsList,
+                    icon: isMe
+                        ? Icons.bookmark_outline_outlined
+                        : Icons.people_alt_outlined,
+                    tooltip: isMe
+                        ? context.l10n.savedPosts
+                        : context.l10n.friendsList,
                     onPressed: () {
                       if (isMe) {
                         final postsCubit = context.read<PostsCubit>();
@@ -147,10 +144,9 @@ class ProfileHeader extends StatelessWidget {
           padding: const EdgeInsets.symmetric(
             horizontal: ProfileUiTokens.screenPadding,
           ),
-          child:
-              isMe
-                  ? _buildMyProfileActions(context)
-                  : _buildOtherProfileActions(context),
+          child: isMe
+              ? _buildMyProfileActions(context)
+              : _buildOtherProfileActions(context),
         ),
       ],
     );
@@ -249,11 +245,10 @@ class ProfileHeader extends StatelessWidget {
           icon: Icons.report_gmailerrorred,
           tooltip: context.l10n.reportProfile,
           iconColor: ProfileUiTokens.of(context).onSurfaceVariant,
-          onPressed:
-              () => ReportBottomSheet.show(
-                context,
-                target: ReportTarget(type: ReportTargetType.user, id: user.id),
-              ),
+          onPressed: () => ReportBottomSheet.show(
+            context,
+            target: ReportTarget(type: ReportTargetType.user, id: user.id),
+          ),
         ),
       ],
     );
@@ -274,11 +269,9 @@ class ProfileHeader extends StatelessWidget {
           activeIcon: Icons.hourglass_top_rounded,
           idleStyle: ProfileActionStyle.primary,
           activeStyle: ProfileActionStyle.outlineMuted,
-          onPressed:
-              () =>
-                  isRequested
-                      ? cubit.cancelFriendRequest()
-                      : cubit.sendFriendRequest(),
+          onPressed: () => isRequested
+              ? cubit.cancelFriendRequest()
+              : cubit.sendFriendRequest(),
         );
       case FriendshipStatus.pendingReceived:
         return ProfileActionButton(

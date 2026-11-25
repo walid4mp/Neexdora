@@ -119,61 +119,58 @@ class _SubmitFeedbackViewState extends State<SubmitFeedbackView> {
     final theme = Theme.of(context);
     final goToHistory = await showDialog<bool>(
       context: context,
-      builder:
-          (ctx) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(22),
-            ),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Gap(6),
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF27AE60).withValues(alpha: 0.14),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    CupertinoIcons.checkmark_alt_circle_fill,
-                    color: Color(0xFF27AE60),
-                    size: 38,
-                  ),
-                ),
-                const Gap(16),
-                Text(
-                  context.l10n.feedbackSubmittedSuccessfully,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const Gap(10),
-                FeedbackStatusChip(
-                  status: FeedbackStatus.pending,
-                  label: context.l10n.underReview,
-                ),
-                const Gap(12),
-                Text(
-                  context.l10n.ourTeamTypicallyResponds,
-                  textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium?.copyWith(height: 1.45),
-                ),
-              ],
-            ),
-            actionsAlignment: MainAxisAlignment.center,
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(ctx, false),
-                child: Text(context.l10n.done),
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Gap(6),
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: const Color(0xFF27AE60).withValues(alpha: 0.14),
+                shape: BoxShape.circle,
               ),
-              FilledButton(
-                onPressed: () => Navigator.pop(ctx, true),
-                child: Text(context.l10n.myFeedbacks),
+              child: const Icon(
+                CupertinoIcons.checkmark_alt_circle_fill,
+                color: Color(0xFF27AE60),
+                size: 38,
               ),
-            ],
+            ),
+            const Gap(16),
+            Text(
+              context.l10n.feedbackSubmittedSuccessfully,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const Gap(10),
+            FeedbackStatusChip(
+              status: FeedbackStatus.pending,
+              label: context.l10n.underReview,
+            ),
+            const Gap(12),
+            Text(
+              context.l10n.ourTeamTypicallyResponds,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium?.copyWith(height: 1.45),
+            ),
+          ],
+        ),
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text(context.l10n.done),
           ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: Text(context.l10n.myFeedbacks),
+          ),
+        ],
+      ),
     );
     if (!mounted) return;
     if (goToHistory == true) _openHistory(cubit);
@@ -193,10 +190,9 @@ class _SubmitFeedbackViewState extends State<SubmitFeedbackView> {
     final topInset = MediaQuery.of(context).padding.top;
 
     return BlocConsumer<FeedbackCubit, FeedbackState>(
-      listenWhen:
-          (p, c) =>
-              (c.errorMessage != null) ||
-              (p.justSubmitted == null && c.justSubmitted != null),
+      listenWhen: (p, c) =>
+          (c.errorMessage != null) ||
+          (p.justSubmitted == null && c.justSubmitted != null),
       listener: (context, state) {
         if (state.errorMessage != null) AppToast.error(state.errorMessage!);
         final submitted = state.justSubmitted;
@@ -273,11 +269,9 @@ class _SubmitFeedbackViewState extends State<SubmitFeedbackView> {
                               enabled: !busy,
                               onPick: () => _pickImage(cubit),
                               onRemove: () => cubit.setImage(null),
-                              onEdit:
-                                  state.imageFile == null
-                                      ? null
-                                      : () =>
-                                          _editImage(cubit, state.imageFile!),
+                              onEdit: state.imageFile == null
+                                  ? null
+                                  : () => _editImage(cubit, state.imageFile!),
                             ),
                             const Gap(12),
                             FeedbackVoiceRecorder(
@@ -309,15 +303,13 @@ class _SubmitFeedbackViewState extends State<SubmitFeedbackView> {
                             SizedBox(
                               width: double.infinity,
                               child: CustomElevatedButton(
-                                txtBtn:
-                                    locked
-                                        ? context.l10n.dailyLimitReached
-                                        : context.l10n.submitFeedback,
+                                txtBtn: locked
+                                    ? context.l10n.dailyLimitReached
+                                    : context.l10n.submitFeedback,
                                 isLoading: busy,
-                                onPressed:
-                                    (busy || locked)
-                                        ? null
-                                        : () => _submit(cubit),
+                                onPressed: (busy || locked)
+                                    ? null
+                                    : () => _submit(cubit),
                               ),
                             ),
                             if (busy && state.submitStage != null) ...[
@@ -327,10 +319,9 @@ class _SubmitFeedbackViewState extends State<SubmitFeedbackView> {
                                   state.submitStage!,
                                   style: TextStyle(
                                     fontSize: 12.5,
-                                    color:
-                                        isDark
-                                            ? Colors.white60
-                                            : Colors.black54,
+                                    color: isDark
+                                        ? Colors.white60
+                                        : Colors.black54,
                                   ),
                                 ),
                               ),
@@ -386,10 +377,9 @@ class _SectionLabel extends StatelessWidget {
       fontSize: 14,
       fontWeight: FontWeight.w800,
       letterSpacing: context.ls(-0.2),
-      color:
-          Theme.of(context).brightness == Brightness.dark
-              ? Colors.white
-              : Colors.black87,
+      color: Theme.of(context).brightness == Brightness.dark
+          ? Colors.white
+          : Colors.black87,
     ),
   );
 }
@@ -421,10 +411,9 @@ class _ImageAttachment extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color:
-                isDark
-                    ? Colors.white.withValues(alpha: 0.05)
-                    : Colors.grey.shade100,
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.05)
+                : Colors.grey.shade100,
             borderRadius: BorderRadius.circular(14),
           ),
           child: Row(

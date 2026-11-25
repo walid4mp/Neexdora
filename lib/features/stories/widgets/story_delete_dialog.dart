@@ -5,10 +5,9 @@ import 'package:nexora/core/localization/l10n_extension.dart';
 import 'package:nexora/core/localization/app_l10n.dart';
 
 Future<bool?> showDeleteStoryDialog(BuildContext context, {int count = 1}) {
-  final title =
-      count > 1
-          ? AppL10n.current.deleteStories(count)
-          : AppL10n.current.deleteThisStory;
+  final title = count > 1
+      ? AppL10n.current.deleteStories(count)
+      : AppL10n.current.deleteThisStory;
 
   return showGeneralDialog<bool>(
     context: context,

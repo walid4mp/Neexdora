@@ -29,14 +29,13 @@ class SettingsSection extends StatelessWidget {
       tween: Tween(begin: 0.0, end: 1.0),
       duration: Duration(milliseconds: 400 + delay * 80),
       curve: Curves.easeOut,
-      builder:
-          (context, value, child) => Opacity(
-            opacity: value,
-            child: Transform.translate(
-              offset: Offset(0, 18 * (1 - value)),
-              child: child,
-            ),
-          ),
+      builder: (context, value, child) => Opacity(
+        opacity: value,
+        child: Transform.translate(
+          offset: Offset(0, 18 * (1 - value)),
+          child: child,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -64,33 +63,30 @@ class SettingsSection extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color:
-                  isDark
-                      ? Colors.white.withValues(alpha: 0.04)
-                      : Colors.grey.shade50,
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.04)
+                  : Colors.grey.shade50,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(
-                color:
-                    isDark
-                        ? Colors.white.withValues(alpha: 0.07)
-                        : Colors.black.withValues(alpha: 0.06),
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.07)
+                    : Colors.black.withValues(alpha: 0.06),
                 width: 0.8,
               ),
             ),
             child: Column(
-              children:
-                  items.asMap().entries.map((entry) {
-                    final idx = entry.key;
-                    final item = entry.value;
-                    final isLast = idx == items.length - 1;
-                    return _buildSettingsItem(
-                      context,
-                      item,
-                      isDark,
-                      primary,
-                      isLast,
-                    );
-                  }).toList(),
+              children: items.asMap().entries.map((entry) {
+                final idx = entry.key;
+                final item = entry.value;
+                final isLast = idx == items.length - 1;
+                return _buildSettingsItem(
+                  context,
+                  item,
+                  isDark,
+                  primary,
+                  isLast,
+                );
+              }).toList(),
             ),
           ),
         ],
@@ -109,13 +105,12 @@ class SettingsSection extends StatelessWidget {
       children: [
         InkWell(
           borderRadius: BorderRadius.circular(18),
-          onTap:
-              (item.toggle == null && item.enabled)
-                  ? () {
-                    HapticFeedback.selectionClick();
-                    item.onTap?.call();
-                  }
-                  : null,
+          onTap: (item.toggle == null && item.enabled)
+              ? () {
+                  HapticFeedback.selectionClick();
+                  item.onTap?.call();
+                }
+              : null,
           child: Opacity(
             opacity: item.enabled ? 1 : 0.4,
             child: Padding(
@@ -151,10 +146,9 @@ class SettingsSection extends StatelessWidget {
                             item.subtitle!,
                             style: TextStyle(
                               fontSize: 12,
-                              color:
-                                  isDark
-                                      ? Colors.white38
-                                      : Colors.grey.shade500,
+                              color: isDark
+                                  ? Colors.white38
+                                  : Colors.grey.shade500,
                             ),
                           ),
                         ],
@@ -167,13 +161,12 @@ class SettingsSection extends StatelessWidget {
                       child: CupertinoSwitch(
                         value: item.toggle!,
                         activeTrackColor: primary,
-                        onChanged:
-                            item.enabled
-                                ? (v) {
-                                  HapticFeedback.lightImpact();
-                                  item.onToggle?.call(v);
-                                }
-                                : null,
+                        onChanged: item.enabled
+                            ? (v) {
+                                HapticFeedback.lightImpact();
+                                item.onToggle?.call(v);
+                              }
+                            : null,
                       ),
                     )
                   else
@@ -198,10 +191,9 @@ class SettingsSection extends StatelessWidget {
           Divider(
             height: 1,
             indent: 68,
-            color:
-                isDark
-                    ? Colors.white.withValues(alpha: 0.06)
-                    : Colors.black.withValues(alpha: 0.05),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.06)
+                : Colors.black.withValues(alpha: 0.05),
           ),
       ],
     );

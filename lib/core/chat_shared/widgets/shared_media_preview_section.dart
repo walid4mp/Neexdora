@@ -20,10 +20,9 @@ class SharedMediaPreviewSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SharedMediaCubit, SharedMediaState>(
-      bloc:
-          mediaCubit
-            ..loadPreview()
-            ..loadTab(SharedMediaTab.all),
+      bloc: mediaCubit
+        ..loadPreview()
+        ..loadTab(SharedMediaTab.all),
       builder: (context, state) {
         if (!state.previewLoading && state.preview.isEmpty) {
           return const SizedBox.shrink();
@@ -45,16 +44,14 @@ class SharedMediaPreviewSection extends StatelessWidget {
                   ),
                   const Spacer(),
                   TextButton(
-                    onPressed:
-                        () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder:
-                                (_) => SharedMediaView(
-                                  mediaCubit: mediaCubit,
-                                  onShowInChat: onShowInChat,
-                                ),
-                          ),
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => SharedMediaView(
+                          mediaCubit: mediaCubit,
+                          onShowInChat: onShowInChat,
                         ),
+                      ),
+                    ),
                     child: Text(
                       context.l10n.seeAll,
                       style: Theme.of(context).textTheme.titleSmall!.copyWith(
@@ -80,11 +77,10 @@ class SharedMediaPreviewSection extends StatelessWidget {
                     mainAxisSpacing: 6,
                     crossAxisSpacing: 6,
                   ),
-                  itemBuilder:
-                      (context, index) => MediaPreviewTile(
-                        item: state.preview[index],
-                        items: allItems,
-                      ),
+                  itemBuilder: (context, index) => MediaPreviewTile(
+                    item: state.preview[index],
+                    items: allItems,
+                  ),
                 ),
             ],
           ),

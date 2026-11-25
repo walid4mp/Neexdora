@@ -95,16 +95,15 @@ class AiReplyTonePickerSheet extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children:
-                        AiReplyTone.values.map((tone) {
-                          return AiSettingOptionCard<AiReplyTone>(
-                            value: tone,
-                            currentValue: selected,
-                            title: tone.localizedTitle(context),
-                            subtitle: tone.localizedDescription(context),
-                            icon: _icons[tone] ?? Icons.auto_awesome_rounded,
-                          );
-                        }).toList(),
+                    children: AiReplyTone.values.map((tone) {
+                      return AiSettingOptionCard<AiReplyTone>(
+                        value: tone,
+                        currentValue: selected,
+                        title: tone.localizedTitle(context),
+                        subtitle: tone.localizedDescription(context),
+                        icon: _icons[tone] ?? Icons.auto_awesome_rounded,
+                      );
+                    }).toList(),
                   ),
                 ),
               ),

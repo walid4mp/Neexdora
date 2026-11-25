@@ -31,10 +31,15 @@ void main() {
 
   group('TwoFactorSetupCubit', () {
     test('happy path ends on recovery codes', () async {
-      when(() => service.beginEnrollment()).thenAnswer((_) async => _enrollment);
-      when(() => service.confirmEnrollment('f1', '123456')).thenAnswer((_) async {});
-      when(() => service.generateRecoveryCodes())
-          .thenAnswer((_) async => ['AAAAA-BBBBB']);
+      when(
+        () => service.beginEnrollment(),
+      ).thenAnswer((_) async => _enrollment);
+      when(
+        () => service.confirmEnrollment('f1', '123456'),
+      ).thenAnswer((_) async {});
+      when(
+        () => service.generateRecoveryCodes(),
+      ).thenAnswer((_) async => ['AAAAA-BBBBB']);
 
       final cubit = TwoFactorSetupCubit(service);
       await cubit.begin();
@@ -48,53 +53,68 @@ void main() {
       verifyNever(() => service.cancelEnrollment(any())); // verified: keep it
     });
 
-    test('wrong code stays on entry, counts attempts, shows clock hint', () async {
-      when(() => service.beginEnrollment()).thenAnswer((_) async => _enrollment);
-      when(() => service.confirmEnrollment(any(), any()))
-          .thenAnswer((_) async => throw _invalid);
+    test(
+      'wrong code stays on entry, counts attempts, shows clock hint',
+      () async {
+        when(
+          () => service.beginEnrollment(),
+        ).thenAnswer((_) async => _enrollment);
+        when(
+          () => service.confirmEnrollment(any(), any()),
+        ).thenAnswer((_) async => throw _invalid);
 
-      final cubit = TwoFactorSetupCubit(service);
-      await cubit.begin();
-      cubit.goToCodeEntry();
-      await cubit.verify('000000');
-      expect(cubit.state.showClockHint, isFalse);
-      await cubit.verify('000001');
+        final cubit = TwoFactorSetupCubit(service);
+        await cubit.begin();
+        cubit.goToCodeEntry();
+        await cubit.verify('000000');
+        expect(cubit.state.showClockHint, isFalse);
+        await cubit.verify('000001');
 
-      expect(cubit.state.step, TwoFactorSetupStep.enterCode);
-      expect(cubit.state.invalidAttempts, 2);
-      expect(cubit.state.showClockHint, isTrue);
-      await cubit.close();
-    });
+        expect(cubit.state.step, TwoFactorSetupStep.enterCode);
+        expect(cubit.state.invalidAttempts, 2);
+        expect(cubit.state.showClockHint, isTrue);
+        await cubit.close();
+      },
+    );
 
     test('abandoning before verification removes the factor', () async {
-      when(() => service.beginEnrollment()).thenAnswer((_) async => _enrollment);
+      when(
+        () => service.beginEnrollment(),
+      ).thenAnswer((_) async => _enrollment);
       final cubit = TwoFactorSetupCubit(service);
       await cubit.begin();
       await cubit.close();
       verify(() => service.cancelEnrollment('f1')).called(1);
     });
 
-    test('codes failure after verification is recoverable and keeps 2FA', () async {
-      when(() => service.beginEnrollment()).thenAnswer((_) async => _enrollment);
-      when(() => service.confirmEnrollment(any(), any())).thenAnswer((_) async {});
-      var calls = 0;
-      when(() => service.generateRecoveryCodes()).thenAnswer((_) async {
-        if (calls++ == 0) throw const TwoFactorFailure.unknown();
-        return ['CCCCC-DDDDD'];
-      });
+    test(
+      'codes failure after verification is recoverable and keeps 2FA',
+      () async {
+        when(
+          () => service.beginEnrollment(),
+        ).thenAnswer((_) async => _enrollment);
+        when(
+          () => service.confirmEnrollment(any(), any()),
+        ).thenAnswer((_) async {});
+        var calls = 0;
+        when(() => service.generateRecoveryCodes()).thenAnswer((_) async {
+          if (calls++ == 0) throw const TwoFactorFailure.unknown();
+          return ['CCCCC-DDDDD'];
+        });
 
-      final cubit = TwoFactorSetupCubit(service);
-      await cubit.begin();
-      cubit.goToCodeEntry();
-      await cubit.verify('123456');
-      expect(cubit.state.step, TwoFactorSetupStep.codesError);
-      expect(cubit.state.isActive, isTrue);
+        final cubit = TwoFactorSetupCubit(service);
+        await cubit.begin();
+        cubit.goToCodeEntry();
+        await cubit.verify('123456');
+        expect(cubit.state.step, TwoFactorSetupStep.codesError);
+        expect(cubit.state.isActive, isTrue);
 
-      await cubit.retryGenerateCodes();
-      expect(cubit.state.step, TwoFactorSetupStep.recoveryCodes);
-      await cubit.close();
-      verifyNever(() => service.cancelEnrollment(any()));
-    });
+        await cubit.retryGenerateCodes();
+        expect(cubit.state.step, TwoFactorSetupStep.recoveryCodes);
+        await cubit.close();
+        verifyNever(() => service.cancelEnrollment(any()));
+      },
+    );
   });
 
   group('TwoFactorChallengeCubit', () {
@@ -114,8 +134,9 @@ void main() {
     });
 
     test('5 wrong codes start a pause that blocks further submits', () async {
-      when(() => service.verifyLoginCode(any()))
-          .thenAnswer((_) async => throw _invalid);
+      when(
+        () => service.verifyLoginCode(any()),
+      ).thenAnswer((_) async => throw _invalid);
       final cubit = make();
       for (var i = 0; i < 5; i++) {
         await cubit.submitTotp('00000$i');
@@ -129,8 +150,9 @@ void main() {
     });
 
     test('a pause survives a new cubit (app restart)', () async {
-      when(() => service.verifyLoginCode(any()))
-          .thenAnswer((_) async => throw _invalid);
+      when(
+        () => service.verifyLoginCode(any()),
+      ).thenAnswer((_) async => throw _invalid);
       final first = make();
       for (var i = 0; i < 5; i++) {
         await first.submitTotp('00000$i');
@@ -144,8 +166,9 @@ void main() {
     });
 
     test('backup code success requires re-enrollment', () async {
-      when(() => service.redeemBackupCode(any()))
-          .thenAnswer((_) async => const RedeemResult(ok: true));
+      when(
+        () => service.redeemBackupCode(any()),
+      ).thenAnswer((_) async => const RedeemResult(ok: true));
       final cubit = make()..setMode(TwoFactorChallengeMode.backup);
       await cubit.submitBackup('ABCDE-FGHJK');
       expect(cubit.state.completed, isTrue);
@@ -153,31 +176,37 @@ void main() {
       await cubit.close();
     });
 
-    test('backup code locked by the server uses the server countdown', () async {
-      when(() => service.redeemBackupCode(any())).thenAnswer(
-        (_) async => const RedeemResult(
-          ok: false,
-          reason: 'locked',
-          retryAfterSeconds: 600,
-        ),
-      );
-      final cubit = make()..setMode(TwoFactorChallengeMode.backup);
-      await cubit.submitBackup('ABCDE-FGHJK');
-      expect(cubit.state.isLocked, isTrue);
-      expect(cubit.state.lockRemaining!.inSeconds, greaterThan(590));
+    test(
+      'backup code locked by the server uses the server countdown',
+      () async {
+        when(() => service.redeemBackupCode(any())).thenAnswer(
+          (_) async => const RedeemResult(
+            ok: false,
+            reason: 'locked',
+            retryAfterSeconds: 600,
+          ),
+        );
+        final cubit = make()..setMode(TwoFactorChallengeMode.backup);
+        await cubit.submitBackup('ABCDE-FGHJK');
+        expect(cubit.state.isLocked, isTrue);
+        expect(cubit.state.lockRemaining!.inSeconds, greaterThan(590));
 
-      // The backup pause must not block the authenticator field.
-      cubit.setMode(TwoFactorChallengeMode.totp);
-      expect(cubit.state.isLocked, isFalse);
-      await cubit.close();
-    });
+        // The backup pause must not block the authenticator field.
+        cubit.setMode(TwoFactorChallengeMode.totp);
+        expect(cubit.state.isLocked, isFalse);
+        await cubit.close();
+      },
+    );
 
-    test('malformed backup code is rejected locally without a request', () async {
-      final cubit = make()..setMode(TwoFactorChallengeMode.backup);
-      await cubit.submitBackup('abc');
-      expect(cubit.state.error, isNotNull);
-      verifyNever(() => service.redeemBackupCode(any()));
-      await cubit.close();
-    });
+    test(
+      'malformed backup code is rejected locally without a request',
+      () async {
+        final cubit = make()..setMode(TwoFactorChallengeMode.backup);
+        await cubit.submitBackup('abc');
+        expect(cubit.state.error, isNotNull);
+        verifyNever(() => service.redeemBackupCode(any()));
+        await cubit.close();
+      },
+    );
   });
 }

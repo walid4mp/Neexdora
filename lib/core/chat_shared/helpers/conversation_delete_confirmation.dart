@@ -12,39 +12,33 @@ Future<void> confirmAndDeleteConversations(
 ) async {
   final confirm = await showDialog<bool>(
     context: context,
-    builder:
-        (dialogContext) => AlertDialog(
-          title: Text(context.l10n.deleteNChats(refs.length)),
-          content: Text(context.l10n.thisClearsTheChat),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, false),
-              child: Text(context.l10n.cancel),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext, true),
-              child: Text(
-                context.l10n.delete,
-                style: TextStyle(color: Colors.red),
-              ),
-            ),
-          ],
+    builder: (dialogContext) => AlertDialog(
+      title: Text(context.l10n.deleteNChats(refs.length)),
+      content: Text(context.l10n.thisClearsTheChat),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(dialogContext, false),
+          child: Text(context.l10n.cancel),
         ),
+        TextButton(
+          onPressed: () => Navigator.pop(dialogContext, true),
+          child: Text(context.l10n.delete, style: TextStyle(color: Colors.red)),
+        ),
+      ],
+    ),
   );
 
   if (confirm != true) return;
   if (!context.mounted) return;
 
-  final singleIds =
-      refs
-          .where((r) => r.type == ConversationType.single)
-          .map((r) => r.id)
-          .toSet();
-  final groupIds =
-      refs
-          .where((r) => r.type == ConversationType.group)
-          .map((r) => r.id)
-          .toSet();
+  final singleIds = refs
+      .where((r) => r.type == ConversationType.single)
+      .map((r) => r.id)
+      .toSet();
+  final groupIds = refs
+      .where((r) => r.type == ConversationType.group)
+      .map((r) => r.id)
+      .toSet();
 
   if (singleIds.isNotEmpty) {
     await context.read<ChatsCubit>().clearChatsLocally(singleIds);

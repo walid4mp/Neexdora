@@ -40,10 +40,8 @@ abstract final class DeleteAccountVerificationSheet {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder:
-          (_) => _DeleteAccountVerificationBody(
-            requiresPassword: requiresPassword,
-          ),
+      builder: (_) =>
+          _DeleteAccountVerificationBody(requiresPassword: requiresPassword),
     );
   }
 }
@@ -147,30 +145,26 @@ class _DeleteAccountVerificationBodyState
                   CustomTextFormField(
                     controller: _controller,
                     isPassword: widget.requiresPassword,
-                    headerText:
-                        widget.requiresPassword
-                            ? context.l10n.currentPassword2
-                            : context.l10n.typeToConfirm(
-                              DeleteAccountVerificationSheet.confirmationWord,
-                            ),
-                    hintText:
-                        widget.requiresPassword
-                            ? context.l10n.enterYourPassword
-                            : DeleteAccountVerificationSheet.confirmationWord,
-                    keyboardType:
-                        widget.requiresPassword
-                            ? TextInputType.visiblePassword
-                            : TextInputType.text,
-                    inputFormatters:
-                        widget.requiresPassword
-                            ? null
-                            : [
-                              TextInputFormatter.withFunction(
-                                (oldValue, newValue) => newValue.copyWith(
-                                  text: newValue.text.toUpperCase(),
-                                ),
+                    headerText: widget.requiresPassword
+                        ? context.l10n.currentPassword2
+                        : context.l10n.typeToConfirm(
+                            DeleteAccountVerificationSheet.confirmationWord,
+                          ),
+                    hintText: widget.requiresPassword
+                        ? context.l10n.enterYourPassword
+                        : DeleteAccountVerificationSheet.confirmationWord,
+                    keyboardType: widget.requiresPassword
+                        ? TextInputType.visiblePassword
+                        : TextInputType.text,
+                    inputFormatters: widget.requiresPassword
+                        ? null
+                        : [
+                            TextInputFormatter.withFunction(
+                              (oldValue, newValue) => newValue.copyWith(
+                                text: newValue.text.toUpperCase(),
                               ),
-                            ],
+                            ),
+                          ],
                   ),
                   const Gap(20),
                   CustomElevatedButton(

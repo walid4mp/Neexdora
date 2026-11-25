@@ -35,18 +35,17 @@ class CommentAvatar extends StatelessWidget {
         size: radius * 2,
         heroTag: 'comment_${comment.id}_author',
         // Ghost accounts have nothing to open.
-        onTap:
-            comment.authorIsDeleted
-                ? null
-                : () =>
-                    isMe ? _openMyAvatar(context) : _showUserPreview(context),
+        onTap: comment.authorIsDeleted
+            ? null
+            : () => isMe ? _openMyAvatar(context) : _showUserPreview(context),
       ),
     );
   }
 
   void _openMyAvatar(BuildContext context) {
-    final url =
-        imageUrl?.isNotEmpty == true ? imageUrl! : AppImages.defaultUserImg;
+    final url = imageUrl?.isNotEmpty == true
+        ? imageUrl!
+        : AppImages.defaultUserImg;
 
     Navigator.of(context, rootNavigator: true).pushNamed(
       AppRoutes.fullScreenImageViewRoute,

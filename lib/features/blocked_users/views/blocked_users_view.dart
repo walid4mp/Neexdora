@@ -34,24 +34,23 @@ class _BlockedUsersViewState extends State<BlockedUsersView> {
   Future<void> _confirmUnblock(BlockedUserItemModel item) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder:
-          (_) => AlertDialog(
-            title: Text(context.l10n.unblockUser),
-            content: Text(context.l10n.unblockTheyWillBe(item.user.name)),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context, false),
-                child: Text(context.l10n.cancel),
-              ),
-              TextButton(
-                onPressed: () => Navigator.pop(context, true),
-                child: Text(
-                  context.l10n.unblock,
-                  style: TextStyle(color: Theme.of(context).primaryColor),
-                ),
-              ),
-            ],
+      builder: (_) => AlertDialog(
+        title: Text(context.l10n.unblockUser),
+        content: Text(context.l10n.unblockTheyWillBe(item.user.name)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(context.l10n.cancel),
           ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(
+              context.l10n.unblock,
+              style: TextStyle(color: Theme.of(context).primaryColor),
+            ),
+          ),
+        ],
+      ),
     );
     if (confirmed == true && mounted) {
       context.read<BlockedUsersCubit>().unblockUser(item.user.id);
@@ -87,23 +86,23 @@ class _BlockedUsersViewState extends State<BlockedUsersView> {
               else if (state is BlockedUsersLoaded)
                 state.items.isEmpty
                     ? const SliverFillRemaining(
-                      hasScrollBody: false,
-                      child: BlockedUsersEmptyState(),
-                    )
+                        hasScrollBody: false,
+                        child: BlockedUsersEmptyState(),
+                      )
                     : SliverPadding(
-                      padding: const EdgeInsets.only(bottom: 100),
-                      sliver: SliverList.builder(
-                        itemCount: state.items.length,
-                        itemBuilder: (context, index) {
-                          final item = state.items[index];
-                          return BlockedUserTile(
-                            item: item,
-                            onTap: () => _openChat(item),
-                            onUnblock: () => _confirmUnblock(item),
-                          );
-                        },
+                        padding: const EdgeInsets.only(bottom: 100),
+                        sliver: SliverList.builder(
+                          itemCount: state.items.length,
+                          itemBuilder: (context, index) {
+                            final item = state.items[index];
+                            return BlockedUserTile(
+                              item: item,
+                              onTap: () => _openChat(item),
+                              onUnblock: () => _confirmUnblock(item),
+                            );
+                          },
+                        ),
                       ),
-                    ),
             ],
           );
         },

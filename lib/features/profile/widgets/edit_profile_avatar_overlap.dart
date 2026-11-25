@@ -45,15 +45,14 @@ class EditProfileAvatarCircle extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               ClipOval(
-                child:
-                    selectedAvatarFile != null
-                        ? AppFileImage(
-                          file: selectedAvatarFile!,
-                          width: avatarSize,
-                          height: avatarSize,
-                          fit: BoxFit.cover,
-                        )
-                        : AppAvatar(imageUrl: avatarUrl, size: avatarSize - 8),
+                child: selectedAvatarFile != null
+                    ? AppFileImage(
+                        file: selectedAvatarFile!,
+                        width: avatarSize,
+                        height: avatarSize,
+                        fit: BoxFit.cover,
+                      )
+                    : AppAvatar(imageUrl: avatarUrl, size: avatarSize - 8),
               ),
               Container(
                 decoration: BoxDecoration(

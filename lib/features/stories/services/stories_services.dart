@@ -98,11 +98,10 @@ class StoriesServices {
             'story_mentions(${StoryMentionColumns.mentionedUserId},${StoryMentionColumns.startIndex},${StoryMentionColumns.endIndex}),'
             '${SupabaseConstants.users}!stories_author_id_fkey'
             '(${UserColumns.name}, ${UserColumns.imageUrl})',
-        filter:
-            (query) => query
-                .eq(StoryColumns.authorId, authorId)
-                .or(orParts.join(','))
-                .order(StoryColumns.createdAt, ascending: false),
+        filter: (query) => query
+            .eq(StoryColumns.authorId, authorId)
+            .or(orParts.join(','))
+            .order(StoryColumns.createdAt, ascending: false),
         builder: (data, id) => StoryModel.fromMap(data),
         primaryKey: StoryColumns.id,
       );
@@ -141,10 +140,9 @@ class StoriesServices {
             'story_mentions(${StoryMentionColumns.mentionedUserId},${StoryMentionColumns.startIndex},${StoryMentionColumns.endIndex}),'
             '${SupabaseConstants.users}!stories_author_id_fkey'
             '(${UserColumns.name}, ${UserColumns.imageUrl})',
-        filter:
-            (query) => query
-                .or(orParts.join(','))
-                .order(StoryColumns.createdAt, ascending: false),
+        filter: (query) => query
+            .or(orParts.join(','))
+            .order(StoryColumns.createdAt, ascending: false),
         builder: (data, id) => StoryModel.fromMap(data),
         primaryKey: StoryColumns.id,
       );
@@ -178,8 +176,8 @@ class StoriesServices {
             '*,'
             '${SupabaseConstants.users}!stories_author_id_fkey'
             '(${UserColumns.name}, ${UserColumns.imageUrl})',
-        filter:
-            (query) => query.eq(StoryColumns.id, storyId).or(orParts.join(',')),
+        filter: (query) =>
+            query.eq(StoryColumns.id, storyId).or(orParts.join(',')),
         builder: (data, id) => StoryModel.fromMap(data),
         primaryKey: StoryColumns.id,
       );
@@ -192,13 +190,12 @@ class StoriesServices {
 
   Future<String?> getMyReaction(String storyId) async {
     final userId = _supabase.auth.currentUser!.id;
-    final row =
-        await _supabase
-            .from(SupabaseConstants.storyReactions)
-            .select(StoryReactionColumns.reaction)
-            .eq(StoryReactionColumns.storyId, storyId)
-            .eq(StoryReactionColumns.userId, userId)
-            .maybeSingle();
+    final row = await _supabase
+        .from(SupabaseConstants.storyReactions)
+        .select(StoryReactionColumns.reaction)
+        .eq(StoryReactionColumns.storyId, storyId)
+        .eq(StoryReactionColumns.userId, userId)
+        .maybeSingle();
     return row?[StoryReactionColumns.reaction] as String?;
   }
 

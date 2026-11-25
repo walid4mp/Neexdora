@@ -136,10 +136,9 @@ class TwoFactorService {
 
   // ───────────────────────── helpers ─────────────────────────
 
-  Factor? _verifiedTotp(User? u) =>
-      (u?.factors ?? const [])
-          .where((f) => f.status.toString().endsWith('verified'))
-          .firstOrNull;
+  Factor? _verifiedTotp(User? u) => (u?.factors ?? const [])
+      .where((f) => f.status.toString().endsWith('verified'))
+      .firstOrNull;
 
   Future<void> _dropStaleUnverifiedFactors() async {
     try {
@@ -156,10 +155,9 @@ class TwoFactorService {
   }
 
   /// Accepts both a raw `<svg>` string and a `data:image/svg+xml,...` URI.
-  String _rawSvg(String q) =>
-      q.startsWith('data:')
-          ? Uri.decodeComponent(q.substring(q.indexOf(',') + 1))
-          : q;
+  String _rawSvg(String q) => q.startsWith('data:')
+      ? Uri.decodeComponent(q.substring(q.indexOf(',') + 1))
+      : q;
 
   Future<T> _guard<T>(Future<T> Function() body) async {
     try {

@@ -100,14 +100,13 @@ class _RightInteractionsPostVideoColumnState
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder:
-          (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: widget.postsCubit),
-              BlocProvider.value(value: commentsCubit),
-            ],
-            child: CommentsSheetSection(postId: post.id),
-          ),
+      builder: (_) => MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: widget.postsCubit),
+          BlocProvider.value(value: commentsCubit),
+        ],
+        child: CommentsSheetSection(postId: post.id),
+      ),
     ).whenComplete(() {
       commentsCubit.resetExpandedComments();
       if (wasPlaying && widget.videoController.value.isInitialized) {
@@ -119,8 +118,9 @@ class _RightInteractionsPostVideoColumnState
   Future<void> _toggleReshare(PostModel post) async {
     HapticFeedback.lightImpact();
     final bool wasShared = post.isSharedByMe;
-    final String toastMessage =
-        wasShared ? context.l10n.shareRemoved : context.l10n.sharedSuccessfully;
+    final String toastMessage = wasShared
+        ? context.l10n.shareRemoved
+        : context.l10n.sharedSuccessfully;
 
     final bool success = await widget.postsCubit.toggleSharePost(post);
     if (success) {
@@ -131,10 +131,9 @@ class _RightInteractionsPostVideoColumnState
   Future<void> _toggleSave(PostModel post) async {
     HapticFeedback.lightImpact();
     final bool wasSaved = post.isSavedByMe;
-    final String toastMessage =
-        wasSaved
-            ? context.l10n.postRemovedFromSaves
-            : context.l10n.postSavedSuccessfully;
+    final String toastMessage = wasSaved
+        ? context.l10n.postRemovedFromSaves
+        : context.l10n.postSavedSuccessfully;
 
     final bool success = await widget.postsCubit.toggleSavePost(post);
     if (success) {
@@ -151,10 +150,9 @@ class _RightInteractionsPostVideoColumnState
       bloc: widget.postsCubit,
       buildWhen: (prev, curr) => prev is PostsLoaded && curr is PostsLoaded,
       builder: (context, state) {
-        final currentPost =
-            (state is PostsLoaded)
-                ? state.posts.findById(widget.post.id) ?? widget.post
-                : widget.post;
+        final currentPost = (state is PostsLoaded)
+            ? state.posts.findById(widget.post.id) ?? widget.post
+            : widget.post;
 
         final String? myReaction = currentPost.myReactionEmoji;
         final bool isLiked = myReaction != null;
@@ -178,24 +176,22 @@ class _RightInteractionsPostVideoColumnState
               },
               child: FullScreenVideoActions(
                 label: '${currentPost.likesCount}',
-                child:
-                    isLiked && myReaction != 'like'
-                        ? Text(
-                          myReaction,
-                          style: TextStyle(
-                            fontSize: 28,
-                            inherit: false,
-                            fontFamilyFallback: AppTypography.emojiFontFallback,
-                          ),
-                        )
-                        : Icon(
-                          isLiked
-                              ? Icons.thumb_up_alt
-                              : Icons.thumb_up_alt_outlined,
-                          color:
-                              isLiked ? const Color(0xFF1877F2) : Colors.white,
-                          size: 32,
+                child: isLiked && myReaction != 'like'
+                    ? Text(
+                        myReaction,
+                        style: TextStyle(
+                          fontSize: 28,
+                          inherit: false,
+                          fontFamilyFallback: AppTypography.emojiFontFallback,
                         ),
+                      )
+                    : Icon(
+                        isLiked
+                            ? Icons.thumb_up_alt
+                            : Icons.thumb_up_alt_outlined,
+                        color: isLiked ? const Color(0xFF1877F2) : Colors.white,
+                        size: 32,
+                      ),
               ),
             ),
             const SizedBox(height: 26),
@@ -218,10 +214,9 @@ class _RightInteractionsPostVideoColumnState
                 label: '${currentPost.sharesCount}',
                 child: Icon(
                   Icons.repeat_rounded,
-                  color:
-                      currentPost.isSharedByMe
-                          ? Theme.of(context).primaryColor
-                          : Colors.white,
+                  color: currentPost.isSharedByMe
+                      ? Theme.of(context).primaryColor
+                      : Colors.white,
                   size: 31,
                 ),
               ),
@@ -230,18 +225,16 @@ class _RightInteractionsPostVideoColumnState
             GestureDetector(
               onTap: () => _toggleSave(currentPost),
               child: FullScreenVideoActions(
-                label:
-                    currentPost.savedCount > 0
-                        ? '${currentPost.savedCount}'
-                        : null,
+                label: currentPost.savedCount > 0
+                    ? '${currentPost.savedCount}'
+                    : null,
                 child: Icon(
                   currentPost.isSavedByMe
                       ? Icons.bookmark_rounded
                       : Icons.bookmark_border_rounded,
-                  color:
-                      currentPost.isSavedByMe
-                          ? AppColors.goldenYellow
-                          : Colors.white,
+                  color: currentPost.isSavedByMe
+                      ? AppColors.goldenYellow
+                      : Colors.white,
                   size: 31,
                 ),
               ),

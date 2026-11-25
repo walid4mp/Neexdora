@@ -191,19 +191,14 @@ class _PreviewThumbnail extends StatelessWidget {
               Navigator.of(context, rootNavigator: true).push(
                 PageRouteBuilder(
                   opaque: false,
-                  pageBuilder:
-                      (_, __, ___) => FullScreenMediaView(
-                        videoUrl: videoPath,
-                        isLocal: attachment.localFile != null,
-                      ),
-                  transitionsBuilder: (
-                    context,
-                    animation,
-                    secondaryAnimation,
-                    child,
-                  ) {
-                    return FadeTransition(opacity: animation, child: child);
-                  },
+                  pageBuilder: (_, __, ___) => FullScreenMediaView(
+                    videoUrl: videoPath,
+                    isLocal: attachment.localFile != null,
+                  ),
+                  transitionsBuilder:
+                      (context, animation, secondaryAnimation, child) {
+                        return FadeTransition(opacity: animation, child: child);
+                      },
                 ),
               );
             }
@@ -383,17 +378,16 @@ class _PreviewInfo extends StatelessWidget {
         }
         return attachment.localFile != null
             ? CommentVoicePlayer(
-              source: attachment.localFile!.path,
-              isLocalFile: true,
-              durationSeconds: attachment.durationSeconds,
-            )
+                source: attachment.localFile!.path,
+                isLocalFile: true,
+                durationSeconds: attachment.durationSeconds,
+              )
             : const SizedBox.shrink();
 
       case CommentType.file:
-        final fileName =
-            attachment.fileName?.trim().isNotEmpty == true
-                ? attachment.fileName!
-                : context.l10n.file;
+        final fileName = attachment.fileName?.trim().isNotEmpty == true
+            ? attachment.fileName!
+            : context.l10n.file;
         final ext = _getFileExtension();
         final sizeStr = _formatSize(attachment.fileSizeBytes);
 

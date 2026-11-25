@@ -80,12 +80,11 @@ class ChatPermissionService {
     required String senderId,
     required String receiverId,
   }) async {
-    final row =
-        await _supabase
-            .from(SupabaseConstants.messageRequests)
-            .insert({'sender_id': senderId, 'receiver_id': receiverId})
-            .select('id')
-            .single();
+    final row = await _supabase
+        .from(SupabaseConstants.messageRequests)
+        .insert({'sender_id': senderId, 'receiver_id': receiverId})
+        .select('id')
+        .single();
     return row['id'] as String;
   }
 

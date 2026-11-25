@@ -67,23 +67,25 @@ class GroupViewHeader extends StatelessWidget {
                       children: [
                         hasCover
                             ? CachedCloudinaryImage(
-                              secureUrl: profile.coverUrl!,
-                              fit: BoxFit.cover,
-                              width: width,
-                              height: coverHeight,
-                            )
+                                secureUrl: profile.coverUrl!,
+                                fit: BoxFit.cover,
+                                width: width,
+                                height: coverHeight,
+                              )
                             : DecoratedBox(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  colors: [
-                                    theme.primaryColor,
-                                    theme.primaryColor.withValues(alpha: 0.55),
-                                  ],
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      theme.primaryColor,
+                                      theme.primaryColor.withValues(
+                                        alpha: 0.55,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
                         DecoratedBox(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
@@ -332,14 +334,13 @@ class GroupStatsCard extends StatelessWidget {
           for (var i = 0; i < items.length; i++)
             Expanded(
               child: Container(
-                decoration:
-                    i == 0
-                        ? null
-                        : BoxDecoration(
-                          border: BorderDirectional(
-                            start: BorderSide(color: outline),
-                          ),
+                decoration: i == 0
+                    ? null
+                    : BoxDecoration(
+                        border: BorderDirectional(
+                          start: BorderSide(color: outline),
                         ),
+                      ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -511,5 +512,5 @@ class GroupPostingRestrictedBanner extends StatelessWidget {
 /// Used by the details tab: current posting policy as a readable label.
 String whoCanPostLabel(BuildContext context, GroupWhoCanPost v) =>
     v == GroupWhoCanPost.all
-        ? context.l10n.allMembers
-        : context.l10n.adminsOnly;
+    ? context.l10n.allMembers
+    : context.l10n.adminsOnly;

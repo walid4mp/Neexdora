@@ -30,10 +30,12 @@ class MessagesHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final archivedUnreadCount =
-        context.watch<ConversationsCubit>().archivedUnreadCount;
-    final hasArchivedConversations =
-        context.watch<ConversationsCubit>().hasArchivedConversations;
+    final archivedUnreadCount = context
+        .watch<ConversationsCubit>()
+        .archivedUnreadCount;
+    final hasArchivedConversations = context
+        .watch<ConversationsCubit>()
+        .hasArchivedConversations;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -58,33 +60,28 @@ class MessagesHeaderSection extends StatelessWidget {
                 children: [
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 220),
-                    transitionBuilder:
-                        (child, animation) => ScaleTransition(
-                          scale: animation,
-                          child: FadeTransition(
-                            opacity: animation,
-                            child: child,
-                          ),
-                        ),
-                    child:
-                        hasArchivedConversations
-                            ? CustomBadge(
-                              count: archivedUnreadCount,
-                              size: 15,
-                              fontSize: 8.2,
-                              top: 4.2,
-                              right: 4.2,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.archive_outlined,
-                                  color: Theme.of(context).primaryColor,
-                                  size: 24,
-                                ),
-                                tooltip: context.l10n.archivedChats2,
-                                onPressed: () => _openArchivedChats(context),
+                    transitionBuilder: (child, animation) => ScaleTransition(
+                      scale: animation,
+                      child: FadeTransition(opacity: animation, child: child),
+                    ),
+                    child: hasArchivedConversations
+                        ? CustomBadge(
+                            count: archivedUnreadCount,
+                            size: 15,
+                            fontSize: 8.2,
+                            top: 4.2,
+                            right: 4.2,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.archive_outlined,
+                                color: Theme.of(context).primaryColor,
+                                size: 24,
                               ),
-                            )
-                            : const SizedBox.shrink(),
+                              tooltip: context.l10n.archivedChats2,
+                              onPressed: () => _openArchivedChats(context),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                   ),
                   IconButton(
                     padding: const EdgeInsets.only(bottom: 9),
@@ -143,37 +140,36 @@ class MessagesHeaderSection extends StatelessWidget {
                             }
                           }
                         },
-                        itemBuilder:
-                            (context) => [
-                              if (showNewChat)
-                                PopupMenuItem(
-                                  value: 'new_chat',
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.chat_bubble_outline,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(context.l10n.newChat),
-                                    ],
+                        itemBuilder: (context) => [
+                          if (showNewChat)
+                            PopupMenuItem(
+                              value: 'new_chat',
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.chat_bubble_outline,
+                                    color: Theme.of(context).primaryColor,
                                   ),
-                                ),
-                              if (showCreateGroup)
-                                PopupMenuItem(
-                                  value: 'create_group',
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.group_add_outlined,
-                                        color: Theme.of(context).primaryColor,
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(context.l10n.createGroup),
-                                    ],
+                                  const SizedBox(width: 8),
+                                  Text(context.l10n.newChat),
+                                ],
+                              ),
+                            ),
+                          if (showCreateGroup)
+                            PopupMenuItem(
+                              value: 'create_group',
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.group_add_outlined,
+                                    color: Theme.of(context).primaryColor,
                                   ),
-                                ),
-                            ],
+                                  const SizedBox(width: 8),
+                                  Text(context.l10n.createGroup),
+                                ],
+                              ),
+                            ),
+                        ],
                         child: Icon(
                           Icons.more_vert_outlined,
                           color: Theme.of(context).primaryColor,
@@ -297,16 +293,14 @@ class _TabItem extends StatelessWidget {
         );
 
         final inactiveDecoration = BoxDecoration(
-          color:
-              isDark
-                  ? Colors.white.withValues(alpha: 0.06)
-                  : Colors.black.withValues(alpha: 0.035),
+          color: isDark
+              ? Colors.white.withValues(alpha: 0.06)
+              : Colors.black.withValues(alpha: 0.035),
           borderRadius: BorderRadius.circular(25),
           border: Border.all(
-            color:
-                isDark
-                    ? Colors.white.withValues(alpha: 0.10)
-                    : Colors.black.withValues(alpha: 0.08),
+            color: isDark
+                ? Colors.white.withValues(alpha: 0.10)
+                : Colors.black.withValues(alpha: 0.08),
             width: 1,
           ),
         );
