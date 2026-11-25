@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Nexora
 
 Real-time social platform built with Flutter + Supabase + Firebase.
@@ -23,3 +24,6 @@ flutter build appbundle --release --dart-define-from-file=.env    # Play Store A
 - App name / contact links / team card: `lib/core/constants/brand_config.dart`
 - Colors: `lib/core/design/tokens/colors.dart` and `lib/core/themes/models/app_theme_model.dart`
 - Re-brand for another client: `python3 scripts/rebrand.py --new-name "X" --new-pkg x --new-id com.x.app`
+=======
+# Neexdora
+>>>>>>> 64ff174f2ef9a144b899c93d57fcb06fe6715868
