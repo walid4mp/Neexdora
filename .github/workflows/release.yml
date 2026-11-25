@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  FLUTTER_VERSION: "3.29.3"
+  FLUTTER_VERSION: "3.44.3"
 
 jobs:
   release:
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: "21"
 
       - uses: subosito/flutter-action@v2
         with:
@@ -53,23 +53,48 @@ jobs:
       - run: flutter analyze --no-fatal-infos
       - run: flutter test
 
+      - name: Validate required release secrets
+        env:
+          GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
+          FIREBASE_OPTIONS_DART_BASE64: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}
+          DART_DEFINE_ENV_PROD_BASE64: ${{ secrets.DART_DEFINE_ENV_PROD_BASE64 }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          missing=0
+          for name in GOOGLE_SERVICES_JSON_BASE64 FIREBASE_OPTIONS_DART_BASE64 DART_DEFINE_ENV_PROD_BASE64 ANDROID_KEYSTORE_BASE64 ANDROID_STORE_PASSWORD ANDROID_KEY_PASSWORD ANDROID_KEY_ALIAS; do
+            if [ -z "${!name}" ]; then echo "::error::Missing GitHub secret: $name"; missing=1; fi
+          done
+          [ "$missing" -eq 0 ]
+
       - name: Restore Firebase config
         env:
           GOOGLE_SERVICES_JSON_BASE64: ${{ secrets.GOOGLE_SERVICES_JSON_BASE64 }}
           FIREBASE_OPTIONS_DART_BASE64: ${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}
         run: |
-          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 -d > android/app/google-services.json
-          echo "$FIREBASE_OPTIONS_DART_BASE64" | base64 -d > lib/firebase_options.dart
+          echo "$GOOGLE_SERVICES_JSON_BASE64" | base64 --decode > android/app/google-services.json
+          echo "$FIREBASE_OPTIONS_DART_BASE64" | base64 --decode > lib/firebase_options.dart
+          python - <<'PY'
+          import json
+          with open("android/app/google-services.json", encoding="utf-8") as f:
+              data = json.load(f)
+          project_id = data.get("project_info", {}).get("project_id", "")
+          if not project_id or "your-" in project_id or "000000000000" in project_id:
+              raise SystemExit("Invalid placeholder Firebase configuration")
+          PY
+          if grep -Eq "REPLACE_WITH_YOUR|your-firebase-project-id|000000000000" lib/firebase_options.dart; then
+            echo "::error::Firebase options contain placeholder values."
+            exit 1
+          fi
 
       - name: Restore dart-define file
         env:
           DART_DEFINE_ENV_BASE64: ${{ secrets.DART_DEFINE_ENV_PROD_BASE64 }}
         run: echo "$DART_DEFINE_ENV_BASE64" | base64 -d > ci.env
 
-      # ⚠️ `android/app/build.gradle(.kts)` was NOT in the repomix, so I
-      # cannot confirm your signingConfig reads these property names. Open
-      # it and check before enabling this step. The standard Flutter layout
-      # expects a `key.properties` with exactly these four keys.
+      # The app Gradle file reads these exact property names from android/key.properties.
       - name: Restore signing keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -77,7 +102,8 @@ jobs:
           KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
         run: |
-          echo "$KEYSTORE_BASE64" | base64 -d > android/app/upload-keystore.jks
+          echo "$KEYSTORE_BASE64" | base64 --decode > android/app/upload-keystore.jks
+          test -s android/app/upload-keystore.jks
           cat > android/key.properties <<EOF
           storePassword=$STORE_PASSWORD
           keyPassword=$KEY_PASSWORD

@@ -22,8 +22,7 @@ migrate_working_dir/
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 .vscode/
-/docs/
-!assets/docs/
+!docs/
 
 # Security & Signing Files
 **/key.properties
@@ -35,7 +34,6 @@ migrate_working_dir/
 
 scripts/
 
-supabase/
 
 .repomix/
 master_code.txt

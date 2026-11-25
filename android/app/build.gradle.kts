@@ -61,11 +61,14 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
            getByName("release") {
-            // Use the real release key when key.properties exists,
-            // otherwise fall back to debug signing so `flutter build` still works.
-            signingConfig =
-                if (keystorePropertiesFile.exists()) signingConfigs.getByName("release")
-                else signingConfigs.getByName("debug")
+            // Release artifacts must use the owner's upload key. Never publish
+            // an artifact signed with the public/debug development key.
+            if (!keystorePropertiesFile.exists()) {
+                throw GradleException(
+                    "Missing android/key.properties. Configure the release keystore before building a release."
+                )
+            }
+            signingConfig = signingConfigs.getByName("release")
             
             isMinifyEnabled = false 
             isShrinkResources = false
