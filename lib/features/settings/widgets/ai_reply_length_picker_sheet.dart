@@ -96,15 +96,16 @@ class AiReplyLengthPickerSheet extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: AiReplyLength.values.map((length) {
-                      return AiSettingOptionCard<AiReplyLength>(
-                        value: length,
-                        currentValue: selected,
-                        title: length.localizedTitle(context),
-                        subtitle: length.localizedDescription(context),
-                        icon: _icons[length] ?? Icons.auto_awesome_rounded,
-                      );
-                    }).toList(),
+                    children:
+                        AiReplyLength.values.map((length) {
+                          return AiSettingOptionCard<AiReplyLength>(
+                            value: length,
+                            currentValue: selected,
+                            title: length.localizedTitle(context),
+                            subtitle: length.localizedDescription(context),
+                            icon: _icons[length] ?? Icons.auto_awesome_rounded,
+                          );
+                        }).toList(),
                   ),
                 ),
               ),

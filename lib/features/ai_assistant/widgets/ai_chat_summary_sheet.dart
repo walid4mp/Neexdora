@@ -135,11 +135,12 @@ class _AiChatSummarySheetState extends State<AiChatSummarySheet> {
           _failureReason == AiFailureReason.userQuotaExceeded ||
           _failureReason == AiFailureReason.globalQuotaExceeded;
 
-      final message = _failureReason == 'empty_chat'
-          ? context.l10n.thereArentEnoughMessages
-          : isQuota
-          ? context.l10n.youHaveUsedUp2
-          : context.l10n.anErrorOccurredPlease;
+      final message =
+          _failureReason == 'empty_chat'
+              ? context.l10n.thereArentEnoughMessages
+              : isQuota
+              ? context.l10n.youHaveUsedUp2
+              : context.l10n.anErrorOccurredPlease;
 
       return Text(message, style: Theme.of(context).textTheme.bodyMedium);
     }

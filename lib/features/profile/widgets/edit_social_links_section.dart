@@ -73,9 +73,8 @@ class _EditSocialLinksSectionState extends State<EditSocialLinksSection> {
         AnimatedCrossFade(
           duration: const Duration(milliseconds: 280),
           sizeCurve: Curves.easeOutCubic,
-          crossFadeState: _expanded
-              ? CrossFadeState.showSecond
-              : CrossFadeState.showFirst,
+          crossFadeState:
+              _expanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
           firstChild: const SizedBox(width: double.infinity, height: 0),
           secondChild: Column(
             children: [

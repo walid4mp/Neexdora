@@ -30,13 +30,14 @@ class _SettingsDangerZoneState extends State<SettingsDangerZone> {
       tween: Tween(begin: 0.0, end: 1.0),
       duration: const Duration(milliseconds: 700),
       curve: Curves.easeOut,
-      builder: (ctx, val, child) => Opacity(
-        opacity: val,
-        child: Transform.translate(
-          offset: Offset(0, 18 * (1 - val)),
-          child: child,
-        ),
-      ),
+      builder:
+          (ctx, val, child) => Opacity(
+            opacity: val,
+            child: Transform.translate(
+              offset: Offset(0, 18 * (1 - val)),
+              child: child,
+            ),
+          ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -68,14 +69,16 @@ class _SettingsDangerZoneState extends State<SettingsDangerZone> {
           ),
           Container(
             decoration: BoxDecoration(
-              color: isDark
-                  ? Colors.red.withValues(alpha: 0.05)
-                  : Colors.red.shade50,
+              color:
+                  isDark
+                      ? Colors.red.withValues(alpha: 0.05)
+                      : Colors.red.shade50,
               borderRadius: BorderRadius.circular(18),
               border: Border.all(
-                color: isDark
-                    ? Colors.red.withValues(alpha: 0.12)
-                    : Colors.red.shade100,
+                color:
+                    isDark
+                        ? Colors.red.withValues(alpha: 0.12)
+                        : Colors.red.shade100,
                 width: 0.8,
               ),
             ),
@@ -92,8 +95,11 @@ class _SettingsDangerZoneState extends State<SettingsDangerZone> {
                   setState(() => _pendingAction = null);
                 }
               },
-              buildWhen: (p, c) =>
-                  c is AuthSignedOut || c is AuthFailure || c is AuthLoading,
+              buildWhen:
+                  (p, c) =>
+                      c is AuthSignedOut ||
+                      c is AuthFailure ||
+                      c is AuthLoading,
               builder: (context, state) {
                 final isLoading = state is AuthLoading;
                 return Column(
@@ -113,9 +119,10 @@ class _SettingsDangerZoneState extends State<SettingsDangerZone> {
                     Divider(
                       height: 1,
                       indent: 68,
-                      color: isDark
-                          ? Colors.red.withValues(alpha: 0.10)
-                          : Colors.red.shade100,
+                      color:
+                          isDark
+                              ? Colors.red.withValues(alpha: 0.10)
+                              : Colors.red.shade100,
                     ),
                     _buildDangerItem(
                       context,
@@ -152,12 +159,13 @@ class _SettingsDangerZoneState extends State<SettingsDangerZone> {
   }) {
     return InkWell(
       borderRadius: BorderRadius.circular(18),
-      onTap: onTap == null
-          ? null
-          : () {
-              HapticFeedback.mediumImpact();
-              onTap();
-            },
+      onTap:
+          onTap == null
+              ? null
+              : () {
+                HapticFeedback.mediumImpact();
+                onTap();
+              },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 13),
         child: Row(
@@ -169,18 +177,19 @@ class _SettingsDangerZoneState extends State<SettingsDangerZone> {
                 color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(11),
               ),
-              child: isLoading
-                  ? Center(
-                      child: SizedBox(
-                        width: 18,
-                        height: 18,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: color,
+              child:
+                  isLoading
+                      ? Center(
+                        child: SizedBox(
+                          width: 18,
+                          height: 18,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: color,
+                          ),
                         ),
-                      ),
-                    )
-                  : Icon(icon, color: color, size: 18),
+                      )
+                      : Icon(icon, color: color, size: 18),
             ),
             const Gap(14),
             Expanded(
@@ -226,17 +235,18 @@ class _SettingsDangerZoneState extends State<SettingsDangerZone> {
   Future<void> _onDeletePressed() async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (dialogContext) => CustomConfirmationDialog(
-        title: context.l10n.deleteAccountConfirmation,
-        textAlign: TextAlign.center,
-        img: AppImages.alertAnimationLot,
-        confirmBtnText: context.l10n.deleteAccount,
-        cancelBtnText: context.l10n.cancel,
-        confirmTxtColor: Colors.red.shade600,
-        onConfirm: () {
-          Navigator.of(dialogContext, rootNavigator: true).pop(true);
-        },
-      ),
+      builder:
+          (dialogContext) => CustomConfirmationDialog(
+            title: context.l10n.deleteAccountConfirmation,
+            textAlign: TextAlign.center,
+            img: AppImages.alertAnimationLot,
+            confirmBtnText: context.l10n.deleteAccount,
+            cancelBtnText: context.l10n.cancel,
+            confirmTxtColor: Colors.red.shade600,
+            onConfirm: () {
+              Navigator.of(dialogContext, rootNavigator: true).pop(true);
+            },
+          ),
     );
 
     if (confirmed != true || !mounted) return;

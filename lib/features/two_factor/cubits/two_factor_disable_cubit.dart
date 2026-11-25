@@ -44,9 +44,10 @@ class TwoFactorDisableCubit extends Cubit<TwoFactorDisableState> {
   TwoFactorDisableCubit(this._service, {required bool hasPassword})
     : super(
         TwoFactorDisableState(
-          method: hasPassword
-              ? TwoFactorDisableMethod.password
-              : TwoFactorDisableMethod.totp,
+          method:
+              hasPassword
+                  ? TwoFactorDisableMethod.password
+                  : TwoFactorDisableMethod.totp,
         ),
       );
 

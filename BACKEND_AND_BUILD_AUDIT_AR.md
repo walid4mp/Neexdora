@@ -1,27 +1,37 @@
-# Nexora — تقرير التعديلات والفحص
+# Nexora — تقرير الفحص والتعديلات
 
-## ما تم تعديله
-1. توحيد إصدار Flutter في CI وRelease إلى 3.44.3 بما يتوافق مع الحد الأدنى المسجل في `pubspec.lock`.
-2. توحيد Java إلى JDK 21 بما يتوافق مع إعدادات Android/Kotlin في المشروع.
-3. إصلاح خطوة استعادة Firebase في CI: تتحقق من وجود الملفين ومن عدم احتوائهما على قيم placeholder قبل السماح ببناء APK.
-4. تحديث Release workflow ليتحقق من جميع الأسرار المطلوبة قبل البناء، ويتحقق من ملف Firebase وkeystore بعد فك Base64.
-5. منع توقيع إصدار Release بمفتاح Debug تلقائيًا؛ يتطلب الآن `android/key.properties` ومفتاح رفع حقيقي.
-6. إضافة `.env.example` آمن بلا مفاتيح فعلية، ودليل `SETUP_NEW_SERVICES_AR.md`، وتحديث توثيق CI/CD وREADME.
-7. إزالة قاعدة تجاهل `supabase/` من `.gitignore` حتى لا تُخفى ملفات الباك إند مستقبلًا عند إضافتها.
+## ملخص الأرشيف
+- الأرشيف الأصلي سليم ويمكن فتحه.
+- يحتوي المشروع على 1,442 ملفًا بعد فك الضغط، منها 1,165 ملف Dart و23 ملف اختبار Dart.
+- تم فحص 8 ملفات YAML/YML؛ جميعها قابلة للتحليل نحويًا.
+- تم التحقق من وجود مجلدات الأصول المعلنة في `pubspec.yaml`.
+- لا يوجد في هذه النسخة مجلد `supabase/` أو `backend/` أو `functions/`.
 
-## ما كشفه الفحص
-- الأرشيف سليم، وبه 1,894 مدخلًا.
-- ملفات Firebase الحالية داخل الأرشيف تجريبية وليست إعداد Firebase حقيقيًا.
-- لا يوجد مجلد `supabase/` أو `backend/` في الأرشيف، لذلك لا توجد migrations أو Edge Functions يمكن مراجعتها أو إكمالها في هذه النسخة.
-- إعدادات الخدمات الحقيقية (Supabase وCloudinary وZego وGiphy وFirebase) تحتاج قيم حسابات المالك.
+## التعديلات المضافة في هذه النسخة
+1. إضافة `tool/validate_pub_config.py` للتحقق من إنشاء `.dart_tool/package_config.json` وحل حزمة `flutter_lints`.
+2. إضافة خطوة تحقق بعد `flutter pub get` في CI وRelease؛ إذا لم تُحل الحزمة فسيظهر خطأ واضح قبل التنسيق والتحليل.
+3. إضافة workflow يدوي `.github/workflows/format.yml` لتنسيق ملفات Dart باستخدام Flutter 3.44.3 نفسه المثبت في CI، ثم إنشاء commit عادي ودفعه إلى الفرع المحدد. لا يستخدم force push.
+4. تحديث هذا التقرير ليطابق محتويات الأرشيف الذي تم فحصه.
 
-## التحقق المنفذ
-- تم التحقق من سلامة ZIP.
-- تم تحليل ملفات YAML الثلاثة بنجاح.
-- تم التحقق من صحة JSON لملف `.env.example`.
-- لم يتم تشغيل `flutter analyze` أو `flutter test` أو بناء APK/AAB لأن Flutter/Dart SDK غير مثبتين في بيئة التنفيذ الحالية. يجب تأكيد البناء من GitHub Actions بعد إضافة الأسرار الحقيقية.
+## سبب تحذير flutter_lints
+- `pubspec.yaml` يحتوي بالفعل على `flutter_lints: ^5.0.0` ضمن `dev_dependencies`.
+- `pubspec.lock` يحتوي الحزمة `flutter_lints` بالإصدار `5.0.0`.
+- `analysis_options.yaml` يستخدم المسار الصحيح `package:flutter_lints/flutter.yaml`.
+- التحذير يعني أن محلل Dart لم يجد الحزمة في package configuration المحلية، غالبًا لأن `flutter pub get` لم يعمل أو لم ينجح. تشغيل `dart format` وحده لا ينزّل الحزم ولا ينشئ `.dart_tool/package_config.json`.
+- لا تحذف `include` ولا تعطل lint rules لإخفاء التحذير.
 
-## ملفات لا تغيّرها دون نسخة احتياطية
-- `android/app/upload-keystore.jks` وأي upload keystore قديم.
-- قاعدة بيانات Supabase الحالية وبيانات المستخدمين وmigrations الفعلية.
-- `applicationId` الحالي `com.nexora.app` واسم التطبيق Nexora.
+## إعدادات تحتاج حسابات المالك
+- `lib/firebase_options.dart` و`android/app/google-services.json` يحتويان قيم Firebase تجريبية/placeholder، وليسا إعداد Firebase صالحًا للتشغيل الفعلي.
+- `.env.example` قالب فقط ويحتوي قيمًا إرشادية، وليس مفاتيح خدمات حقيقية.
+- ملف `supabase-keep-alive.yml` يحتاج GitHub secrets صحيحة، كما أن وظيفة `keep-alive` نفسها غير موجودة في الأرشيف الحالي.
+- لا يوجد `supabase/` أو `backend/`، لذلك لم يمكن تدقيق migrations أو Edge Functions أو مخطط قاعدة البيانات.
+
+## حدود التحقق
+- لم يتوفر Flutter SDK أو Dart SDK في بيئة الفحص، لذلك لم يتم تشغيل `flutter pub get` أو `dart format` أو `flutter analyze` أو `flutter test` أو بناء APK/AAB.
+- فحوص YAML وJSON وسلامة ZIP وفحص وجود المسارات وفحص أنماط الأسرار النصية هي فحوص ساكنة فقط؛ لا تثبت أن التطبيق يبني أو أن الخدمات تعمل.
+- يجب تشغيل GitHub Actions بعد رفع هذه النسخة، ثم استكمال Firebase وDart-define وAndroid signing secrets قبل إصدار Release موقّع.
+
+## ملفات وهوية لا تغيّر دون موافقة
+- `applicationId`: `com.nexora.app`
+- اسم التطبيق: Nexora
+- لا تستبدل upload keystore القديم أو تغيّر قاعدة بيانات فعلية دون نسخة احتياطية.

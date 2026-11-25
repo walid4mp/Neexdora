@@ -46,8 +46,8 @@ class GroupView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GroupProfileCubit, GroupProfileState>(
-      listenWhen: (prev, cur) =>
-          cur is GroupProfileLoaded && !cur.profile.isMember,
+      listenWhen:
+          (prev, cur) => cur is GroupProfileLoaded && !cur.profile.isMember,
       listener: (context, state) {
         // Not (or no longer) a member -> preview / join page.
         Navigator.of(context).pushReplacementNamed(
@@ -193,48 +193,52 @@ class _GroupViewBodyState extends State<_GroupViewBody>
   void _openInvite(GroupProfileModel p) {
     AppBottomSheet.show<void>(
       context: context,
-      builder: (_) => AppBottomSheet(
-        title: context.l10n.groupActionInvite,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 12),
-          child: GroupInviteLinkSection(
-            groupId: p.id,
-            groupName: p.name,
-            services: _services,
+      builder:
+          (_) => AppBottomSheet(
+            title: context.l10n.groupActionInvite,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: GroupInviteLinkSection(
+                groupId: p.id,
+                groupName: p.name,
+                services: _services,
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 
   void _openSettings(GroupProfileModel p) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => GroupSettingsView(
-          group: p.toGroupModel(),
-          membersCubit: _membersCubit,
-          groupListCubit: context.read<GroupListCubit>(),
-          isAdmin: p.hasAdminPrivileges,
-          isOwner: p.isOwner,
-          currentUserId: _myId,
-          profileCubit: _profileCubit,
-        ),
+        builder:
+            (_) => GroupSettingsView(
+              group: p.toGroupModel(),
+              membersCubit: _membersCubit,
+              groupListCubit: context.read<GroupListCubit>(),
+              isAdmin: p.hasAdminPrivileges,
+              isOwner: p.isOwner,
+              currentUserId: _myId,
+              profileCubit: _profileCubit,
+            ),
       ),
     );
   }
 
   void _openAddMembers() {
     final state = _membersCubit.state;
-    final existing = state is GroupMembersLoaded
-        ? state.members.map((m) => m.userId).toSet()
-        : <String>{};
+    final existing =
+        state is GroupMembersLoaded
+            ? state.members.map((m) => m.userId).toSet()
+            : <String>{};
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => AddGroupMembersView(
-          membersCubit: _membersCubit,
-          existingMemberIds: existing,
-          currentUserId: _myId,
-        ),
+        builder:
+            (_) => AddGroupMembersView(
+              membersCubit: _membersCubit,
+              existingMemberIds: existing,
+              currentUserId: _myId,
+            ),
       ),
     );
   }
@@ -327,9 +331,8 @@ class _GroupViewBodyState extends State<_GroupViewBody>
         child: BlocBuilder<GroupProfileCubit, GroupProfileState>(
           buildWhen: (_, cur) => cur is GroupProfileLoaded,
           builder: (context, state) {
-            final p = state is GroupProfileLoaded
-                ? state.profile
-                : widget.initial;
+            final p =
+                state is GroupProfileLoaded ? state.profile : widget.initial;
 
             return Scaffold(
               body: MediaQuery.removePadding(
@@ -337,53 +340,54 @@ class _GroupViewBodyState extends State<_GroupViewBody>
                 removeTop: true,
                 child: NestedScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  headerSliverBuilder: (context, _) => [
-                    SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          GroupViewHeader(
-                            profile: p,
-                            topInset: topInset,
-                            isUploadingCover: _uploadingCover,
-                            isUploadingAvatar: _uploadingAvatar,
-                            onBack: () => Navigator.of(context).maybePop(),
-                            onEditCover: p.hasAdminPrivileges
-                                ? _changeCover
-                                : null,
-                            onEditAvatar: p.hasAdminPrivileges
-                                ? () => _changeAvatar(p)
-                                : null,
+                  headerSliverBuilder:
+                      (context, _) => [
+                        SliverToBoxAdapter(
+                          child: Column(
+                            children: [
+                              GroupViewHeader(
+                                profile: p,
+                                topInset: topInset,
+                                isUploadingCover: _uploadingCover,
+                                isUploadingAvatar: _uploadingAvatar,
+                                onBack: () => Navigator.of(context).maybePop(),
+                                onEditCover:
+                                    p.hasAdminPrivileges ? _changeCover : null,
+                                onEditAvatar:
+                                    p.hasAdminPrivileges
+                                        ? () => _changeAvatar(p)
+                                        : null,
+                              ),
+                              GroupQuickActions(
+                                profile: p,
+                                onChat: () => _openChat(p),
+                                onInvite: () => _openInvite(p),
+                                onSettings: () => _openSettings(p),
+                                onNewPost: () => _newPost(p),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
                           ),
-                          GroupQuickActions(
-                            profile: p,
-                            onChat: () => _openChat(p),
-                            onInvite: () => _openInvite(p),
-                            onSettings: () => _openSettings(p),
-                            onNewPost: () => _newPost(p),
-                          ),
-                          const SizedBox(height: 12),
-                        ],
-                      ),
-                    ),
-                    SliverPersistentHeader(
-                      pinned:
-                          false, // like ProfileView: tabs scroll with the header
-                      delegate: _TabsDelegate(
-                        color: theme.scaffoldBackgroundColor,
-                        tabBar: TabBar(
-                          controller: _tabs,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicatorWeight: 3,
-                          dividerColor: theme.dividerColor,
-                          tabs: [
-                            Tab(text: context.l10n.posts),
-                            Tab(text: context.l10n.members),
-                            Tab(text: context.l10n.groupDetailsAndMedia),
-                          ],
                         ),
-                      ),
-                    ),
-                  ],
+                        SliverPersistentHeader(
+                          pinned:
+                              false, // like ProfileView: tabs scroll with the header
+                          delegate: _TabsDelegate(
+                            color: theme.scaffoldBackgroundColor,
+                            tabBar: TabBar(
+                              controller: _tabs,
+                              indicatorSize: TabBarIndicatorSize.tab,
+                              indicatorWeight: 3,
+                              dividerColor: theme.dividerColor,
+                              tabs: [
+                                Tab(text: context.l10n.posts),
+                                Tab(text: context.l10n.members),
+                                Tab(text: context.l10n.groupDetailsAndMedia),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                   body: TabBarView(
                     controller: _tabs,
                     children: [

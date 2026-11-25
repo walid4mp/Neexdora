@@ -15,9 +15,8 @@ class FeedLoadMoreFooter extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     final baseColor = isDark ? Colors.grey[850]! : Colors.grey[300]!;
-    final highlightColor = isDark
-        ? (Colors.grey[750] ?? Colors.grey[700]!)
-        : Colors.grey[100]!;
+    final highlightColor =
+        isDark ? (Colors.grey[750] ?? Colors.grey[700]!) : Colors.grey[100]!;
     final cardBgColor = theme.colorScheme.surface;
     const skeletonColor = Colors.white;
 
@@ -102,14 +101,16 @@ class FeedLoadMoreFooter extends StatelessWidget {
                       width: double.infinity,
                       height: 140,
                       decoration: BoxDecoration(
-                        color: isDark
-                            ? Colors.white.withValues(alpha: 0.04)
-                            : Colors.grey.shade50,
+                        color:
+                            isDark
+                                ? Colors.white.withValues(alpha: 0.04)
+                                : Colors.grey.shade50,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: isDark
-                              ? Colors.white.withValues(alpha: 0.06)
-                              : Colors.black.withValues(alpha: 0.04),
+                          color:
+                              isDark
+                                  ? Colors.white.withValues(alpha: 0.06)
+                                  : Colors.black.withValues(alpha: 0.04),
                           width: 0.8,
                         ),
                       ),

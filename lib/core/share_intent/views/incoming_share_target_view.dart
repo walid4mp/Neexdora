@@ -220,9 +220,10 @@ class IncomingShareTargetView extends StatelessWidget {
                           0xFF9C27B0,
                         ).withValues(alpha: 0.12),
                         enabled: _aiSupportsPayload,
-                        subtitle: _aiSupportsPayload
-                            ? null
-                            : context.l10n.aiDoesntSupportVideo,
+                        subtitle:
+                            _aiSupportsPayload
+                                ? null
+                                : context.l10n.aiDoesntSupportVideo,
                         onTap: () => _onAiTap(context),
                       ),
                     ]),

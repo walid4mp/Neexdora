@@ -40,13 +40,11 @@ class _PostTxtContentWidgetState extends State<PostTxtContentWidget> {
     final int maxLines = hasMedia ? 3 : 5;
 
     final bool isArabic = ChatHelper.isArabic(postText);
-    final TextDirection textDirection = isArabic
-        ? TextDirection.rtl
-        : TextDirection.ltr;
+    final TextDirection textDirection =
+        isArabic ? TextDirection.rtl : TextDirection.ltr;
 
-    final String readMoreTxt = isArabic
-        ? '...قراءة المزيد'
-        : context.l10n.readMore;
+    final String readMoreTxt =
+        isArabic ? '...قراءة المزيد' : context.l10n.readMore;
     final String readLessTxt = isArabic ? 'عرض أقل' : context.l10n.showLess;
 
     final textStyle =
@@ -74,13 +72,14 @@ class _PostTxtContentWidgetState extends State<PostTxtContentWidget> {
 
               return GestureDetector(
                 behavior: HitTestBehavior.deferToChild,
-                onTap: (_isExpanded || !isOverflowing)
-                    ? null // Let the tap bubble up to the post item if already expanded
-                    : () {
-                        setState(() {
-                          _isExpanded = true;
-                        });
-                      },
+                onTap:
+                    (_isExpanded || !isOverflowing)
+                        ? null // Let the tap bubble up to the post item if already expanded
+                        : () {
+                          setState(() {
+                            _isExpanded = true;
+                          });
+                        },
                 child: MessageLinkPreview(
                   text: postText,
                   isMe: false,
@@ -88,16 +87,18 @@ class _PostTxtContentWidgetState extends State<PostTxtContentWidget> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Align(
-                        alignment: isArabic
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
+                        alignment:
+                            isArabic
+                                ? Alignment.centerRight
+                                : Alignment.centerLeft,
                         child: MentionRichText(
                           text: postText,
                           mentions: widget.post.mentions,
                           maxLines: _isExpanded ? null : maxLines,
-                          overflow: _isExpanded
-                              ? TextOverflow.visible
-                              : TextOverflow.ellipsis,
+                          overflow:
+                              _isExpanded
+                                  ? TextOverflow.visible
+                                  : TextOverflow.ellipsis,
                           style: textStyle,
                           onMentionTap: (userId, name) {
                             final currentUserId = SupabaseProvider.idOrNull;
@@ -109,11 +110,11 @@ class _PostTxtContentWidgetState extends State<PostTxtContentWidget> {
                               } else {
                                 final authorName =
                                     (widget.post.authorName
-                                            ?.trim()
-                                            .isNotEmpty ??
-                                        false)
-                                    ? widget.post.authorName!.trim()
-                                    : context.l10n.someone;
+                                                ?.trim()
+                                                .isNotEmpty ??
+                                            false)
+                                        ? widget.post.authorName!.trim()
+                                        : context.l10n.someone;
                                 AppToast.info(
                                   context.l10n.mentionedYouInThis3(authorName),
                                 );

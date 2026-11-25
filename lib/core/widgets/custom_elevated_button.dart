@@ -53,9 +53,8 @@ class _CustomElevatedButtonState extends State<CustomElevatedButton> {
   Widget build(BuildContext context) {
     final bool isBusy = widget.isLoading || widget.isSuccess;
     final Color baseBgColor = widget.bgColor ?? Theme.of(context).primaryColor;
-    final Color effectiveBgColor = widget.isSuccess
-        ? _successGreen
-        : baseBgColor;
+    final Color effectiveBgColor =
+        widget.isSuccess ? _successGreen : baseBgColor;
     final Color effectiveFgColor = widget.txtColor ?? Colors.white;
 
     return ElevatedButton(
@@ -72,11 +71,12 @@ class _CustomElevatedButtonState extends State<CustomElevatedButton> {
         side: widget.side,
         elevation: widget.elevation,
       ),
-      onPressed: isBusy
-          ? null
-          : (widget.onPressed == null
-                ? null
-                : () {
+      onPressed:
+          isBusy
+              ? null
+              : (widget.onPressed == null
+                  ? null
+                  : () {
                     HapticFeedback.lightImpact();
                     widget.onPressed!();
                   }),

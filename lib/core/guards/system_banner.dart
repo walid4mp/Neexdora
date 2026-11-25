@@ -52,15 +52,17 @@ class SystemBannerStack extends StatelessWidget {
             _BannerTile(
               key: const ValueKey('broadcast-banner'),
               color: _colorFor(status.bannerSeverity),
-              foreground: status.bannerSeverity == SystemBannerSeverity.warning
-                  ? Colors.black87
-                  : Colors.white,
+              foreground:
+                  status.bannerSeverity == SystemBannerSeverity.warning
+                      ? Colors.black87
+                      : Colors.white,
               icon: _iconFor(status.bannerSeverity),
               message: status.bannerMessage!,
               dismissLabel: l10n.systemBannerDismiss,
-              onDismiss: status.bannerSeverity == SystemBannerSeverity.critical
-                  ? null
-                  : () => onDismiss(broadcastBannerKey(status)),
+              onDismiss:
+                  status.bannerSeverity == SystemBannerSeverity.critical
+                      ? null
+                      : () => onDismiss(broadcastBannerKey(status)),
             ),
           if (showUpdate)
             _BannerTile(

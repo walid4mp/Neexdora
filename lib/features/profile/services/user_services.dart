@@ -20,11 +20,12 @@ class UserService {
       throw Exception("No internet connection. Please check your network.");
     }
     try {
-      final data = await _supabase
-          .from(SupabaseConstants.users)
-          .select()
-          .eq(UserColumns.id, userId)
-          .maybeSingle();
+      final data =
+          await _supabase
+              .from(SupabaseConstants.users)
+              .select()
+              .eq(UserColumns.id, userId)
+              .maybeSingle();
 
       if (data == null) throw 'User not found';
 
@@ -107,11 +108,12 @@ class UserService {
 
   Future<String?> fetchUserName(String userId) async {
     try {
-      final data = await _supabase
-          .from(SupabaseConstants.users)
-          .select(UserColumns.name)
-          .eq(UserColumns.id, userId)
-          .maybeSingle();
+      final data =
+          await _supabase
+              .from(SupabaseConstants.users)
+              .select(UserColumns.name)
+              .eq(UserColumns.id, userId)
+              .maybeSingle();
       return data?[UserColumns.name] as String?;
     } catch (e) {
       debugPrint('fetchUserName error: $e');
@@ -123,11 +125,12 @@ class UserService {
     String userId,
   ) async {
     try {
-      final data = await _supabase
-          .from(SupabaseConstants.users)
-          .select('${UserColumns.name}, ${UserColumns.imageUrl}')
-          .eq(UserColumns.id, userId)
-          .maybeSingle();
+      final data =
+          await _supabase
+              .from(SupabaseConstants.users)
+              .select('${UserColumns.name}, ${UserColumns.imageUrl}')
+              .eq(UserColumns.id, userId)
+              .maybeSingle();
       return (
         name: data?[UserColumns.name] as String?,
         avatarUrl: data?[UserColumns.imageUrl] as String?,

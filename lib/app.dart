@@ -113,161 +113,176 @@ class _MyAppState extends State<MyApp> {
           return MultiBlocProvider(
             providers: CubitProviders.themeScoped,
             child: BlocBuilder<LocaleCubit, Locale>(
-              builder: (context, locale) => MaterialApp(
-                locale: locale,
-                supportedLocales: AppLocale.supportedLocales,
-                localizationsDelegates: const [
-                  AppLocalizations.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                builder: (ctx, child) {
-                  Widget activeChild = DevicePreview.appBuilder(ctx, child);
+              builder:
+                  (context, locale) => MaterialApp(
+                    locale: locale,
+                    supportedLocales: AppLocale.supportedLocales,
+                    localizationsDelegates: const [
+                      AppLocalizations.delegate,
+                      GlobalMaterialLocalizations.delegate,
+                      GlobalWidgetsLocalizations.delegate,
+                      GlobalCupertinoLocalizations.delegate,
+                    ],
+                    builder: (ctx, child) {
+                      Widget activeChild = DevicePreview.appBuilder(ctx, child);
 
-                  return AppLockGate(
-                    child: GlobalGroupCallListener(
-                      child: MultiBlocListener(
-                        listeners: [
-                          BlocListener<CallCubit, CallState>(
-                            listener: (context, callState) async {
-                              final nav = navigatorKey.currentState;
-                              if (nav == null) return;
+                      return AppLockGate(
+                        child: GlobalGroupCallListener(
+                          child: MultiBlocListener(
+                            listeners: [
+                              BlocListener<CallCubit, CallState>(
+                                listener: (context, callState) async {
+                                  final nav = navigatorKey.currentState;
+                                  if (nav == null) return;
 
-                              if (callState is CallIncomingState) {
-                                final callId = callState.call.callId;
-                                if (!IncomingCallNavigationGuard.claim(
-                                  callId,
-                                )) {
-                                  return;
-                                }
-                                nav
-                                    .pushNamed(
-                                      AppRoutes.incomingCallRoute,
-                                      arguments: {
-                                        'callId': callState.call.callId,
-                                        'callerId': callState.call.callerId,
-                                        'callerName': callState.call.callerName,
-                                        'callerAvatar':
-                                            callState.call.callerAvatar,
-                                        'callType':
-                                            callState.call.type ==
-                                                CallType.video
-                                            ? 'video'
-                                            : 'audio',
-                                      },
-                                    )
-                                    .then(
-                                      (_) =>
-                                          IncomingCallNavigationGuard.release(
-                                            callId,
-                                          ),
+                                  if (callState is CallIncomingState) {
+                                    final callId = callState.call.callId;
+                                    if (!IncomingCallNavigationGuard.claim(
+                                      callId,
+                                    )) {
+                                      return;
+                                    }
+                                    nav
+                                        .pushNamed(
+                                          AppRoutes.incomingCallRoute,
+                                          arguments: {
+                                            'callId': callState.call.callId,
+                                            'callerId': callState.call.callerId,
+                                            'callerName':
+                                                callState.call.callerName,
+                                            'callerAvatar':
+                                                callState.call.callerAvatar,
+                                            'callType':
+                                                callState.call.type ==
+                                                        CallType.video
+                                                    ? 'video'
+                                                    : 'audio',
+                                          },
+                                        )
+                                        .then(
+                                          (_) =>
+                                              IncomingCallNavigationGuard.release(
+                                                callId,
+                                              ),
+                                        );
+                                  } else if (callState is CallDialingState) {
+                                    nav.pushNamed(
+                                      AppRoutes.dialingRoute,
+                                      arguments: callState.call,
                                     );
-                              } else if (callState is CallDialingState) {
-                                nav.pushNamed(
-                                  AppRoutes.dialingRoute,
-                                  arguments: callState.call,
-                                );
-                              } else if (callState is CallConnectedState) {
-                                final currentUser = SupabaseProvider.user;
-                                if (currentUser == null) return;
+                                  } else if (callState is CallConnectedState) {
+                                    final currentUser = SupabaseProvider.user;
+                                    if (currentUser == null) return;
 
-                                final l10n = context.l10n;
-                                final callTitle = l10n.callOngoingTitle;
-                                final callHint = l10n.callReturnHint;
+                                    final l10n = context.l10n;
+                                    final callTitle = l10n.callOngoingTitle;
+                                    final callHint = l10n.callReturnHint;
 
-                                final isCaller =
-                                    callState.call.callerId == currentUser.id;
-                                context
-                                    .read<ActiveCallSessionCubit>()
-                                    .startSingleCallSession(
-                                      callId: callState.call.callId,
-                                      title: isCaller
-                                          ? callState.call.receiverName
-                                          : callState.call.callerName,
-                                      avatarUrl: isCaller
-                                          ? callState.call.receiverAvatar
-                                          : callState.call.callerAvatar,
+                                    final isCaller =
+                                        callState.call.callerId ==
+                                        currentUser.id;
+                                    context
+                                        .read<ActiveCallSessionCubit>()
+                                        .startSingleCallSession(
+                                          callId: callState.call.callId,
+                                          title:
+                                              isCaller
+                                                  ? callState.call.receiverName
+                                                  : callState.call.callerName,
+                                          avatarUrl:
+                                              isCaller
+                                                  ? callState
+                                                      .call
+                                                      .receiverAvatar
+                                                  : callState.call.callerAvatar,
+                                          isVideo:
+                                              callState.call.type ==
+                                              CallType.video,
+                                          startedAt:
+                                              callState.call.startTime
+                                                  ?.toLocal() ??
+                                              DateTime.now(),
+                                          // Populated immediately so the ongoing-call
+                                          // notification / header can expand the call
+                                          // (CallNavigationHelper needs all three).
+                                          call: callState.call,
+                                          currentUserId: currentUser.id,
+                                          currentUserName:
+                                              callState.currentUserName,
+                                        );
+
+                                    nav.pushReplacementNamed(
+                                      AppRoutes.callRoute,
+                                      arguments: {
+                                        'call': callState.call,
+                                        'userId': currentUser.id,
+                                        'userName': callState.currentUserName,
+                                      },
+                                    );
+                                    await CallForegroundService.start(
+                                      serviceId: 101,
+                                      title: callTitle,
+                                      text: callHint,
                                       isVideo:
                                           callState.call.type == CallType.video,
-                                      startedAt:
-                                          callState.call.startTime?.toLocal() ??
-                                          DateTime.now(),
-                                      // Populated immediately so the ongoing-call
-                                      // notification / header can expand the call
-                                      // (CallNavigationHelper needs all three).
-                                      call: callState.call,
-                                      currentUserId: currentUser.id,
-                                      currentUserName:
-                                          callState.currentUserName,
                                     );
+                                  } else if (callState is CallEndedState) {
+                                    context
+                                        .read<ActiveCallSessionCubit>()
+                                        .endSession();
+                                    await context.read<CallPipCubit>().reset();
 
-                                nav.pushReplacementNamed(
-                                  AppRoutes.callRoute,
-                                  arguments: {
-                                    'call': callState.call,
-                                    'userId': currentUser.id,
-                                    'userName': callState.currentUserName,
-                                  },
-                                );
-                                await CallForegroundService.start(
-                                  serviceId: 101,
-                                  title: callTitle,
-                                  text: callHint,
-                                  isVideo:
-                                      callState.call.type == CallType.video,
-                                );
-                              } else if (callState is CallEndedState) {
-                                context
-                                    .read<ActiveCallSessionCubit>()
-                                    .endSession();
-                                await context.read<CallPipCubit>().reset();
-
-                                await CallForegroundService.stop();
-                                nav.popUntil((route) {
-                                  return route.settings.name !=
-                                          AppRoutes.callRoute &&
-                                      route.settings.name !=
-                                          AppRoutes.dialingRoute;
-                                });
-                              }
-                            },
+                                    await CallForegroundService.stop();
+                                    nav.popUntil((route) {
+                                      return route.settings.name !=
+                                              AppRoutes.callRoute &&
+                                          route.settings.name !=
+                                              AppRoutes.dialingRoute;
+                                    });
+                                  }
+                                },
+                              ),
+                              BlocListener<
+                                ConnectivityCubit,
+                                ConnectivityState
+                              >(
+                                listener: (context, connState) {
+                                  if (connState is ConnectivityRestored) {
+                                    PresenceService.instance.forceSyncNow();
+                                  }
+                                },
+                              ),
+                            ],
+                            child: Stack(
+                              children: [
+                                SystemControlGate(child: activeChild),
+                                const ConnectivityBanner(),
+                                const AppToastOverlay(),
+                                const CallPipOverlay(), // 1:1 + group calls (LiveKit)
+                                const ActiveCallHeaderWidget(),
+                              ],
+                            ),
                           ),
-                          BlocListener<ConnectivityCubit, ConnectivityState>(
-                            listener: (context, connState) {
-                              if (connState is ConnectivityRestored) {
-                                PresenceService.instance.forceSyncNow();
-                              }
-                            },
+                        ),
+                      );
+                    },
+                    debugShowCheckedModeBanner: false,
+                    title: 'Nexora',
+                    theme: state.theme.themeData,
+                    initialRoute: AppRoutes.splashViewRoute,
+                    onGenerateInitialRoutes:
+                        (initialRoute) => [
+                          AppRouter.generateRoute(
+                            const RouteSettings(
+                              name: AppRoutes.splashViewRoute,
+                            ),
                           ),
                         ],
-                        child: Stack(
-                          children: [
-                            SystemControlGate(child: activeChild),
-                            const ConnectivityBanner(),
-                            const AppToastOverlay(),
-                            const CallPipOverlay(), // 1:1 + group calls (LiveKit)
-                            const ActiveCallHeaderWidget(),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                debugShowCheckedModeBanner: false,
-                title: 'Nexora',
-                theme: state.theme.themeData,
-                initialRoute: AppRoutes.splashViewRoute,
-                onGenerateInitialRoutes: (initialRoute) => [
-                  AppRouter.generateRoute(
-                    const RouteSettings(name: AppRoutes.splashViewRoute),
+                    onGenerateRoute: AppRouter.generateRoute,
+                    onUnknownRoute: AppRouter.generateRoute,
+                    navigatorKey: navigatorKey,
+                    navigatorObservers: [_RouteObserver(), routeObserver],
                   ),
-                ],
-                onGenerateRoute: AppRouter.generateRoute,
-                onUnknownRoute: AppRouter.generateRoute,
-                navigatorKey: navigatorKey,
-                navigatorObservers: [_RouteObserver(), routeObserver],
-              ),
             ),
           );
         },

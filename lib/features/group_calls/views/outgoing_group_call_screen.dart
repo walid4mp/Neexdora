@@ -155,11 +155,12 @@ class _OutgoingGroupCallScreenState extends State<OutgoingGroupCallScreen>
     await Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => LiveKitGroupCallView(
-          call: call,
-          currentUserId: SupabaseProvider.id,
-          currentUserName: name,
-        ),
+        builder:
+            (_) => LiveKitGroupCallView(
+              call: call,
+              currentUserId: SupabaseProvider.id,
+              currentUserName: name,
+            ),
       ),
     );
   }
@@ -218,12 +219,14 @@ class _OutgoingGroupCallScreenState extends State<OutgoingGroupCallScreen>
                       SizedBox(height: metrics.topGap),
 
                       CallStatusPill(
-                        icon: isVideo
-                            ? Icons.videocam_rounded
-                            : Icons.phone_rounded,
-                        label: isVideo
-                            ? context.l10n.groupVideoCall
-                            : context.l10n.groupVoiceCall,
+                        icon:
+                            isVideo
+                                ? Icons.videocam_rounded
+                                : Icons.phone_rounded,
+                        label:
+                            isVideo
+                                ? context.l10n.groupVideoCall
+                                : context.l10n.groupVoiceCall,
                       ),
 
                       SizedBox(height: metrics.midGap),
@@ -310,9 +313,10 @@ class _OutgoingGroupCallScreenState extends State<OutgoingGroupCallScreen>
         ),
         const SizedBox(width: 6),
         AnimatedActivityText(
-          text: isVideo
-              ? context.l10n.callingGroupVideo
-              : context.l10n.callingGroupAudio,
+          text:
+              isVideo
+                  ? context.l10n.callingGroupVideo
+                  : context.l10n.callingGroupAudio,
           forceAnimate: true,
           style: TextStyle(
             color: Colors.white70,

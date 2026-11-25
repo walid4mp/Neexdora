@@ -98,9 +98,10 @@ class _StoryItemWidgetState extends State<StoryItemWidget> {
     final currentUserId = SupabaseProvider.id;
 
     return BlocListener<StoriesCubit, StoriesState>(
-      listenWhen: (_, current) =>
-          widget.story == null &&
-          (current is StoryImagePicked || current is StoryVideoPicked),
+      listenWhen:
+          (_, current) =>
+              widget.story == null &&
+              (current is StoryImagePicked || current is StoryVideoPicked),
       listener: (context, state) {
         if (ModalRoute.of(context)?.isCurrent != true) return;
         if (state is StoryImagePicked) {
@@ -125,8 +126,9 @@ class _StoryItemWidgetState extends State<StoryItemWidget> {
   Widget _buildCard(BuildContext context, String? currentUserId) {
     if (widget.isOwnTile && !_hasOwnStories) {
       return BlocBuilder<StoriesCubit, StoriesState>(
-        buildWhen: (_, current) =>
-            current is StoriesLoaded || current is AddStoryError,
+        buildWhen:
+            (_, current) =>
+                current is StoriesLoaded || current is AddStoryError,
         builder: (context, state) {
           final currentUser = context.read<HomeCubit>().currentUserData;
           final storiesCubit = context.read<StoriesCubit>();
@@ -153,9 +155,10 @@ class _StoryItemWidgetState extends State<StoryItemWidget> {
 
     return StoryCardWidget(
       story: widget.story!,
-      label: widget.story!.authorId == currentUserId
-          ? context.l10n.you
-          : widget.story!.authorName,
+      label:
+          widget.story!.authorId == currentUserId
+              ? context.l10n.you
+              : widget.story!.authorName,
       onTap: () => _openOtherUserStory(context),
     );
   }

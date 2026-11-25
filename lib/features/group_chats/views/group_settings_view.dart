@@ -235,9 +235,10 @@ class _GroupSettingsViewState extends State<GroupSettingsView> {
     final confirm = await GroupConfirmDialog.show(
       context,
       title: context.l10n.blockGroup,
-      body: liveGroup.isMember
-          ? context.l10n.youWillLeaveThe(liveGroup.name)
-          : context.l10n.theChatHistoryOn,
+      body:
+          liveGroup.isMember
+              ? context.l10n.youWillLeaveThe(liveGroup.name)
+              : context.l10n.theChatHistoryOn,
       confirmLabel: 'Block',
       confirmColor: Colors.red,
     );
@@ -325,9 +326,10 @@ class _GroupSettingsViewState extends State<GroupSettingsView> {
       return BlocBuilder<GroupDetailsCubit, GroupDetailsState>(
         bloc: detailsCubit,
         builder: (context, detailsState) {
-          final isMemberLive = detailsState is GroupDetailsLoaded
-              ? detailsState.isMember
-              : widget.group.isMember;
+          final isMemberLive =
+              detailsState is GroupDetailsLoaded
+                  ? detailsState.isMember
+                  : widget.group.isMember;
           return _buildBody(context, isMemberOverride: isMemberLive);
         },
       );
@@ -339,12 +341,13 @@ class _GroupSettingsViewState extends State<GroupSettingsView> {
     return BlocBuilder<GroupListCubit, GroupListState>(
       bloc: widget.groupListCubit,
       builder: (context, listState) {
-        final liveGroup = (listState is GroupListLoaded)
-            ? listState.groups.firstWhere(
-                (g) => g.id == widget.group.id,
-                orElse: () => widget.group,
-              )
-            : widget.group;
+        final liveGroup =
+            (listState is GroupListLoaded)
+                ? listState.groups.firstWhere(
+                  (g) => g.id == widget.group.id,
+                  orElse: () => widget.group,
+                )
+                : widget.group;
         final isMember = isMemberOverride ?? liveGroup.isMember;
 
         return GestureDetector(
@@ -409,8 +412,9 @@ class _GroupSettingsViewState extends State<GroupSettingsView> {
                           membersCubit: widget.membersCubit,
                           currentUserId: widget.currentUserId,
                           isOwner: widget.isOwner,
-                          onAdminAction: (admin, action) =>
-                              _handleAdminAction(context, admin, action),
+                          onAdminAction:
+                              (admin, action) =>
+                                  _handleAdminAction(context, admin, action),
                         ),
                         const SizedBox(height: 32),
                         if (widget.isOwner) ...[

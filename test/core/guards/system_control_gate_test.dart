@@ -31,38 +31,28 @@ void main() {
   const app = Text('APP-CONTENT');
 
   group('SystemControlGate', () {
-    testWidgets('shows only the app when nothing is restricted', (
-      tester,
-    ) async {
+    testWidgets('shows only the app when nothing is restricted', (tester) async {
       await tester.pumpWidget(
-        host(
-          SystemControlGate(service: service(AppSystemStatus.open), child: app),
-        ),
+        host(SystemControlGate(service: service(AppSystemStatus.open), child: app)),
       );
       expect(find.text('APP-CONTENT'), findsOneWidget);
       expect(find.byType(MaintenanceGateScreen), findsNothing);
     });
 
-    testWidgets('maintenance covers the app and shows the admin message', (
-      tester,
-    ) async {
+    testWidgets('maintenance covers the app and shows the admin message', (tester) async {
       final svc = service(
         const AppSystemStatus(
           maintenanceActive: true,
           maintenanceMessage: 'DB upgrade in progress',
         ),
       );
-      await tester.pumpWidget(
-        host(SystemControlGate(service: svc, child: app)),
-      );
+      await tester.pumpWidget(host(SystemControlGate(service: svc, child: app)));
       expect(find.byType(MaintenanceGateScreen), findsOneWidget);
       expect(find.text('DB upgrade in progress'), findsOneWidget);
       expect(find.text('Check again'), findsOneWidget);
     });
 
-    testWidgets('falls back to the default message and Arabic copy', (
-      tester,
-    ) async {
+    testWidgets('falls back to the default message and Arabic copy', (tester) async {
       final svc = service(const AppSystemStatus(maintenanceActive: true));
       await tester.pumpWidget(
         host(
@@ -75,24 +65,15 @@ void main() {
 
     testWidgets('bypassed callers are never blocked', (tester) async {
       final svc = service(
-        const AppSystemStatus(
-          maintenanceActive: true,
-          maintenanceBypassed: true,
-        ),
+        const AppSystemStatus(maintenanceActive: true, maintenanceBypassed: true),
       );
-      await tester.pumpWidget(
-        host(SystemControlGate(service: svc, child: app)),
-      );
+      await tester.pumpWidget(host(SystemControlGate(service: svc, child: app)));
       expect(find.byType(MaintenanceGateScreen), findsNothing);
     });
 
-    testWidgets('disappears by itself when maintenance is lifted', (
-      tester,
-    ) async {
+    testWidgets('disappears by itself when maintenance is lifted', (tester) async {
       final svc = service(const AppSystemStatus(maintenanceActive: true));
-      await tester.pumpWidget(
-        host(SystemControlGate(service: svc, child: app)),
-      );
+      await tester.pumpWidget(host(SystemControlGate(service: svc, child: app)));
       expect(find.byType(MaintenanceGateScreen), findsOneWidget);
       svc.status.value = AppSystemStatus.open;
       await tester.pump();
@@ -104,9 +85,7 @@ void main() {
         const AppSystemStatus(maintenanceActive: true),
         authed: false,
       );
-      await tester.pumpWidget(
-        host(SystemControlGate(service: svc, child: app)),
-      );
+      await tester.pumpWidget(host(SystemControlGate(service: svc, child: app)));
       await tester.tap(find.text('Staff sign in'));
       await tester.pump();
       expect(find.byType(MaintenanceGateScreen), findsNothing);
@@ -114,9 +93,7 @@ void main() {
 
     testWidgets('the blocked app is removed from semantics', (tester) async {
       final svc = service(const AppSystemStatus(maintenanceActive: true));
-      await tester.pumpWidget(
-        host(SystemControlGate(service: svc, child: app)),
-      );
+      await tester.pumpWidget(host(SystemControlGate(service: svc, child: app)));
       expect(find.byType(ExcludeSemantics), findsWidgets);
       expect(find.text('APP-CONTENT', skipOffstage: false), findsOneWidget);
     });
@@ -124,10 +101,7 @@ void main() {
     testWidgets('forced update blocks and opens the store', (tester) async {
       String? opened;
       final svc = service(
-        const AppSystemStatus(
-          updateRequired: true,
-          minSupportedVersion: '1.5.0',
-        ),
+        const AppSystemStatus(updateRequired: true, minSupportedVersion: '1.5.0'),
       );
       await tester.pumpWidget(
         host(
@@ -149,14 +123,9 @@ void main() {
       expect(opened, 'https://store.example/app');
     });
 
-    testWidgets('a failed store launch shows an inline message', (
-      tester,
-    ) async {
+    testWidgets('a failed store launch shows an inline message', (tester) async {
       final svc = service(
-        const AppSystemStatus(
-          updateRequired: true,
-          minSupportedVersion: '1.5.0',
-        ),
+        const AppSystemStatus(updateRequired: true, minSupportedVersion: '1.5.0'),
       );
       await tester.pumpWidget(
         host(
@@ -173,9 +142,7 @@ void main() {
       expect(find.textContaining("Couldn't open the store"), findsOneWidget);
     });
 
-    testWidgets('suspension shows reason, expiry and signs out', (
-      tester,
-    ) async {
+    testWidgets('suspension shows reason, expiry and signs out', (tester) async {
       var signedOut = false;
       final svc = service(
         AppSystemStatus(
@@ -201,37 +168,26 @@ void main() {
       expect(signedOut, isTrue);
     });
 
-    testWidgets('permanent suspension says there is no end date', (
-      tester,
-    ) async {
+    testWidgets('permanent suspension says there is no end date', (tester) async {
       final svc = service(
-        const AppSystemStatus(
-          isCallerSuspended: true,
-          suspensionReason: 'Abuse',
-        ),
+        const AppSystemStatus(isCallerSuspended: true, suspensionReason: 'Abuse'),
       );
       await tester.pumpWidget(
-        host(
-          SystemControlGate(service: svc, onSignOut: (_) async {}, child: app),
-        ),
+        host(SystemControlGate(service: svc, onSignOut: (_) async {}, child: app)),
       );
       expect(find.text('This suspension has no end date.'), findsOneWidget);
     });
   });
 
   group('banners', () {
-    testWidgets('broadcast banner shows above the app and can be dismissed', (
-      tester,
-    ) async {
+    testWidgets('broadcast banner shows above the app and can be dismissed', (tester) async {
       final svc = service(
         const AppSystemStatus(
           bannerMessage: 'Calls may be slow',
           bannerSeverity: SystemBannerSeverity.warning,
         ),
       );
-      await tester.pumpWidget(
-        host(SystemControlGate(service: svc, child: app)),
-      );
+      await tester.pumpWidget(host(SystemControlGate(service: svc, child: app)));
       expect(find.text('Calls may be slow'), findsOneWidget);
       expect(find.text('APP-CONTENT'), findsOneWidget);
       await tester.tap(find.byTooltip('Dismiss'));
@@ -246,20 +202,13 @@ void main() {
           bannerSeverity: SystemBannerSeverity.critical,
         ),
       );
-      await tester.pumpWidget(
-        host(SystemControlGate(service: svc, child: app)),
-      );
+      await tester.pumpWidget(host(SystemControlGate(service: svc, child: app)));
       expect(find.byTooltip('Dismiss'), findsNothing);
     });
 
-    testWidgets('recommended update is a dismissible bar, not a block', (
-      tester,
-    ) async {
+    testWidgets('recommended update is a dismissible bar, not a block', (tester) async {
       final svc = service(
-        const AppSystemStatus(
-          updateRecommended: true,
-          recommendedVersion: '1.6.0',
-        ),
+        const AppSystemStatus(updateRecommended: true, recommendedVersion: '1.6.0'),
       );
       await tester.pumpWidget(
         host(
@@ -293,10 +242,7 @@ void main() {
     test('recognises RLS rejections only', () {
       expect(
         SuspensionInterceptor.looksLikePermissionRejection(
-          const PostgrestException(
-            message: 'new row violates row-level security policy',
-            code: '42501',
-          ),
+          const PostgrestException(message: 'new row violates row-level security policy', code: '42501'),
         ),
         isTrue,
       );
@@ -306,10 +252,7 @@ void main() {
         ),
         isFalse,
       );
-      expect(
-        SuspensionInterceptor.looksLikePermissionRejection(Exception('x')),
-        isFalse,
-      );
+      expect(SuspensionInterceptor.looksLikePermissionRejection(Exception('x')), isFalse);
     });
 
     test('triggers one throttled forced status check', () async {

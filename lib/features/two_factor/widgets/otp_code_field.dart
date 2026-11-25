@@ -86,11 +86,12 @@ class OtpCodeFieldState extends State<OtpCodeField> {
               children: List.generate(widget.length, (i) {
                 final filled = i < text.length;
                 final active = i == activeIndex && widget.enabled;
-                final borderColor = widget.hasError
-                    ? Colors.redAccent
-                    : active
-                    ? AppColors.primaryColor
-                    : theme.dividerColor.withValues(alpha: 0.6);
+                final borderColor =
+                    widget.hasError
+                        ? Colors.redAccent
+                        : active
+                        ? AppColors.primaryColor
+                        : theme.dividerColor.withValues(alpha: 0.6);
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 120),
                   width: 48,

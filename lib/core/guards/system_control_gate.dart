@@ -97,9 +97,10 @@ class _SystemControlGateState extends State<SystemControlGate> {
                   status: status,
                   dismissed: _dismissed,
                   onDismiss: (key) => setState(() => _dismissed.add(key)),
-                  onUpdate: (widget.storeUrl ?? StoreLinks.url).isEmpty
-                      ? null
-                      : _openStore,
+                  onUpdate:
+                      (widget.storeUrl ?? StoreLinks.url).isEmpty
+                          ? null
+                          : _openStore,
                 ),
               )
             else

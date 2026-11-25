@@ -66,9 +66,8 @@ class ReelsFeedCubit extends Cubit<ReelsFeedState> {
       final excludeIds = Set<String>.of(_seenVideoIds);
 
       final limit = indices.length * _reelsPerSection;
-      final preferredCategories = _preferredCategories.isEmpty
-          ? null
-          : _preferredCategories;
+      final preferredCategories =
+          _preferredCategories.isEmpty ? null : _preferredCategories;
 
       var pool = await _reelsServices.fetchReelsBatch(
         limit: limit,
@@ -137,9 +136,8 @@ class ReelsFeedCubit extends Cubit<ReelsFeedState> {
       final more = await _reelsServices.fetchReelsBatch(
         limit: _loadMoreBatchSize,
         excludeIds: _seenVideoIds,
-        preferredCategories: _preferredCategories.isEmpty
-            ? null
-            : _preferredCategories,
+        preferredCategories:
+            _preferredCategories.isEmpty ? null : _preferredCategories,
       );
 
       final latest = state;

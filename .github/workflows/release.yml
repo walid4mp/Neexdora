@@ -46,6 +46,8 @@ jobs:
           cache: true
 
       - run: flutter pub get
+      - name: Verify analyzer package resolution
+        run: python3 tool/validate_pub_config.py
 
       # Re-run the gates. A tag can point at any commit, including one that
       # never went through a PR.

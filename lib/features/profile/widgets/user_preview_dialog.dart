@@ -63,8 +63,8 @@ class _UserPreviewDialogState extends State<UserPreviewDialog> {
 
     final displayName =
         (isDeleted || user.name.trim().toLowerCase() == 'deleted account')
-        ? context.l10n.deletedAccount
-        : user.name;
+            ? context.l10n.deletedAccount
+            : user.name;
     final isArabicName = ChatHelper.isArabic(displayName);
     final nameDirection = isArabicName ? TextDirection.rtl : TextDirection.ltr;
 
@@ -79,23 +79,24 @@ class _UserPreviewDialogState extends State<UserPreviewDialog> {
           Hero(
             tag: 'preview_dialog_${user.id}',
             child: GestureDetector(
-              onTap: isDeleted
-                  ? null
-                  : () {
-                      Navigator.of(context, rootNavigator: true).pushNamed(
-                        AppRoutes.fullScreenImageViewRoute,
-                        arguments: {
-                          'url':
-                              (user.imageUrl != null &&
-                                  user.imageUrl!.isNotEmpty)
-                              ? user.imageUrl!
-                              : AppImages.defaultUserImg,
-                          'tag': 'preview_dialog_${user.id}',
-                          'isAsset':
-                              user.imageUrl == null || user.imageUrl!.isEmpty,
-                        },
-                      );
-                    },
+              onTap:
+                  isDeleted
+                      ? null
+                      : () {
+                        Navigator.of(context, rootNavigator: true).pushNamed(
+                          AppRoutes.fullScreenImageViewRoute,
+                          arguments: {
+                            'url':
+                                (user.imageUrl != null &&
+                                        user.imageUrl!.isNotEmpty)
+                                    ? user.imageUrl!
+                                    : AppImages.defaultUserImg,
+                            'tag': 'preview_dialog_${user.id}',
+                            'isAsset':
+                                user.imageUrl == null || user.imageUrl!.isEmpty,
+                          },
+                        );
+                      },
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(20),
@@ -105,32 +106,33 @@ class _UserPreviewDialogState extends State<UserPreviewDialog> {
                     ClipRRect(
                       child:
                           (user.imageUrl != null && user.imageUrl!.isNotEmpty)
-                          ? CachedCloudinaryImage(
-                              secureUrl: user.imageUrl!,
-                              fit: BoxFit.cover,
-                              height: imageHeight,
-                              width: double.infinity,
-                              isAvatar: true,
-                              placeholder: (context) =>
-                                  ShimmerLowResImagePlaceholder(
-                                    secureUrl: user.imageUrl!,
-                                    height: imageHeight,
-                                    width: double.infinity,
-                                    borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(20),
+                              ? CachedCloudinaryImage(
+                                secureUrl: user.imageUrl!,
+                                fit: BoxFit.cover,
+                                height: imageHeight,
+                                width: double.infinity,
+                                isAvatar: true,
+                                placeholder:
+                                    (context) => ShimmerLowResImagePlaceholder(
+                                      secureUrl: user.imageUrl!,
+                                      height: imageHeight,
+                                      width: double.infinity,
+                                      borderRadius: const BorderRadius.vertical(
+                                        top: Radius.circular(20),
+                                      ),
                                     ),
-                                  ),
-                              errorWidget: (context, error) => Image.asset(
+                                errorWidget:
+                                    (context, error) => Image.asset(
+                                      AppImages.defaultUserImg,
+                                      fit: BoxFit.fitWidth,
+                                    ),
+                              )
+                              : Image.asset(
                                 AppImages.defaultUserImg,
                                 fit: BoxFit.fitWidth,
+                                height: imageHeight,
+                                width: double.infinity,
                               ),
-                            )
-                          : Image.asset(
-                              AppImages.defaultUserImg,
-                              fit: BoxFit.fitWidth,
-                              height: imageHeight,
-                              width: double.infinity,
-                            ),
                     ),
                     Positioned(
                       top: 0,
@@ -154,9 +156,8 @@ class _UserPreviewDialogState extends State<UserPreviewDialog> {
                         child: Text(
                           displayName,
                           textDirection: nameDirection,
-                          textAlign: isArabicName
-                              ? TextAlign.right
-                              : TextAlign.left,
+                          textAlign:
+                              isArabicName ? TextAlign.right : TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -179,77 +180,86 @@ class _UserPreviewDialogState extends State<UserPreviewDialog> {
                 bottom: Radius.circular(20),
               ),
             ),
-            child: isDeleted
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 14,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.block_rounded,
-                          size: 16,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: 0.55),
-                        ),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            context.l10n.thisAccountHasBeen,
-                            style: Theme.of(context).textTheme.bodyMedium
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.onSurface
-                                      .withValues(alpha: 0.65),
-                                ),
+            child:
+                isDeleted
+                    ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.block_rounded,
+                            size: 16,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.55),
                           ),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: Text(
+                              context.l10n.thisAccountHasBeen,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.65),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.message_outlined, color: iconColor),
+                          onPressed: () {
+                            Navigator.pop(context);
+
+                            Navigator.of(
+                              context,
+                              rootNavigator: true,
+                            ).pushNamed(
+                              AppRoutes.chatDetailsViewRoute,
+                              arguments: user,
+                            );
+                          },
+                        ),
+                        if (widget.showContactOptions) ...[
+                          CallIconButton(
+                            type: CallType.audio,
+                            receiverId: user.id,
+                            receiverName: user.name,
+                            receiverAvatar: user.imageUrl ?? '',
+                            isBlocked: _isBlocked,
+                          ),
+                          CallIconButton(
+                            type: CallType.video,
+                            receiverId: user.id,
+                            receiverName: user.name,
+                            receiverAvatar: user.imageUrl ?? '',
+                            isBlocked: _isBlocked,
+                          ),
+                        ],
+                        IconButton(
+                          icon: Icon(Icons.info_outline, color: iconColor),
+                          onPressed: () {
+                            Navigator.of(
+                              context,
+                              rootNavigator: true,
+                            ).pushNamed(
+                              AppRoutes.profileViewRoute,
+                              arguments: user.id,
+                            );
+                          },
                         ),
                       ],
                     ),
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.message_outlined, color: iconColor),
-                        onPressed: () {
-                          Navigator.pop(context);
-
-                          Navigator.of(context, rootNavigator: true).pushNamed(
-                            AppRoutes.chatDetailsViewRoute,
-                            arguments: user,
-                          );
-                        },
-                      ),
-                      if (widget.showContactOptions) ...[
-                        CallIconButton(
-                          type: CallType.audio,
-                          receiverId: user.id,
-                          receiverName: user.name,
-                          receiverAvatar: user.imageUrl ?? '',
-                          isBlocked: _isBlocked,
-                        ),
-                        CallIconButton(
-                          type: CallType.video,
-                          receiverId: user.id,
-                          receiverName: user.name,
-                          receiverAvatar: user.imageUrl ?? '',
-                          isBlocked: _isBlocked,
-                        ),
-                      ],
-                      IconButton(
-                        icon: Icon(Icons.info_outline, color: iconColor),
-                        onPressed: () {
-                          Navigator.of(context, rootNavigator: true).pushNamed(
-                            AppRoutes.profileViewRoute,
-                            arguments: user.id,
-                          );
-                        },
-                      ),
-                    ],
-                  ),
           ),
         ],
       ),

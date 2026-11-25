@@ -75,9 +75,8 @@ class _GroupChatInputBarSectionState extends State<GroupChatInputBarSection> {
   void _onEditingMessageChanged() {
     final editing = _cubit.editingMessage.value;
     if (editing == null) return;
-    final text = editing.text.isNotEmpty
-        ? editing.text
-        : (editing.caption ?? '');
+    final text =
+        editing.text.isNotEmpty ? editing.text : (editing.caption ?? '');
     widget.controller.text = text;
     widget.controller.setMentions(editing.mentions);
     widget.controller.selection = TextSelection.collapsed(offset: text.length);
@@ -140,9 +139,8 @@ class _GroupChatInputBarSectionState extends State<GroupChatInputBarSection> {
 
   Future<void> _loadMemberIds() async {
     try {
-      final ids = await context
-          .read<GroupDetailsCubit>()
-          .getMemberIdsForMentions();
+      final ids =
+          await context.read<GroupDetailsCubit>().getMemberIdsForMentions();
       if (mounted) {
         setState(() {
           _membersIds = ids;
@@ -170,20 +168,22 @@ class _GroupChatInputBarSectionState extends State<GroupChatInputBarSection> {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => BlocProvider.value(
-              value: cubit,
-              child: GroupMediaPreviewScreen(
-                file: picked.localFile!,
-                type: 'image',
-                onSend: (caption, sendFile, _) => cubit.sendMessage(
-                  text: '',
-                  messageType: 'image',
-                  imageFile: sendFile,
-                  fileSizeBytes: sendFile.lengthSync(),
-                  caption: caption,
+            builder:
+                (ctx) => BlocProvider.value(
+                  value: cubit,
+                  child: GroupMediaPreviewScreen(
+                    file: picked.localFile!,
+                    type: 'image',
+                    onSend:
+                        (caption, sendFile, _) => cubit.sendMessage(
+                          text: '',
+                          messageType: 'image',
+                          imageFile: sendFile,
+                          fileSizeBytes: sendFile.lengthSync(),
+                          caption: caption,
+                        ),
+                  ),
                 ),
-              ),
-            ),
           ),
         );
         break;
@@ -193,23 +193,25 @@ class _GroupChatInputBarSectionState extends State<GroupChatInputBarSection> {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (ctx) => BlocProvider.value(
-              value: cubit,
-              child: GroupMediaPreviewScreen(
-                file: picked.localFile!,
-                type: 'video',
-                onSend: (caption, sendFile, durationSeconds) =>
-                    cubit.sendMessage(
-                      text: '',
-                      messageType: 'video',
-                      videoFile: sendFile,
-                      fileSizeBytes: sendFile.lengthSync(),
-                      durationSeconds:
-                          durationSeconds ?? picked.durationSeconds,
-                      caption: caption,
-                    ),
-              ),
-            ),
+            builder:
+                (ctx) => BlocProvider.value(
+                  value: cubit,
+                  child: GroupMediaPreviewScreen(
+                    file: picked.localFile!,
+                    type: 'video',
+                    onSend:
+                        (caption, sendFile, durationSeconds) =>
+                            cubit.sendMessage(
+                              text: '',
+                              messageType: 'video',
+                              videoFile: sendFile,
+                              fileSizeBytes: sendFile.lengthSync(),
+                              durationSeconds:
+                                  durationSeconds ?? picked.durationSeconds,
+                              caption: caption,
+                            ),
+                  ),
+                ),
           ),
         );
         break;
@@ -289,24 +291,27 @@ class _GroupChatInputBarSectionState extends State<GroupChatInputBarSection> {
               onSend: _handleSend,
               onShowMedia: _openAttachmentSheet,
               hasReplyContext: replyTo != null,
-              targetText: (replyTo == null || replyTo.messageType == 'text')
-                  ? replyTo?.text
-                  : null,
-              mediaCaption: (replyTo != null && replyTo.messageType != 'text')
-                  ? replyTo.caption
-                  : null,
+              targetText:
+                  (replyTo == null || replyTo.messageType == 'text')
+                      ? replyTo?.text
+                      : null,
+              mediaCaption:
+                  (replyTo != null && replyTo.messageType != 'text')
+                      ? replyTo.caption
+                      : null,
               targetMediaType: AiTargetMediaType.fromWireMessageType(
                 replyTo?.messageType,
               ),
-              targetUserName: replyTo == null
-                  ? null
-                  : (replyTo.senderId == _cubit.currentUserId
-                        ? context.l10n.you
-                        : replyTo.senderName),
+              targetUserName:
+                  replyTo == null
+                      ? null
+                      : (replyTo.senderId == _cubit.currentUserId
+                          ? context.l10n.you
+                          : replyTo.senderName),
               targetImageUrl:
                   (replyTo != null && replyTo.messageType == 'image')
-                  ? replyTo.imageUrl
-                  : null,
+                      ? replyTo.imageUrl
+                      : null,
               onSendVoice: (file, seconds) {
                 context.read<GroupDetailsCubit>().sendMessage(
                   text: '',
@@ -318,8 +323,8 @@ class _GroupChatInputBarSectionState extends State<GroupChatInputBarSection> {
               onSlashAiTrigger: () {
                 AiChatCommandTrigger.showCommandMenu(
                   context: context,
-                  buildTranscript: (maxMessages) =>
-                      GroupChatTranscriptBuilder.fromMessages(
+                  buildTranscript:
+                      (maxMessages) => GroupChatTranscriptBuilder.fromMessages(
                         messages: _cubit.cachedMessages,
                         currentUserId: _cubit.currentUserId,
                         maxMessages: maxMessages,

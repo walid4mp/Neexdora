@@ -28,9 +28,10 @@ class _CallAmbientBackgroundState extends State<CallAmbientBackground>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: _isOrbit
-          ? const Duration(milliseconds: 3000)
-          : const Duration(seconds: 8),
+      duration:
+          _isOrbit
+              ? const Duration(milliseconds: 3000)
+              : const Duration(seconds: 8),
     )..repeat(reverse: _isOrbit);
   }
 
@@ -50,16 +51,16 @@ class _CallAmbientBackgroundState extends State<CallAmbientBackground>
             builder: (context, _) {
               return _isOrbit
                   ? _OrbitOrnaments(
-                      t: _controller.value,
-                      isVideo: widget.isVideo,
-                      size: constraints.biggest,
-                    )
+                    t: _controller.value,
+                    isVideo: widget.isVideo,
+                    size: constraints.biggest,
+                  )
                   : CustomPaint(
-                      painter: _DriftParticlesPainter(
-                        progress: _controller.value,
-                      ),
-                      size: constraints.biggest,
-                    );
+                    painter: _DriftParticlesPainter(
+                      progress: _controller.value,
+                    ),
+                    size: constraints.biggest,
+                  );
             },
           );
         },
@@ -144,12 +145,13 @@ class _DotGrid extends StatelessWidget {
           mainAxisSpacing: 8,
         ),
         itemCount: 16,
-        itemBuilder: (_, __) => const DecoratedBox(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-          ),
-        ),
+        itemBuilder:
+            (_, __) => const DecoratedBox(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+            ),
       ),
     );
   }

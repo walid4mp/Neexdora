@@ -45,19 +45,21 @@ class CallIconButton extends StatelessWidget {
           constraints: const BoxConstraints(),
           style: style,
           padding: padding ?? EdgeInsets.zero,
-          tooltip: isBlocked
-              ? context.l10n.unavailable
-              : (type == CallType.video
-                    ? context.l10n.videoCall
-                    : context.l10n.voiceCall),
+          tooltip:
+              isBlocked
+                  ? context.l10n.unavailable
+                  : (type == CallType.video
+                      ? context.l10n.videoCall
+                      : context.l10n.voiceCall),
           icon: Icon(
             size: size ?? 25,
             type == CallType.video
                 ? Icons.videocam_outlined
                 : Icons.call_outlined,
-            color: isDisabled
-                ? Colors.grey
-                : Theme.of(context).primaryColor.withValues(alpha: 0.85),
+            color:
+                isDisabled
+                    ? Colors.grey
+                    : Theme.of(context).primaryColor.withValues(alpha: 0.85),
           ),
           onPressed: isDisabled ? null : () => _startCall(context),
         );

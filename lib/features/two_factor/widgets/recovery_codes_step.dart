@@ -120,9 +120,13 @@ class _RecoveryCodesStepState extends State<RecoveryCodesStep> {
             const SizedBox(width: 10),
             Expanded(
               child: OutlinedButton.icon(
-                onPressed: () => SharePlus.instance.share(
-                  ShareParams(text: _asText, subject: 'Nexora recovery codes'),
-                ),
+                onPressed:
+                    () => SharePlus.instance.share(
+                      ShareParams(
+                        text: _asText,
+                        subject: 'Nexora recovery codes',
+                      ),
+                    ),
                 icon: const Icon(CupertinoIcons.share, size: 18),
                 label: Text(context.l10n.saveShare),
               ),

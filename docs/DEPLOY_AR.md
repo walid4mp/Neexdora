@@ -109,3 +109,22 @@ Secrets المطلوبة: `GOOGLE_SERVICES_JSON_BASE64`, `FIREBASE_OPTIONS_DART_
 - **إصلاحات:** البناء Release لا ينكسر بغياب `key.properties` (fallback)، إضافة `proguard-rules.pro` المفقود، `.env.example` كامل (Cloudinary/Giphy)، إزالة ملفات `coverage/build/.firebase` من الحزمة.
 - **اسم المساعد الذكي** ما زال "Syncra" داخل الكود (ملفات chat_forwarding) — غيّره إن أردت.
 - الأصول الفنية (صور الـ Onboarding، الأصوات `incoming_ring.mp3`/`message_tone.mp3`، خطوط) تأكد من حقوق استخدامها قبل النشر التجاري.
+
+
+## حل تحذير `flutter_lints` في التحليل
+
+تأكد من تشغيل الأوامر التالية من جذر المشروع وبوجود Flutter SDK مثبت:
+
+```bash
+flutter pub get
+python3 tool/validate_pub_config.py
+dart format .
+flutter analyze --no-fatal-infos
+flutter test
+```
+
+إذا كان الأمر `flutter` غير معروف في Termux، فهذا يعني أن Flutter SDK غير مثبت أو غير مضاف إلى `PATH`. لا يكفي تثبيت Dart وحده لتشغيل أوامر Flutter. يمكنك بدلًا من ذلك استخدام GitHub Actions:
+- شغّل workflow باسم **Format Dart sources** يدويًا لتنسيق الملفات بإصدار Flutter نفسه المستخدم في CI.
+- بعد ذلك شغّل workflow باسم **CI** للتحقق من التنسيق والتحليل والاختبارات.
+
+لا تحذف `include: package:flutter_lints/flutter.yaml`؛ الحزمة موجودة أصلًا في `dev_dependencies` و`pubspec.lock`.

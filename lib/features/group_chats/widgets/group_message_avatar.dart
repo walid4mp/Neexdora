@@ -30,8 +30,8 @@ class GroupMessageAvatar extends StatelessWidget {
         showDialog(
           context: context,
           barrierColor: Colors.black54,
-          builder: (_) =>
-              UserPreviewDialog(user: user, showContactOptions: true),
+          builder:
+              (_) => UserPreviewDialog(user: user, showContactOptions: true),
         );
       },
       child: PresenceAvatarWidget(
@@ -41,18 +41,20 @@ class GroupMessageAvatar extends StatelessWidget {
         child: CircleAvatar(
           radius: 16,
           backgroundColor: primary.withValues(alpha: 0.12),
-          backgroundImage: hasAvatar
-              ? AppImageProvider.avatar(message.senderAvatar!, radius: 16)
-              : null,
-          child: !hasAvatar
-              ? ClipOval(
-                  child: Image.asset(
-                    AppImages.defaultUserImg,
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
-                )
-              : null,
+          backgroundImage:
+              hasAvatar
+                  ? AppImageProvider.avatar(message.senderAvatar!, radius: 16)
+                  : null,
+          child:
+              !hasAvatar
+                  ? ClipOval(
+                    child: Image.asset(
+                      AppImages.defaultUserImg,
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                    ),
+                  )
+                  : null,
         ),
       ),
     );

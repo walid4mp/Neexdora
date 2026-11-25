@@ -32,9 +32,9 @@ class ReceiverDetailsHeaderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final displayName =
         (receiverUser.isDeleted ||
-            receiverUser.name.trim().toLowerCase() == 'deleted account')
-        ? context.l10n.deletedAccount
-        : receiverUser.name;
+                receiverUser.name.trim().toLowerCase() == 'deleted account')
+            ? context.l10n.deletedAccount
+            : receiverUser.name;
     final nameDirection = ChatHelper.getTextDirection(displayName);
 
     return Padding(
@@ -61,21 +61,22 @@ class ReceiverDetailsHeaderSection extends StatelessWidget {
                     imageUrl: receiverUser.imageUrl,
                     size: 42,
                     heroTag: receiverUser.id,
-                    onTap: receiverUser.isDeleted
-                        ? null
-                        : () {
-                            Navigator.of(
-                              context,
-                              rootNavigator: true,
-                            ).pushNamed(
-                              AppRoutes.receiverProfileViewRoute,
-                              arguments: {
-                                'user': receiverUser,
-                                'cubit': context.read<ChatDetailsCubit>(),
-                                'itemScrollController': itemScrollController,
-                              },
-                            );
-                          },
+                    onTap:
+                        receiverUser.isDeleted
+                            ? null
+                            : () {
+                              Navigator.of(
+                                context,
+                                rootNavigator: true,
+                              ).pushNamed(
+                                AppRoutes.receiverProfileViewRoute,
+                                arguments: {
+                                  'user': receiverUser,
+                                  'cubit': context.read<ChatDetailsCubit>(),
+                                  'itemScrollController': itemScrollController,
+                                },
+                              );
+                            },
                   ),
                 ),
               ],
@@ -85,18 +86,19 @@ class ReceiverDetailsHeaderSection extends StatelessWidget {
           const Gap(12),
           Expanded(
             child: InkWell(
-              onTap: receiverUser.isDeleted
-                  ? null
-                  : () {
-                      Navigator.of(context, rootNavigator: true).pushNamed(
-                        AppRoutes.receiverProfileViewRoute,
-                        arguments: {
-                          'user': receiverUser,
-                          'cubit': context.read<ChatDetailsCubit>(),
-                          'itemScrollController': itemScrollController,
-                        },
-                      );
-                    },
+              onTap:
+                  receiverUser.isDeleted
+                      ? null
+                      : () {
+                        Navigator.of(context, rootNavigator: true).pushNamed(
+                          AppRoutes.receiverProfileViewRoute,
+                          arguments: {
+                            'user': receiverUser,
+                            'cubit': context.read<ChatDetailsCubit>(),
+                            'itemScrollController': itemScrollController,
+                          },
+                        );
+                      },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
@@ -110,25 +112,29 @@ class ReceiverDetailsHeaderSection extends StatelessWidget {
                         child: Text(
                           displayName,
                           textDirection: nameDirection,
-                          style: Theme.of(context).textTheme.titleSmall!
-                              .copyWith(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleSmall!.copyWith(
+                            color: Theme.of(context).primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                       ValueListenableBuilder<bool>(
-                        valueListenable: context
-                            .read<ChatDetailsCubit>()
-                            .muteStatus,
-                        builder: (context, isMuted, _) => isMuted
-                            ? const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 4),
-                                child: MutedBadgeIcon(size: 10),
-                              )
-                            : const SizedBox.shrink(),
+                        valueListenable:
+                            context.read<ChatDetailsCubit>().muteStatus,
+                        builder:
+                            (context, isMuted, _) =>
+                                isMuted
+                                    ? const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 4,
+                                      ),
+                                      child: MutedBadgeIcon(size: 10),
+                                    )
+                                    : const SizedBox.shrink(),
                       ),
                     ],
                   ),
@@ -137,20 +143,21 @@ class ReceiverDetailsHeaderSection extends StatelessWidget {
                     fit: BoxFit.scaleDown,
                     alignment: AlignmentDirectional.centerStart,
                     child: ValueListenableBuilder<ChatActionType>(
-                      valueListenable: context
-                          .read<ChatDetailsCubit>()
-                          .receiverAction,
+                      valueListenable:
+                          context.read<ChatDetailsCubit>().receiverAction,
                       builder: (context, action, _) {
                         if (action != ChatActionType.none) {
                           return AnimatedActivityText(
-                            text: action == ChatActionType.recording
-                                ? context.l10n.recordingAudio2
-                                : context.l10n.typing,
+                            text:
+                                action == ChatActionType.recording
+                                    ? context.l10n.recordingAudio2
+                                    : context.l10n.typing,
                             forceAnimate: true,
                             style: TextStyle(
-                              color: action == ChatActionType.recording
-                                  ? Colors.red.shade700
-                                  : Colors.green,
+                              color:
+                                  action == ChatActionType.recording
+                                      ? Colors.red.shade700
+                                      : Colors.green,
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               fontStyle: FontStyle.italic,
@@ -231,18 +238,19 @@ class ReceiverDetailsHeaderSection extends StatelessWidget {
                         .activate();
                   }
                 },
-                itemBuilder: (_) => [
-                  PopupMenuItem(
-                    value: 'search',
-                    child: Row(
-                      children: [
-                        Icon(Icons.search_rounded, size: 20),
-                        Gap(10),
-                        Text(context.l10n.search),
-                      ],
-                    ),
-                  ),
-                ],
+                itemBuilder:
+                    (_) => [
+                      PopupMenuItem(
+                        value: 'search',
+                        child: Row(
+                          children: [
+                            Icon(Icons.search_rounded, size: 20),
+                            Gap(10),
+                            Text(context.l10n.search),
+                          ],
+                        ),
+                      ),
+                    ],
               ),
             ],
           ),

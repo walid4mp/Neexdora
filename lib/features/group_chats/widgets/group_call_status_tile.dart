@@ -55,11 +55,12 @@ class _GroupCallStatusTileState extends State<GroupCallStatusTile> {
     final token = ++_loadToken;
 
     try {
-      final row = await SupabaseProvider.client
-          .from('group_calls')
-          .select()
-          .eq('call_id', callId)
-          .maybeSingle();
+      final row =
+          await SupabaseProvider.client
+              .from('group_calls')
+              .select()
+              .eq('call_id', callId)
+              .maybeSingle();
       if (!mounted || token != _loadToken || row == null) return;
 
       final call = GroupCallModel.fromMap(row);
@@ -107,9 +108,10 @@ class _GroupCallStatusTileState extends State<GroupCallStatusTile> {
       margin: const EdgeInsets.symmetric(vertical: 4),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: isMissed
-            ? Colors.red.withValues(alpha: 0.1)
-            : Colors.green.withValues(alpha: 0.1),
+        color:
+            isMissed
+                ? Colors.red.withValues(alpha: 0.1)
+                : Colors.green.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

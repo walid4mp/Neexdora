@@ -169,17 +169,20 @@ class _AddStoryPreviewViewState extends State<AddStoryPreviewView> {
     if (!_shareGuard.tryFire()) return;
     FocusScope.of(context).unfocus();
 
-    final caption = _captionController.text.trim().isEmpty
-        ? null
-        : _captionController.text.trim();
+    final caption =
+        _captionController.text.trim().isEmpty
+            ? null
+            : _captionController.text.trim();
     final mentions = _captionController.validMentions;
 
     if (_selectedPrivacy == ContentPrivacy.private &&
         _selectedViewerIds.isEmpty) {
-      final selected = await Navigator.of(context, rootNavigator: true)
-          .push<Set<String>>(
-            MaterialPageRoute(builder: (_) => const AudiencePickerView()),
-          );
+      final selected = await Navigator.of(
+        context,
+        rootNavigator: true,
+      ).push<Set<String>>(
+        MaterialPageRoute(builder: (_) => const AudiencePickerView()),
+      );
       if (selected == null || selected.isEmpty) {
         _shareGuard.reset();
         return;
@@ -475,17 +478,18 @@ class _AddStoryPreviewViewState extends State<AddStoryPreviewView> {
                     width: 1.2,
                   ),
                 ),
-                suffixIcon: widget.isVideo
-                    ? null
-                    : AiActionIcon(
-                        controller: _captionController,
-                        surface: AiSurfaceType.story,
-                        generationAction: AiActionType.autocompleteCaption,
-                        actionContext: AiActionContext.storyCreation,
-                        hasMediaAttached: true,
-                        targetMediaType: AiTargetMediaType.image,
-                        imageBytesProvider: () => _file.readAsBytes(),
-                      ),
+                suffixIcon:
+                    widget.isVideo
+                        ? null
+                        : AiActionIcon(
+                          controller: _captionController,
+                          surface: AiSurfaceType.story,
+                          generationAction: AiActionType.autocompleteCaption,
+                          actionContext: AiActionContext.storyCreation,
+                          hasMediaAttached: true,
+                          targetMediaType: AiTargetMediaType.image,
+                          imageBytesProvider: () => _file.readAsBytes(),
+                        ),
               ),
             ),
 

@@ -306,9 +306,10 @@ class ChatsCubit extends Cubit<ChatsState>
       final rawText = row[MessagesColumns.messageText]?.toString() ?? '';
       final fileName = row[MessagesColumns.fileName]?.toString();
       final caption = row[MessagesColumns.caption]?.toString();
-      final preview = (messageType == 'file' || messageType == 'document')
-          ? ((fileName != null && fileName.isNotEmpty) ? fileName : rawText)
-          : (rawText.isNotEmpty ? rawText : (caption ?? ''));
+      final preview =
+          (messageType == 'file' || messageType == 'document')
+              ? ((fileName != null && fileName.isNotEmpty) ? fileName : rawText)
+              : (rawText.isNotEmpty ? rawText : (caption ?? ''));
 
       final createdAt =
           DateTime.tryParse(row[MessagesColumns.createdAt]?.toString() ?? '') ??
@@ -321,25 +322,27 @@ class ChatsCubit extends Cubit<ChatsState>
         _recordReadWatermark(otherUserId, createdAt);
       }
 
-      final nextUnread = isMe
-          ? existing.unreadCount
-          : (isActive || isRead ? 0 : existing.unreadCount + 1);
+      final nextUnread =
+          isMe
+              ? existing.unreadCount
+              : (isActive || isRead ? 0 : existing.unreadCount + 1);
 
       final isNewerOrEqual =
           existing.lastMessageTime == null ||
           !createdAt.isBefore(existing.lastMessageTime!);
 
       final updatedList = List<ChatUserModel>.from(_cachedChats);
-      updatedList[idx] = isNewerOrEqual
-          ? existing.copyWith(
-              lastMessage: preview,
-              lastMessageType: messageType,
-              lastMessageTime: createdAt,
-              lastMessageIsMe: isMe,
-              lastMessageIsRead: isRead,
-              unreadCount: nextUnread,
-            )
-          : existing.copyWith(unreadCount: nextUnread);
+      updatedList[idx] =
+          isNewerOrEqual
+              ? existing.copyWith(
+                lastMessage: preview,
+                lastMessageType: messageType,
+                lastMessageTime: createdAt,
+                lastMessageIsMe: isMe,
+                lastMessageIsRead: isRead,
+                unreadCount: nextUnread,
+              )
+              : existing.copyWith(unreadCount: nextUnread);
 
       updatedList.sort((a, b) {
         final aTime =
@@ -395,9 +398,12 @@ class ChatsCubit extends Cubit<ChatsState>
         final rawText = row[MessagesColumns.messageText]?.toString() ?? '';
         final fileName = row[MessagesColumns.fileName]?.toString();
         final caption = row[MessagesColumns.caption]?.toString();
-        nextMessage = (messageType == 'file' || messageType == 'document')
-            ? ((fileName != null && fileName.isNotEmpty) ? fileName : rawText)
-            : (rawText.isNotEmpty ? rawText : (caption ?? ''));
+        nextMessage =
+            (messageType == 'file' || messageType == 'document')
+                ? ((fileName != null && fileName.isNotEmpty)
+                    ? fileName
+                    : rawText)
+                : (rawText.isNotEmpty ? rawText : (caption ?? ''));
       }
 
       if (nextUnread != existing.unreadCount ||
@@ -429,16 +435,17 @@ class ChatsCubit extends Cubit<ChatsState>
   void _emitWithPresence() {
     if (isClosed || (_showSkeleton && _cachedChats.isEmpty)) return;
 
-    final updatedChats = _cachedChats.map((chat) {
-      final action = actionFor(chat.id);
-      final isTyping = action == ChatActionType.typing;
-      final isRecording = action == ChatActionType.recording;
+    final updatedChats =
+        _cachedChats.map((chat) {
+          final action = actionFor(chat.id);
+          final isTyping = action == ChatActionType.typing;
+          final isRecording = action == ChatActionType.recording;
 
-      if (chat.isTyping == isTyping && chat.isRecording == isRecording) {
-        return chat;
-      }
-      return chat.copyWith(isTyping: isTyping, isRecording: isRecording);
-    }).toList();
+          if (chat.isTyping == isTyping && chat.isRecording == isRecording) {
+            return chat;
+          }
+          return chat.copyWith(isTyping: isTyping, isRecording: isRecording);
+        }).toList();
 
     emit(ChatsSuccessloaded(chats: updatedChats));
   }
@@ -470,9 +477,8 @@ class ChatsCubit extends Cubit<ChatsState>
 
     if (isClosed) return;
 
-    final newList = _cachedChats
-        .where((c) => !otherUserIds.contains(c.id))
-        .toList();
+    final newList =
+        _cachedChats.where((c) => !otherUserIds.contains(c.id)).toList();
     _cachedChats = newList;
     emit(ChatsSuccessloaded(chats: newList));
     _persistChatsSnapshot(newList);
@@ -534,10 +540,11 @@ class ChatsCubit extends Cubit<ChatsState>
 
       if (isClosed || requestId != _getChatsRequestId) return;
 
-      final chats = fetchedChats
-          .where((c) => !_isHiddenByLocalClear(c))
-          .map((c) => c.copyWith(unreadCount: _effectiveUnreadCountFor(c)))
-          .toList();
+      final chats =
+          fetchedChats
+              .where((c) => !_isHiddenByLocalClear(c))
+              .map((c) => c.copyWith(unreadCount: _effectiveUnreadCountFor(c)))
+              .toList();
       _cachedChats = chats;
       _showSkeleton = false;
 

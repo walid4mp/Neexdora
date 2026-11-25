@@ -72,9 +72,10 @@ class MessageReactionPreviewHelper {
     final cleanCaption = (caption ?? '').replaceAll(RegExp(r'\s+'), ' ').trim();
 
     if (type == 'file' || type == 'document') {
-      final rawName = cleanFileName.isNotEmpty
-          ? cleanFileName
-          : (cleanBody.isNotEmpty ? cleanBody : AppL10n.current.file);
+      final rawName =
+          cleanFileName.isNotEmpty
+              ? cleanFileName
+              : (cleanBody.isNotEmpty ? cleanBody : AppL10n.current.file);
       return '📄 ${extractCleanFileName(rawName)}';
     }
 
@@ -113,13 +114,14 @@ class MessageReactionPreviewHelper {
     String? caption,
   }) {
     final cleanReactor = reactorName.trim();
-    final actor = isMe
-        ? AppL10n.current.you
-        : (cleanReactor.isNotEmpty
-              ? (cleanReactor.toLowerCase() == 'deleted account'
+    final actor =
+        isMe
+            ? AppL10n.current.you
+            : (cleanReactor.isNotEmpty
+                ? (cleanReactor.toLowerCase() == 'deleted account'
                     ? AppL10n.current.deletedAccount
                     : cleanReactor)
-              : AppL10n.current.someone);
+                : AppL10n.current.someone);
 
     final emoji = resolveEmoji(reactionType);
     final snippet = getMessageFallback(
@@ -147,29 +149,30 @@ class MessageReactionPreviewHelper {
     );
 
     final enReactIdx = localizedPreview.indexOf(' react with ');
-    final enToIdx = enReactIdx != -1
-        ? localizedPreview.indexOf(' to ', enReactIdx + 12)
-        : -1;
+    final enToIdx =
+        enReactIdx != -1
+            ? localizedPreview.indexOf(' to ', enReactIdx + 12)
+            : -1;
 
     final arReactIdx = localizedPreview.indexOf(' تفاعل بـ ');
-    final arToIdx = arReactIdx != -1
-        ? localizedPreview.indexOf(' على ', arReactIdx + 10)
-        : -1;
+    final arToIdx =
+        arReactIdx != -1
+            ? localizedPreview.indexOf(' على ', arReactIdx + 10)
+            : -1;
 
     final isEn = enReactIdx != -1 && enToIdx != -1;
     final isAr = arReactIdx != -1 && arToIdx != -1;
 
     if (!isEn && !isAr) {
-      final isRtlLocale = AppL10n.current.localeName.toLowerCase().startsWith(
-        'ar',
-      );
+      final isRtlLocale = AppL10n.current.localeName.toLowerCase().startsWith('ar');
       return Text(
         rawPreview,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        textDirection: isRtlLocale
-            ? TextDirection.rtl
-            : BidiTextHelper.detectDirection(rawPreview),
+        textDirection:
+            isRtlLocale
+                ? TextDirection.rtl
+                : BidiTextHelper.detectDirection(rawPreview),
         textAlign: isRtlLocale ? TextAlign.right : TextAlign.left,
         style: style,
       );
@@ -233,7 +236,9 @@ class MessageReactionPreviewHelper {
     final emoji = rawPreview.substring(enReactIdx + 12, enToIdx).trim();
     String target = rawPreview.substring(enToIdx + 4).trim();
 
-    if (target.length >= 2 && target.startsWith('"') && target.endsWith('"')) {
+    if (target.length >= 2 &&
+        target.startsWith('"') &&
+        target.endsWith('"')) {
       target = target.substring(1, target.length - 1).trim();
     }
 

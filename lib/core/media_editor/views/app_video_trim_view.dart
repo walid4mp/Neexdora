@@ -396,14 +396,15 @@ class _AppVideoTrimViewState extends State<AppVideoTrimView> {
                         children: List.generate(_thumbCount, (i) {
                           final data = i < _thumbs.length ? _thumbs[i] : null;
                           return Expanded(
-                            child: data == null
-                                ? Container(color: AppColors.grey9)
-                                : Image.memory(
-                                    data,
-                                    fit: BoxFit.cover,
-                                    height: _stripHeight,
-                                    gaplessPlayback: true,
-                                  ),
+                            child:
+                                data == null
+                                    ? Container(color: AppColors.grey9)
+                                    : Image.memory(
+                                      data,
+                                      fit: BoxFit.cover,
+                                      height: _stripHeight,
+                                      gaplessPlayback: true,
+                                    ),
                           );
                         }),
                       ),
@@ -532,10 +533,11 @@ class _TrimHandleShape extends RangeSliderThumbShape {
     canvas.drawRRect(rrect, Paint()..color = color);
 
     // Grip lines
-    final grip = Paint()
-      ..color = Colors.white
-      ..strokeWidth = 1.5
-      ..strokeCap = StrokeCap.round;
+    final grip =
+        Paint()
+          ..color = Colors.white
+          ..strokeWidth = 1.5
+          ..strokeCap = StrokeCap.round;
     canvas.drawLine(
       Offset(center.dx, center.dy - 8),
       Offset(center.dx, center.dy + 8),

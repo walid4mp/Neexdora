@@ -105,14 +105,18 @@ class _ForwardTargetPickerViewState extends State<ForwardTargetPickerView> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final displayedPeople = _people.where((user) {
-      final name = (user['name'] as String? ?? '').toLowerCase();
-      return name.contains(_searchQuery.toLowerCase());
-    }).toList();
+    final displayedPeople =
+        _people.where((user) {
+          final name = (user['name'] as String? ?? '').toLowerCase();
+          return name.contains(_searchQuery.toLowerCase());
+        }).toList();
 
-    final displayedGroups = _groups
-        .where((g) => g.name.toLowerCase().contains(_searchQuery.toLowerCase()))
-        .toList();
+    final displayedGroups =
+        _groups
+            .where(
+              (g) => g.name.toLowerCase().contains(_searchQuery.toLowerCase()),
+            )
+            .toList();
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -167,27 +171,29 @@ class _ForwardTargetPickerViewState extends State<ForwardTargetPickerView> {
                       color: Colors.grey,
                     ),
                     filled: true,
-                    fillColor: theme.brightness == Brightness.dark
-                        ? Colors.grey.shade900
-                        : Colors.grey.shade100,
+                    fillColor:
+                        theme.brightness == Brightness.dark
+                            ? Colors.grey.shade900
+                            : Colors.grey.shade100,
                     contentPadding: const EdgeInsets.symmetric(vertical: 0),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
                       borderSide: BorderSide.none,
                     ),
-                    suffixIcon: _searchQuery.isNotEmpty
-                        ? IconButton(
-                            icon: const Icon(
-                              Icons.clear,
-                              size: 18,
-                              color: Colors.grey,
-                            ),
-                            onPressed: () {
-                              _searchController.clear();
-                              setState(() => _searchQuery = '');
-                            },
-                          )
-                        : null,
+                    suffixIcon:
+                        _searchQuery.isNotEmpty
+                            ? IconButton(
+                              icon: const Icon(
+                                Icons.clear,
+                                size: 18,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                _searchController.clear();
+                                setState(() => _searchQuery = '');
+                              },
+                            )
+                            : null,
                   ),
                 ),
               ),
@@ -204,19 +210,20 @@ class _ForwardTargetPickerViewState extends State<ForwardTargetPickerView> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: _totalSelected == 0
-                          ? null
-                          : () => Navigator.pop(
-                              context,
-                              ForwardTargetSelection(
-                                userIds: _selectedUserIds,
-                                groups: {
-                                  for (final group in _groups)
-                                    if (_selectedGroupIds.contains(group.id))
-                                      group.id: group.name,
-                                },
+                      onPressed:
+                          _totalSelected == 0
+                              ? null
+                              : () => Navigator.pop(
+                                context,
+                                ForwardTargetSelection(
+                                  userIds: _selectedUserIds,
+                                  groups: {
+                                    for (final group in _groups)
+                                      if (_selectedGroupIds.contains(group.id))
+                                        group.id: group.name,
+                                  },
+                                ),
                               ),
-                            ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: theme.primaryColor,
                         foregroundColor: Colors.white,
@@ -390,9 +397,10 @@ class _ForwardTargetPickerViewState extends State<ForwardTargetPickerView> {
           width: 1.5,
         ),
       ),
-      child: isSelected
-          ? const Icon(Icons.check_rounded, size: 16, color: Colors.white)
-          : null,
+      child:
+          isSelected
+              ? const Icon(Icons.check_rounded, size: 16, color: Colors.white)
+              : null,
     );
   }
 
@@ -470,9 +478,10 @@ class _ForwardTargetPickerViewState extends State<ForwardTargetPickerView> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: isSelected
-                ? theme.primaryColor.withValues(alpha: 0.08)
-                : Colors.transparent,
+            color:
+                isSelected
+                    ? theme.primaryColor.withValues(alpha: 0.08)
+                    : Colors.transparent,
           ),
           child: Row(
             children: [
@@ -518,29 +527,32 @@ class _ForwardTargetPickerViewState extends State<ForwardTargetPickerView> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: isSelected
-                ? theme.primaryColor.withValues(alpha: 0.08)
-                : Colors.transparent,
+            color:
+                isSelected
+                    ? theme.primaryColor.withValues(alpha: 0.08)
+                    : Colors.transparent,
           ),
           child: Row(
             children: [
               CircleAvatar(
                 radius: 23,
                 backgroundColor: theme.primaryColor.withValues(alpha: 0.12),
-                backgroundImage: hasAvatar
-                    ? AppImageProvider.avatar(group.avatarUrl!, radius: 23)
-                    : null,
-                child: !hasAvatar
-                    ? Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage(AppImages.defaultGroupImg),
-                            fit: BoxFit.cover,
+                backgroundImage:
+                    hasAvatar
+                        ? AppImageProvider.avatar(group.avatarUrl!, radius: 23)
+                        : null,
+                child:
+                    !hasAvatar
+                        ? Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage(AppImages.defaultGroupImg),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      )
-                    : null,
+                        )
+                        : null,
               ),
               const SizedBox(width: 14),
               Expanded(

@@ -207,15 +207,13 @@ class _DocumentGridTileState extends State<DocumentGridTile> {
     final (fileIcon, iconAccent) = FileIconHelper.getIconAndColor(ext, primary);
 
     final dotIndex = fileName.lastIndexOf('.');
-    final baseName = dotIndex != -1
-        ? fileName.substring(0, dotIndex)
-        : fileName;
+    final baseName =
+        dotIndex != -1 ? fileName.substring(0, dotIndex) : fileName;
     final extPart = dotIndex != -1 ? fileName.substring(dotIndex + 1) : '';
     final isArabic =
         BidiTextHelper.detectDirection(baseName) == TextDirection.rtl;
-    final displayName = isArabic && extPart.isNotEmpty
-        ? '$baseName .$extPart'
-        : fileName;
+    final displayName =
+        isArabic && extPart.isNotEmpty ? '$baseName .$extPart' : fileName;
 
     final sizeStr = formatMediaFileSize(widget.item.fileSizeBytes);
     final isDownloaded = _localPath != null || _isMe;
@@ -226,9 +224,10 @@ class _DocumentGridTileState extends State<DocumentGridTile> {
       borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(
-          color: isDark
-              ? iconAccent.withValues(alpha: 0.14)
-              : iconAccent.withValues(alpha: 0.08),
+          color:
+              isDark
+                  ? iconAccent.withValues(alpha: 0.14)
+                  : iconAccent.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: iconAccent.withValues(alpha: isDark ? 0.35 : 0.22),
@@ -247,60 +246,63 @@ class _DocumentGridTileState extends State<DocumentGridTile> {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: _isDownloading
-                      ? Colors.transparent
-                      : (isDownloaded
-                            ? (isDark
+                  color:
+                      _isDownloading
+                          ? Colors.transparent
+                          : (isDownloaded
+                              ? (isDark
                                   ? Colors.white.withValues(alpha: 0.08)
                                   : Colors.white)
-                            : iconAccent.withValues(alpha: 0.15)),
+                              : iconAccent.withValues(alpha: 0.15)),
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: _isDownloading
-                      ? null
-                      : [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.06),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                ),
-                alignment: Alignment.center,
-                child: _isDownloading
-                    ? SizedBox(
-                        width: 34,
-                        height: 34,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            TweenAnimationBuilder<double>(
-                              tween: Tween(begin: 0, end: clamped),
-                              duration: const Duration(milliseconds: 200),
-                              curve: Curves.easeOut,
-                              builder: (context, value, _) {
-                                return CustomPaint(
-                                  size: const Size(34, 34),
-                                  painter: ModernProgressPainter(
-                                    progress: value,
-                                    backgroundColor: iconAccent.withValues(
-                                      alpha: 0.22,
-                                    ),
-                                    progressColor: iconAccent,
-                                  ),
-                                );
-                              },
-                            ),
-                            Icon(
-                              Icons.close_rounded,
-                              size: 14,
-                              color: iconAccent,
+                  boxShadow:
+                      _isDownloading
+                          ? null
+                          : [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.06),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
                             ),
                           ],
-                        ),
-                      )
-                    : (isDownloaded
-                          ? FaIcon(fileIcon, color: iconAccent, size: 20)
-                          : Icon(
+                ),
+                alignment: Alignment.center,
+                child:
+                    _isDownloading
+                        ? SizedBox(
+                          width: 34,
+                          height: 34,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              TweenAnimationBuilder<double>(
+                                tween: Tween(begin: 0, end: clamped),
+                                duration: const Duration(milliseconds: 200),
+                                curve: Curves.easeOut,
+                                builder: (context, value, _) {
+                                  return CustomPaint(
+                                    size: const Size(34, 34),
+                                    painter: ModernProgressPainter(
+                                      progress: value,
+                                      backgroundColor: iconAccent.withValues(
+                                        alpha: 0.22,
+                                      ),
+                                      progressColor: iconAccent,
+                                    ),
+                                  );
+                                },
+                              ),
+                              Icon(
+                                Icons.close_rounded,
+                                size: 14,
+                                color: iconAccent,
+                              ),
+                            ],
+                          ),
+                        )
+                        : (isDownloaded
+                            ? FaIcon(fileIcon, color: iconAccent, size: 20)
+                            : Icon(
                               Icons.arrow_downward_rounded,
                               color: iconAccent,
                               size: 20,
@@ -317,11 +319,12 @@ class _DocumentGridTileState extends State<DocumentGridTile> {
               style: theme.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w700,
                 fontSize: 11,
-                color: isDark
-                    ? Colors.white
-                    : (iconAccent.computeLuminance() < 0.45
-                          ? iconAccent
-                          : theme.colorScheme.onSurface),
+                color:
+                    isDark
+                        ? Colors.white
+                        : (iconAccent.computeLuminance() < 0.45
+                            ? iconAccent
+                            : theme.colorScheme.onSurface),
               ),
             ),
             const SizedBox(height: 4),

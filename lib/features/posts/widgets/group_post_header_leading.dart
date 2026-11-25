@@ -38,13 +38,17 @@ class GroupPostHeaderLeading extends StatelessWidget {
               child: SizedBox(
                 width: 44,
                 height: 44,
-                child: hasAvatar
-                    ? CachedCloudinaryImage(
-                        secureUrl: groupAvatarUrl!,
-                        fit: BoxFit.cover,
-                        isAvatar: true,
-                      )
-                    : Image.asset(AppImages.defaultGroupImg, fit: BoxFit.cover),
+                child:
+                    hasAvatar
+                        ? CachedCloudinaryImage(
+                          secureUrl: groupAvatarUrl!,
+                          fit: BoxFit.cover,
+                          isAvatar: true,
+                        )
+                        : Image.asset(
+                          AppImages.defaultGroupImg,
+                          fit: BoxFit.cover,
+                        ),
               ),
             ),
           ),

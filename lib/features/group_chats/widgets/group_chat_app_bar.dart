@@ -39,18 +39,20 @@ class GroupChatAppBar extends StatelessWidget implements PreferredSizeWidget {
 
     return BlocBuilder<GroupDetailsCubit, GroupDetailsState>(
       builder: (context, detailsState) {
-        final isMemberLive = detailsState is GroupDetailsLoaded
-            ? detailsState.isMember
-            : group.isMember;
+        final isMemberLive =
+            detailsState is GroupDetailsLoaded
+                ? detailsState.isMember
+                : group.isMember;
 
         return BlocBuilder<GroupListCubit, GroupListState>(
           builder: (context, state) {
-            final updatedGroup = (state is GroupListLoaded)
-                ? state.groups.firstWhere(
-                    (g) => g.id == group.id,
-                    orElse: () => group,
-                  )
-                : group;
+            final updatedGroup =
+                (state is GroupListLoaded)
+                    ? state.groups.firstWhere(
+                      (g) => g.id == group.id,
+                      orElse: () => group,
+                    )
+                    : group;
             final avatarUrl = updatedGroup.avatarUrl;
             final nameDirection = ChatHelper.getTextDirection(
               updatedGroup.name,
@@ -65,34 +67,39 @@ class GroupChatAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
               titleSpacing: 0,
               title: GestureDetector(
-                onTap: () => Navigator.of(context).pushNamed(
-                  AppRoutes.groupInfoViewRoute,
-                  arguments: {
-                    'group': group,
-                    'cubit': context.read<GroupDetailsCubit>(),
-                    'itemScrollController': itemScrollController,
-                  },
-                ),
+                onTap:
+                    () => Navigator.of(context).pushNamed(
+                      AppRoutes.groupInfoViewRoute,
+                      arguments: {
+                        'group': group,
+                        'cubit': context.read<GroupDetailsCubit>(),
+                        'itemScrollController': itemScrollController,
+                      },
+                    ),
                 child: Row(
                   children: [
                     CircleAvatar(
                       radius: 20,
                       backgroundColor: primary.withValues(alpha: 0.12),
-                      backgroundImage: hasAvatar
-                          ? AppImageProvider.avatar(avatarUrl!, radius: 20)
-                          : null,
-                      child: !hasAvatar
-                          ? Container(
-                              padding: EdgeInsets.zero,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                  image: AssetImage(AppImages.defaultGroupImg),
-                                  fit: BoxFit.cover,
+                      backgroundImage:
+                          hasAvatar
+                              ? AppImageProvider.avatar(avatarUrl!, radius: 20)
+                              : null,
+                      child:
+                          !hasAvatar
+                              ? Container(
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                      AppImages.defaultGroupImg,
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                            )
-                          : null,
+                              )
+                              : null,
                     ),
                     const Gap(10),
                     Expanded(
@@ -123,11 +130,12 @@ class GroupChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                             presence: updatedGroup.presence,
                             fallback: GroupMembersOnlineLabel(
                               groupId: updatedGroup.id,
-                              style: Theme.of(context).textTheme.titleSmall!
-                                  .copyWith(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w300,
-                                  ),
+                              style: Theme.of(
+                                context,
+                              ).textTheme.titleSmall!.copyWith(
+                                fontSize: 11,
+                                fontWeight: FontWeight.w300,
+                              ),
                             ),
                           ),
                         ],
@@ -163,42 +171,43 @@ class GroupChatAppBar extends StatelessWidget implements PreferredSizeWidget {
                           .activate();
                     }
                   },
-                  itemBuilder: (_) => [
-                    PopupMenuItem(
-                      value: 'search',
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.search_rounded,
-                            size: 18,
-                            color: Colors.black45,
+                  itemBuilder:
+                      (_) => [
+                        PopupMenuItem(
+                          value: 'search',
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.search_rounded,
+                                size: 18,
+                                color: Colors.black45,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                context.l10n.search,
+                                style: TextStyle(color: Colors.black45),
+                              ),
+                            ],
                           ),
-                          SizedBox(width: 8),
-                          Text(
-                            context.l10n.search,
-                            style: TextStyle(color: Colors.black45),
+                        ),
+                        PopupMenuItem(
+                          value: 'info',
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.info_outline,
+                                size: 18,
+                                color: Colors.black45,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                context.l10n.groupInfo,
+                                style: TextStyle(color: Colors.black45),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                    PopupMenuItem(
-                      value: 'info',
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.info_outline,
-                            size: 18,
-                            color: Colors.black45,
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            context.l10n.groupInfo,
-                            style: TextStyle(color: Colors.black45),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                        ),
+                      ],
                 ),
               ],
             );
@@ -270,9 +279,10 @@ class _GroupCallActionsSectionState extends State<_GroupCallActionsSection> {
               return Padding(
                 padding: const EdgeInsets.only(right: 2),
                 child: Material(
-                  color: isBusyWithOtherCall
-                      ? Colors.grey
-                      : const Color(0xFF16A34A),
+                  color:
+                      isBusyWithOtherCall
+                          ? Colors.grey
+                          : const Color(0xFF16A34A),
                   borderRadius: BorderRadius.circular(16),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(16),
@@ -322,13 +332,14 @@ class _GroupCallActionsSectionState extends State<_GroupCallActionsSection> {
                     color: isLocalUserBusy ? Colors.grey : primary,
                     size: 22,
                   ),
-                  onPressed: isLocalUserBusy
-                      ? null
-                      : () => GroupCallInitiator.initiate(
-                          context,
-                          widget.group,
-                          GroupCallType.audio,
-                        ),
+                  onPressed:
+                      isLocalUserBusy
+                          ? null
+                          : () => GroupCallInitiator.initiate(
+                            context,
+                            widget.group,
+                            GroupCallType.audio,
+                          ),
                 ),
                 IconButton(
                   tooltip: context.l10n.videoCall,
@@ -337,13 +348,14 @@ class _GroupCallActionsSectionState extends State<_GroupCallActionsSection> {
                     color: isLocalUserBusy ? Colors.grey : primary,
                     size: 22,
                   ),
-                  onPressed: isLocalUserBusy
-                      ? null
-                      : () => GroupCallInitiator.initiate(
-                          context,
-                          widget.group,
-                          GroupCallType.video,
-                        ),
+                  onPressed:
+                      isLocalUserBusy
+                          ? null
+                          : () => GroupCallInitiator.initiate(
+                            context,
+                            widget.group,
+                            GroupCallType.video,
+                          ),
                 ),
               ],
             );

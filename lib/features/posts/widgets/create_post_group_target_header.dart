@@ -39,16 +39,17 @@ class CreatePostGroupTargetHeader extends StatelessWidget {
                 child: SizedBox(
                   width: 48,
                   height: 48,
-                  child: hasAvatar
-                      ? CachedCloudinaryImage(
-                          secureUrl: group.avatarUrl!,
-                          fit: BoxFit.cover,
-                          isAvatar: true,
-                        )
-                      : Image.asset(
-                          AppImages.defaultGroupImg,
-                          fit: BoxFit.cover,
-                        ),
+                  child:
+                      hasAvatar
+                          ? CachedCloudinaryImage(
+                            secureUrl: group.avatarUrl!,
+                            fit: BoxFit.cover,
+                            isAvatar: true,
+                          )
+                          : Image.asset(
+                            AppImages.defaultGroupImg,
+                            fit: BoxFit.cover,
+                          ),
                 ),
               ),
               PositionedDirectional(

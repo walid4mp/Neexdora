@@ -48,12 +48,13 @@ class FeedbackService {
   }
 
   Future<UserFeedback?> fetchById(String id) async {
-    final row = await _client
-        .from(_table)
-        .select(_columns)
-        .eq('id', id)
-        .eq('user_id', SupabaseProvider.id)
-        .maybeSingle();
+    final row =
+        await _client
+            .from(_table)
+            .select(_columns)
+            .eq('id', id)
+            .eq('user_id', SupabaseProvider.id)
+            .maybeSingle();
     return row == null ? null : UserFeedback.fromMap(row);
   }
 
@@ -82,24 +83,24 @@ class FeedbackService {
   }) async {
     final contact = contactMethod?.trim();
     try {
-      final row = await _client
-          .from(_table)
-          .insert({
-            'user_id': SupabaseProvider.id,
-            'category': category.value,
-            'message': message.trim(),
-            'rating': rating,
-            'image_url': image?.secureUrl,
-            'image_public_id': image?.publicId,
-            'audio_url': audio?.secureUrl,
-            'audio_public_id': audio?.publicId,
-            'audio_duration_seconds': audioDurationSeconds,
-            'contact_method': (contact == null || contact.isEmpty)
-                ? null
-                : contact,
-          })
-          .select(_columns)
-          .single();
+      final row =
+          await _client
+              .from(_table)
+              .insert({
+                'user_id': SupabaseProvider.id,
+                'category': category.value,
+                'message': message.trim(),
+                'rating': rating,
+                'image_url': image?.secureUrl,
+                'image_public_id': image?.publicId,
+                'audio_url': audio?.secureUrl,
+                'audio_public_id': audio?.publicId,
+                'audio_duration_seconds': audioDurationSeconds,
+                'contact_method':
+                    (contact == null || contact.isEmpty) ? null : contact,
+              })
+              .select(_columns)
+              .single();
       return UserFeedback.fromMap(row);
     } on PostgrestException catch (e) {
       if (e.message.contains('feedback_rate_limit_exceeded') ||

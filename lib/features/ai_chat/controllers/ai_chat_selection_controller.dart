@@ -72,11 +72,12 @@ class AiChatSelectionController {
 
     final allStarred = flags.every((f) => f);
     final allUnstarred = flags.every((f) => !f);
-    starState.value = allStarred
-        ? AiSelectionStarState.allStarred
-        : allUnstarred
-        ? AiSelectionStarState.allUnstarred
-        : AiSelectionStarState.mixed;
+    starState.value =
+        allStarred
+            ? AiSelectionStarState.allStarred
+            : allUnstarred
+            ? AiSelectionStarState.allUnstarred
+            : AiSelectionStarState.mixed;
   }
 
   Future<void> toggleStarForSelection() async {
@@ -111,9 +112,10 @@ class AiChatSelectionController {
     starredMessageIds.value = updatedStarred;
 
     if (_sameSelection(ids)) {
-      starState.value = shouldStar
-          ? AiSelectionStarState.allStarred
-          : AiSelectionStarState.allUnstarred;
+      starState.value =
+          shouldStar
+              ? AiSelectionStarState.allStarred
+              : AiSelectionStarState.allUnstarred;
     }
   }
 

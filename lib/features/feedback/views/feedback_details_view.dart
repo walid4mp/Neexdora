@@ -91,34 +91,38 @@ class _FeedbackDetailsViewState extends State<FeedbackDetailsView> {
   void _openImage(String url) {
     showDialog<void>(
       context: context,
-      builder: (ctx) => Dialog.fullscreen(
-        backgroundColor: Colors.black,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: InteractiveViewer(
-                child: CachedNetworkImage(
-                  imageUrl: url,
-                  fit: BoxFit.contain,
-                  errorWidget: (_, __, ___) {
-                    AppToast.error(context.l10n.couldNotLoadThe);
-                    return const SizedBox.shrink();
-                  },
+      builder:
+          (ctx) => Dialog.fullscreen(
+            backgroundColor: Colors.black,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: InteractiveViewer(
+                    child: CachedNetworkImage(
+                      imageUrl: url,
+                      fit: BoxFit.contain,
+                      errorWidget: (_, __, ___) {
+                        AppToast.error(context.l10n.couldNotLoadThe);
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            SafeArea(
-              child: Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  onPressed: () => Navigator.pop(ctx),
-                  icon: const Icon(Icons.close_rounded, color: Colors.white),
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      onPressed: () => Navigator.pop(ctx),
+                      icon: const Icon(
+                        Icons.close_rounded,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -134,9 +138,10 @@ class _FeedbackDetailsViewState extends State<FeedbackDetailsView> {
         slivers: [
           SettingsDetailSliverAppBar(
             icon: item?.category.icon ?? CupertinoIcons.chat_bubble_text_fill,
-            title: item == null
-                ? context.l10n.feedback2
-                : context.l10n.feedback(item.shortId),
+            title:
+                item == null
+                    ? context.l10n.feedback2
+                    : context.l10n.feedback(item.shortId),
             subtitle:
                 item?.category.localizedName(context) ??
                 context.l10n.supportConversation,
@@ -240,16 +245,20 @@ class _FeedbackDetailsViewState extends State<FeedbackDetailsView> {
                       height: 180,
                       width: double.infinity,
                       fit: BoxFit.cover,
-                      placeholder: (_, __) => const SizedBox(
-                        height: 180,
-                        child: Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                      ),
-                      errorWidget: (_, __, ___) => const SizedBox(
-                        height: 80,
-                        child: Center(child: Icon(Icons.broken_image_outlined)),
-                      ),
+                      placeholder:
+                          (_, __) => const SizedBox(
+                            height: 180,
+                            child: Center(
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          ),
+                      errorWidget:
+                          (_, __, ___) => const SizedBox(
+                            height: 80,
+                            child: Center(
+                              child: Icon(Icons.broken_image_outlined),
+                            ),
+                          ),
                     ),
                   ),
                 ),
@@ -335,9 +344,8 @@ class _ReplyCard extends StatelessWidget {
                           color: theme.primaryColor,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: isDark
-                                ? const Color(0xFF1E1E1E)
-                                : Colors.white,
+                            color:
+                                isDark ? const Color(0xFF1E1E1E) : Colors.white,
                             width: 1.8,
                           ),
                           boxShadow: [

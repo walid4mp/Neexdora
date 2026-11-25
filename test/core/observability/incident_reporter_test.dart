@@ -370,7 +370,10 @@ void main() {
       final first = payloads.first;
       expect(first['category'], 'error');
       expect(first['severity'], 'error');
-      expect(first['stack_trace'], contains('package:nexora/f/feed.dart'));
+      expect(
+        first['stack_trace'],
+        contains('package:nexora/f/feed.dart'),
+      );
       final ctx = first['context'] as Map<String, dynamic>;
       expect(ctx['feature'], 'feed');
       expect(ctx['operation'], 'fetchPosts');
@@ -519,42 +522,46 @@ void main() {
 
     test('fingerprint ignores the pixel delta but not the direction', () {
       final a = OverflowFilter.tryParse(overflow(pixels: '14.5'), screen: 's')!;
-      final b = OverflowFilter.tryParse(
-        overflow(pixels: '200.0'),
-        screen: 's',
-      )!;
-      final c = OverflowFilter.tryParse(
-        overflow(side: 'bottom', axis: 'vertical'),
-        screen: 's',
-      )!;
+      final b =
+          OverflowFilter.tryParse(overflow(pixels: '200.0'), screen: 's')!;
+      final c =
+          OverflowFilter.tryParse(
+            overflow(side: 'bottom', axis: 'vertical'),
+            screen: 's',
+          )!;
       expect(a.fingerprint, b.fingerprint);
       expect(a.fingerprint, isNot(c.fingerprint));
     });
 
     test('skips framework frames; with no user frame the token is unknown', () {
-      final info = OverflowFilter.tryParse(
-        overflow(
-          stackText:
-              '#0      RenderFlex.performLayout (package:flutter/src/rendering/flex.dart:1:1)\n'
-              '#1      dart:async/zone.dart',
-        ),
-        screen: 's',
-      )!;
+      final info =
+          OverflowFilter.tryParse(
+            overflow(
+              stackText:
+                  '#0      RenderFlex.performLayout (package:flutter/src/rendering/flex.dart:1:1)\n'
+                  '#1      dart:async/zone.dart',
+            ),
+            screen: 's',
+          )!;
       expect(info.topUserFrame, 'unknown');
     });
 
     test('falls back to the widget-creator file path in debug text', () {
-      final info = OverflowFilter.tryParse(
-        overflow(
-          extra:
-              'The relevant error-causing widget was: Row '
-              'Row:file:///D:/flutt_projcts/nexora/lib/features/home/row.dart:55:14',
-          stackText:
-              '#0      RenderFlex.performLayout (package:flutter/a.dart:1:1)',
-        ),
-        screen: 's',
-      )!;
-      expect(info.topUserFrame, 'package:nexora/features/home/row.dart');
+      final info =
+          OverflowFilter.tryParse(
+            overflow(
+              extra:
+                  'The relevant error-causing widget was: Row '
+                  'Row:file:///D:/flutt_projcts/nexora/lib/features/home/row.dart:55:14',
+              stackText:
+                  '#0      RenderFlex.performLayout (package:flutter/a.dart:1:1)',
+            ),
+            screen: 's',
+          )!;
+      expect(
+        info.topUserFrame,
+        'package:nexora/features/home/row.dart',
+      );
       expect(info.topUserFrameLine, 55);
     });
 
@@ -568,10 +575,8 @@ void main() {
       final details = overflow(
         extra: 'Text("secret@mail.com") ?token=abc https://x.co/p?email=a@b.co',
       );
-      final info = OverflowFilter.tryParse(
-        details,
-        screen: '/home-view?uid=42',
-      )!;
+      final info =
+          OverflowFilter.tryParse(details, screen: '/home-view?uid=42')!;
 
       final everything =
           '${info.summary}|${info.title}|${jsonEncode(info.toContext())}|'
@@ -638,10 +643,11 @@ void main() {
     );
 
     test('an overflow becomes a sanitised incident payload', () async {
-      final info = OverflowFilter.tryParse(
-        overflow(extra: 'Text("secret@mail.com")'),
-        screen: '/home-view',
-      )!;
+      final info =
+          OverflowFilter.tryParse(
+            overflow(extra: 'Text("secret@mail.com")'),
+            screen: '/home-view',
+          )!;
       final r = makeReporter();
       await r.recordError(
         LayoutOverflowException(info),

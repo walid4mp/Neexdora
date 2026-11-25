@@ -46,15 +46,16 @@ class AttachmentPickerSheet extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder: (_) => AttachmentPickerSheet(
-        showVoiceOption: showVoiceOption,
-        showFileOption: showFileOption,
-        showCameraOption: showCameraOption,
-        showVideoOption: showVideoOption,
-        showGifOption: showGifOption,
-        showStickerOption: showStickerOption,
-        onRecordVoice: onRecordVoice,
-      ),
+      builder:
+          (_) => AttachmentPickerSheet(
+            showVoiceOption: showVoiceOption,
+            showFileOption: showFileOption,
+            showCameraOption: showCameraOption,
+            showVideoOption: showVideoOption,
+            showGifOption: showGifOption,
+            showStickerOption: showStickerOption,
+            onRecordVoice: onRecordVoice,
+          ),
     );
   }
 

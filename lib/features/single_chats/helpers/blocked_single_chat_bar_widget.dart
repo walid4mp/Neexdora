@@ -71,8 +71,8 @@ class BlockedSingleChatBarWidget extends StatelessWidget {
                 Text(
                   status.blockedByMe
                       ? context.l10n.youCantMessageUntil(
-                          widget.receiverUser.name,
-                        )
+                        widget.receiverUser.name,
+                      )
                       : context.l10n.youCantReplyTo,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: scheme.onSurfaceVariant,
@@ -94,10 +94,11 @@ class BlockedSingleChatBarWidget extends StatelessWidget {
                 ),
                 visualDensity: VisualDensity.compact,
               ),
-              onPressed: () => _chatCubit.toggleBlock(
-                receiverId: _receiverId,
-                otherUserName: widget.receiverUser.name,
-              ),
+              onPressed:
+                  () => _chatCubit.toggleBlock(
+                    receiverId: _receiverId,
+                    otherUserName: widget.receiverUser.name,
+                  ),
               child: Text(context.l10n.unblock),
             ),
           ],

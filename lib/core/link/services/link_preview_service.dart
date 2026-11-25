@@ -30,8 +30,8 @@ class LinkPreviewService {
       receiveTimeout: const Duration(seconds: 6),
       followRedirects: true,
       maxRedirects: 5,
-      validateStatus: (status) =>
-          status != null && (status < 400 || status == 999),
+      validateStatus:
+          (status) => status != null && (status < 400 || status == 999),
       headers: {
         'User-Agent':
             'facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)',
@@ -193,13 +193,14 @@ class LinkPreviewService {
 
     return LinkPreviewData(
       url: url,
-      title: preview.groupName != null
-          ? 'Join "${preview.groupName}"'
-          : 'Group Invitation',
+      title:
+          preview.groupName != null
+              ? 'Join "${preview.groupName}"'
+              : 'Group Invitation',
       description:
           (preview.groupTitle != null && preview.groupTitle!.isNotEmpty)
-          ? preview.groupTitle
-          : '${preview.memberCount} member${preview.memberCount == 1 ? '' : 's'} • Tap to join group',
+              ? preview.groupTitle
+              : '${preview.memberCount} member${preview.memberCount == 1 ? '' : 's'} • Tap to join group',
       imageUrl: preview.groupAvatarUrl ?? AppImages.defaultGroupImg,
       siteName: 'Social Media App',
       domain: Uri.parse(url).host,
@@ -218,9 +219,10 @@ class LinkPreviewService {
 
     return LinkPreviewData(
       url: url,
-      title: (authorName != null && authorName.isNotEmpty)
-          ? '$authorName on Social Media App'
-          : 'Post on Social Media App',
+      title:
+          (authorName != null && authorName.isNotEmpty)
+              ? '$authorName on Social Media App'
+              : 'Post on Social Media App',
       description: caption.isNotEmpty ? caption : null,
       imageUrl: post.imageUrl ?? post.videoUrl?.cloudinaryVideoThumbnailUrl,
       siteName: 'Social Media App',
@@ -235,9 +237,10 @@ class LinkPreviewService {
     final story = await StoriesServices().fetchStoryById(storyId);
     if (story == null) return null;
 
-    final caption = (story.caption != null && story.caption!.trim().isNotEmpty)
-        ? story.caption!.trim()
-        : (story.contentText?.trim() ?? '');
+    final caption =
+        (story.caption != null && story.caption!.trim().isNotEmpty)
+            ? story.caption!.trim()
+            : (story.contentText?.trim() ?? '');
 
     return LinkPreviewData(
       url: url,

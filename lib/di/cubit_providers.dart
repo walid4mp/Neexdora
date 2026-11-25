@@ -15,8 +15,10 @@ class CubitProviders {
 
   static final primary = [
     BlocProvider(
-      create: (context) =>
-          AuthCubit(context.read<SupabaseAuthServices>())..checkAuthStatus(),
+      create:
+          (context) =>
+              AuthCubit(context.read<SupabaseAuthServices>())
+                ..checkAuthStatus(),
     ),
     BlocProvider(create: (_) => CallPipCubit()),
     BlocProvider(create: (_) => ActiveCallSessionCubit(), lazy: false),
@@ -25,8 +27,9 @@ class CubitProviders {
 
   static final themeScoped = [
     BlocProvider(
-      create: (context) =>
-          ConnectivityCubit(networkStatus: NetworkStatusService.instance),
+      create:
+          (context) =>
+              ConnectivityCubit(networkStatus: NetworkStatusService.instance),
     ),
     BlocProvider(create: (_) => PresenceCubit(), lazy: false),
   ];

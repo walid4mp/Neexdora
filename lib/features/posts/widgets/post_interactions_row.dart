@@ -246,9 +246,10 @@ class _LikeButtonWidgetState extends State<_LikeButtonWidget>
   Widget build(BuildContext context) {
     final state = context.watch<PostsCubit>().state;
 
-    final currentPost = (state is PostsLoaded)
-        ? state.posts.findById(widget.post.id) ?? widget.post
-        : widget.post;
+    final currentPost =
+        (state is PostsLoaded)
+            ? state.posts.findById(widget.post.id) ?? widget.post
+            : widget.post;
 
     final String? myReaction = currentPost.myReactionEmoji;
     final bool isDefaultLike = myReaction == null || myReaction == 'like';
@@ -277,24 +278,26 @@ class _LikeButtonWidgetState extends State<_LikeButtonWidget>
                 scale: _pressed ? 0.85 : 1.0,
                 duration: const Duration(milliseconds: 100),
                 curve: Curves.easeOut,
-                child: isDefaultLike
-                    ? Icon(
-                        myReaction == 'like'
-                            ? Icons.thumb_up_alt
-                            : Icons.thumb_up_alt_outlined,
-                        color: myReaction == 'like'
-                            ? Theme.of(context).primaryColor
-                            : AppColors.grey6,
-                        size: 24,
-                      )
-                    : Text(
-                        myReaction,
-                        style: TextStyle(
-                          inherit: false,
-                          fontSize: 22,
-                          fontFamilyFallback: AppTypography.emojiFontFallback,
+                child:
+                    isDefaultLike
+                        ? Icon(
+                          myReaction == 'like'
+                              ? Icons.thumb_up_alt
+                              : Icons.thumb_up_alt_outlined,
+                          color:
+                              myReaction == 'like'
+                                  ? Theme.of(context).primaryColor
+                                  : AppColors.grey6,
+                          size: 24,
+                        )
+                        : Text(
+                          myReaction,
+                          style: TextStyle(
+                            inherit: false,
+                            fontSize: 22,
+                            fontFamilyFallback: AppTypography.emojiFontFallback,
+                          ),
                         ),
-                      ),
               ),
             ),
           ),
@@ -310,8 +313,9 @@ class _LikeButtonWidgetState extends State<_LikeButtonWidget>
                   context: context,
                   isScrollControlled: true,
                   backgroundColor: Colors.transparent,
-                  builder: (context) =>
-                      PostReactionsBottomSheet(postId: currentPost.id),
+                  builder:
+                      (context) =>
+                          PostReactionsBottomSheet(postId: currentPost.id),
                 );
               }
             }
@@ -367,13 +371,14 @@ class _CommentButtonWidget extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
           ),
-          builder: (_) => MultiBlocProvider(
-            providers: [
-              BlocProvider.value(value: postsCubit),
-              BlocProvider.value(value: commentsCubit),
-            ],
-            child: CommentsSheetSection(postId: post.id, post: post),
-          ),
+          builder:
+              (_) => MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(value: postsCubit),
+                  BlocProvider.value(value: commentsCubit),
+                ],
+                child: CommentsSheetSection(postId: post.id, post: post),
+              ),
         ).whenComplete(() {
           commentsCubit.resetExpandedComments();
         });
@@ -450,9 +455,10 @@ class _ReshareButtonWidgetState extends State<_ReshareButtonWidget>
     final primaryColor = Theme.of(context).primaryColor;
     final postsCubit = context.read<PostsCubit>();
     final bool wasShared = currentPost.isSharedByMe;
-    final String toastMessage = wasShared
-        ? context.l10n.reshareRemoved
-        : context.l10n.resharedSuccessfully;
+    final String toastMessage =
+        wasShared
+            ? context.l10n.reshareRemoved
+            : context.l10n.resharedSuccessfully;
 
     final bool success = await postsCubit.toggleSharePost(currentPost);
 
@@ -468,9 +474,10 @@ class _ReshareButtonWidgetState extends State<_ReshareButtonWidget>
   @override
   Widget build(BuildContext context) {
     final state = context.watch<PostsCubit>().state;
-    final currentPost = (state is PostsLoaded)
-        ? state.posts.findById(widget.post.id) ?? widget.post
-        : widget.post;
+    final currentPost =
+        (state is PostsLoaded)
+            ? state.posts.findById(widget.post.id) ?? widget.post
+            : widget.post;
 
     final bool isShared = currentPost.isSharedByMe;
 
@@ -486,14 +493,16 @@ class _ReshareButtonWidgetState extends State<_ReshareButtonWidget>
               scale: _scaleAnimation,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
-                transitionBuilder: (child, animation) =>
-                    ScaleTransition(scale: animation, child: child),
+                transitionBuilder:
+                    (child, animation) =>
+                        ScaleTransition(scale: animation, child: child),
                 child: Icon(
                   CupertinoIcons.arrow_2_squarepath,
                   key: ValueKey(isShared),
-                  color: isShared
-                      ? Theme.of(context).primaryColor
-                      : AppColors.grey6,
+                  color:
+                      isShared
+                          ? Theme.of(context).primaryColor
+                          : AppColors.grey6,
                   size: 24,
                 ),
               ),
@@ -523,9 +532,8 @@ class _ShareLinkButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final state = context.watch<PostsCubit>().state;
-    final currentPost = (state is PostsLoaded)
-        ? state.posts.findById(post.id) ?? post
-        : post;
+    final currentPost =
+        (state is PostsLoaded) ? state.posts.findById(post.id) ?? post : post;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -539,9 +547,10 @@ class _ShareLinkButtonWidget extends StatelessWidget {
           originalAuthorId: currentPost.authorId,
           originalAuthorName: currentPost.authorName,
           originalAuthorAvatarUrl: currentPost.authorImageUrl,
-          onShared: () => context.read<PostsCubit>().incrementLinkShareCount(
-            currentPost.id,
-          ),
+          onShared:
+              () => context.read<PostsCubit>().incrementLinkShareCount(
+                currentPost.id,
+              ),
         );
       },
       child: Padding(
@@ -614,9 +623,10 @@ class _SaveButtonWidgetState extends State<_SaveButtonWidget>
     HapticFeedback.lightImpact();
     final postsCubit = context.read<PostsCubit>();
     final bool wasSaved = currentPost.isSavedByMe;
-    final String toastMessage = wasSaved
-        ? context.l10n.postRemovedFromSaves
-        : context.l10n.postSavedSuccessfully;
+    final String toastMessage =
+        wasSaved
+            ? context.l10n.postRemovedFromSaves
+            : context.l10n.postSavedSuccessfully;
     final bool success = await postsCubit.toggleSavePost(currentPost);
     if (success) {
       AppToast.save(
@@ -630,9 +640,10 @@ class _SaveButtonWidgetState extends State<_SaveButtonWidget>
   @override
   Widget build(BuildContext context) {
     final state = context.watch<PostsCubit>().state;
-    final currentPost = (state is PostsLoaded)
-        ? state.posts.findById(widget.post.id) ?? widget.post
-        : widget.post;
+    final currentPost =
+        (state is PostsLoaded)
+            ? state.posts.findById(widget.post.id) ?? widget.post
+            : widget.post;
 
     final bool isSaved = currentPost.isSavedByMe;
 
@@ -648,8 +659,9 @@ class _SaveButtonWidgetState extends State<_SaveButtonWidget>
               scale: _scaleAnimation,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 250),
-                transitionBuilder: (child, animation) =>
-                    ScaleTransition(scale: animation, child: child),
+                transitionBuilder:
+                    (child, animation) =>
+                        ScaleTransition(scale: animation, child: child),
                 child: Icon(
                   isSaved
                       ? Icons.bookmark_rounded

@@ -50,6 +50,9 @@ jobs:
       - name: Resolve dependencies
         run: flutter pub get
 
+      - name: Verify analyzer package resolution
+        run: python3 tool/validate_pub_config.py
+
       - name: Verify formatting
         # Local equivalent:
         #   dart format --output=none --set-exit-if-changed .
@@ -88,6 +91,8 @@ jobs:
           restore-keys: pub-${{ runner.os }}-
 
       - run: flutter pub get
+      - name: Verify analyzer package resolution
+        run: python3 tool/validate_pub_config.py
 
       - name: Run tests with coverage
         # Local equivalent:
@@ -152,6 +157,8 @@ jobs:
           restore-keys: gradle-${{ runner.os }}-
 
       - run: flutter pub get
+      - name: Verify analyzer package resolution
+        run: python3 tool/validate_pub_config.py
 
       # ── Files that are (correctly) not in Git ──────────────────────────
       # Neither `firebase_options.dart` nor `google-services.json` appears

@@ -2982,7 +2982,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatWouldYouLike => 'What would you like to know?';
 
   @override
-  String get shareYourExperienceWith => 'Share your experience with Nexora…';
+  String get shareYourExperienceWith =>
+      'Share your experience with Nexora…';
 
   @override
   String get tellUsWhatYou => 'Tell us what you enjoy!';

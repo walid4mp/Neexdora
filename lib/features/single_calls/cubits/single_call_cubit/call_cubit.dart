@@ -285,11 +285,12 @@ class CallCubit extends Cubit<CallState> with SafeEmitMixin<CallState> {
 
   Future<void> _sendCallFcm(CallModel call) async {
     try {
-      final data = await SupabaseProvider.client
-          .from('users')
-          .select('fcm_token')
-          .eq('id', call.receiverId)
-          .maybeSingle();
+      final data =
+          await SupabaseProvider.client
+              .from('users')
+              .select('fcm_token')
+              .eq('id', call.receiverId)
+              .maybeSingle();
 
       final token = data?['fcm_token'] as String?;
       if (token == null || token.isEmpty) return;
@@ -309,11 +310,12 @@ class CallCubit extends Cubit<CallState> with SafeEmitMixin<CallState> {
 
   Future<void> _sendCancelFcm(CallModel call) async {
     try {
-      final data = await SupabaseProvider.client
-          .from('users')
-          .select('fcm_token')
-          .eq('id', call.receiverId)
-          .maybeSingle();
+      final data =
+          await SupabaseProvider.client
+              .from('users')
+              .select('fcm_token')
+              .eq('id', call.receiverId)
+              .maybeSingle();
 
       final token = data?['fcm_token'] as String?;
       if (token == null || token.isEmpty) return;
@@ -353,17 +355,17 @@ class CallCubit extends Cubit<CallState> with SafeEmitMixin<CallState> {
   Future<void> _handleCallEnded(CallModel? call) async {
     if (call == null) return;
 
-    final duration = _callAcceptedAt != null
-        ? DateTime.now().difference(_callAcceptedAt!)
-        : null;
+    final duration =
+        _callAcceptedAt != null
+            ? DateTime.now().difference(_callAcceptedAt!)
+            : null;
 
     final durationStr = duration != null ? _formatDuration(duration) : '';
     final callType = call.type == CallType.video ? 'video' : 'audio';
 
     final currentUserId = SupabaseProvider.id;
-    final otherUserId = call.callerId == currentUserId
-        ? call.receiverId
-        : call.callerId;
+    final otherUserId =
+        call.callerId == currentUserId ? call.receiverId : call.callerId;
 
     final status = duration != null ? 'completed' : 'missed';
 
@@ -376,9 +378,10 @@ class CallCubit extends Cubit<CallState> with SafeEmitMixin<CallState> {
         duration: durationStr,
       );
       if (duration == null && _activeCall != null) {
-        final otherUserId = _isCaller(_activeCall!)
-            ? _activeCall!.receiverId
-            : _activeCall!.callerId;
+        final otherUserId =
+            _isCaller(_activeCall!)
+                ? _activeCall!.receiverId
+                : _activeCall!.callerId;
 
         await NotificationRepository.instance.notifyMissedCall(
           receiverId: otherUserId,

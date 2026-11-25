@@ -41,10 +41,11 @@ class MyFeedbacksView extends StatelessWidget {
               subtitle: context.l10n.trackTheStatusOf,
             ),
             BlocBuilder<FeedbackCubit, FeedbackState>(
-              buildWhen: (p, c) =>
-                  p.history != c.history ||
-                  p.historyLoading != c.historyLoading ||
-                  p.historyFailed != c.historyFailed,
+              buildWhen:
+                  (p, c) =>
+                      p.history != c.history ||
+                      p.historyLoading != c.historyLoading ||
+                      p.historyFailed != c.historyFailed,
               builder: (context, state) {
                 if (state.historyLoading && state.history.isEmpty) {
                   return const SliverPadding(
@@ -80,8 +81,8 @@ class MyFeedbacksView extends StatelessWidget {
                   sliver: SliverList.separated(
                     itemCount: state.history.length,
                     separatorBuilder: (_, __) => const Gap(12),
-                    itemBuilder: (context, i) =>
-                        _FeedbackTile(item: state.history[i]),
+                    itemBuilder:
+                        (context, i) => _FeedbackTile(item: state.history[i]),
                   ),
                 );
               },
@@ -104,9 +105,10 @@ class _FeedbackTile extends StatelessWidget {
 
     return InkWell(
       borderRadius: BorderRadius.circular(18),
-      onTap: () => Navigator.of(
-        context,
-      ).pushNamed(AppRoutes.feedbackDetailsRoute, arguments: item.id),
+      onTap:
+          () => Navigator.of(
+            context,
+          ).pushNamed(AppRoutes.feedbackDetailsRoute, arguments: item.id),
       child: SettingsSurfaceCard(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

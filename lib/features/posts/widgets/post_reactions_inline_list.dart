@@ -55,18 +55,20 @@ class _PostReactionsInlineListState extends State<PostReactionsInlineList> {
         .eq(LikeColumns.postId, widget.postId)
         .order(LikeColumns.createdAt, ascending: false);
 
-    final entries = List<Map<String, dynamic>>.from(response).map((r) {
-      final user = r[SupabaseConstants.users] as Map<String, dynamic>?;
-      final lastSeenStr = user?[UserColumns.lastSeen] as String?;
-      return ReactionEntry(
-        userId: user?[UserColumns.id] ?? '',
-        userName: user?[UserColumns.name] ?? context.l10n.unknownUser,
-        userImageUrl: user?[UserColumns.imageUrl],
-        lastSeen: lastSeenStr != null ? DateTime.tryParse(lastSeenStr) : null,
-        emoji: reactionGlyph(r[LikeColumns.reaction] as String? ?? 'like'),
-        createdAt: r[LikeColumns.createdAt] as String?,
-      );
-    }).toList();
+    final entries =
+        List<Map<String, dynamic>>.from(response).map((r) {
+          final user = r[SupabaseConstants.users] as Map<String, dynamic>?;
+          final lastSeenStr = user?[UserColumns.lastSeen] as String?;
+          return ReactionEntry(
+            userId: user?[UserColumns.id] ?? '',
+            userName: user?[UserColumns.name] ?? context.l10n.unknownUser,
+            userImageUrl: user?[UserColumns.imageUrl],
+            lastSeen:
+                lastSeenStr != null ? DateTime.tryParse(lastSeenStr) : null,
+            emoji: reactionGlyph(r[LikeColumns.reaction] as String? ?? 'like'),
+            createdAt: r[LikeColumns.createdAt] as String?,
+          );
+        }).toList();
     _entries = entries;
     return entries;
   }
@@ -213,9 +215,8 @@ class _PostReactionsInlineListState extends State<PostReactionsInlineList> {
                   ),
                   const SizedBox(width: 12),
                   AvatarStack(
-                    imageUrls: entries
-                        .map((e) => e.userImageUrl ?? '')
-                        .toList(),
+                    imageUrls:
+                        entries.map((e) => e.userImageUrl ?? '').toList(),
                   ),
                 ],
               ),
@@ -224,8 +225,8 @@ class _PostReactionsInlineListState extends State<PostReactionsInlineList> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: entries.length,
-                separatorBuilder: (context, index) =>
-                    const SizedBox(height: 14),
+                separatorBuilder:
+                    (context, index) => const SizedBox(height: 14),
                 itemBuilder: (context, index) {
                   return _ReactionEntryTile(entry: entries[index]);
                 },
@@ -255,15 +256,16 @@ class _ReactionEntryTile extends StatelessWidget {
     } else {
       showDialog(
         context: context,
-        builder: (context) => UserPreviewDialog(
-          user: ChatUserModel(
-            id: entry.userId,
-            name: entry.userName,
-            imageUrl: entry.userImageUrl,
-            lastSeen: entry.lastSeen,
-          ),
-          showContactOptions: false,
-        ),
+        builder:
+            (context) => UserPreviewDialog(
+              user: ChatUserModel(
+                id: entry.userId,
+                name: entry.userName,
+                imageUrl: entry.userImageUrl,
+                lastSeen: entry.lastSeen,
+              ),
+              showContactOptions: false,
+            ),
       );
     }
   }
@@ -283,9 +285,8 @@ class _ReactionEntryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final createdAt = entry.createdAt != null
-        ? DateTime.tryParse(entry.createdAt!)
-        : null;
+    final createdAt =
+        entry.createdAt != null ? DateTime.tryParse(entry.createdAt!) : null;
 
     return Row(
       children: [

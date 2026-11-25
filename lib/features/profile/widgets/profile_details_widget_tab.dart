@@ -20,12 +20,13 @@ class ProfileDetailsWidgetTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final populatedSocialLinks = SocialPlatformInfo.all
-        .where(
-          (platform) =>
-              (user.socialLinks[platform.key] ?? '').trim().isNotEmpty,
-        )
-        .toList();
+    final populatedSocialLinks =
+        SocialPlatformInfo.all
+            .where(
+              (platform) =>
+                  (user.socialLinks[platform.key] ?? '').trim().isNotEmpty,
+            )
+            .toList();
 
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(

@@ -40,36 +40,37 @@ class GroupNotificationDispatcher {
       groupId: groupId,
       excludeUserId: senderId,
       respectMute: true,
-      payloadBuilder: (memberId, token) => _fcm.sendGroupNotification(
-        messageId: messageId,
-        clientMessageId: clientMessageId,
-        receiverFcmToken: token,
-        receiverId: memberId,
-        groupId: groupId,
-        groupName: groupName,
-        senderId: senderId,
-        senderName: senderName,
-        messageBody: messageBody,
-        messageType: messageType,
-        senderImageUrl: senderAvatar,
-        groupImageUrl: groupImageUrl,
-        attachmentUrl: attachmentUrl,
-        isMention:
-            mentionedUserIds.contains('all') ||
-            mentionedUserIds.contains(memberId),
-        caption: caption,
-        durationSeconds: durationSeconds,
-        fileName: fileName,
-        fileSizeBytes: fileSizeBytes,
-        replyToMessageId: replyToMessageId,
-        replyToText: replyToText,
-        replyToMessageType: replyToMessageType,
-        replyToSenderId: replyToSenderId,
-        replyToMediaUrl: replyToMediaUrl,
-        forwardedFromUserId: forwardedFromUserId,
-        forwardedFromUserName: forwardedFromUserName,
-        forwardedFromUserAvatar: forwardedFromUserAvatar,
-      ),
+      payloadBuilder:
+          (memberId, token) => _fcm.sendGroupNotification(
+            messageId: messageId,
+            clientMessageId: clientMessageId,
+            receiverFcmToken: token,
+            receiverId: memberId,
+            groupId: groupId,
+            groupName: groupName,
+            senderId: senderId,
+            senderName: senderName,
+            messageBody: messageBody,
+            messageType: messageType,
+            senderImageUrl: senderAvatar,
+            groupImageUrl: groupImageUrl,
+            attachmentUrl: attachmentUrl,
+            isMention:
+                mentionedUserIds.contains('all') ||
+                mentionedUserIds.contains(memberId),
+            caption: caption,
+            durationSeconds: durationSeconds,
+            fileName: fileName,
+            fileSizeBytes: fileSizeBytes,
+            replyToMessageId: replyToMessageId,
+            replyToText: replyToText,
+            replyToMessageType: replyToMessageType,
+            replyToSenderId: replyToSenderId,
+            replyToMediaUrl: replyToMediaUrl,
+            forwardedFromUserId: forwardedFromUserId,
+            forwardedFromUserName: forwardedFromUserName,
+            forwardedFromUserAvatar: forwardedFromUserAvatar,
+          ),
     );
   }
 
@@ -85,14 +86,15 @@ class GroupNotificationDispatcher {
       groupId: groupId,
       excludeUserId: callerId,
       respectMute: false,
-      payloadBuilder: (memberId, token) => _fcm.sendCallNotification(
-        receiverFcmToken: token,
-        callerId: callerId,
-        callerName: callerName,
-        callerAvatar: callerAvatar,
-        callId: callId,
-        callType: callType,
-      ),
+      payloadBuilder:
+          (memberId, token) => _fcm.sendCallNotification(
+            receiverFcmToken: token,
+            callerId: callerId,
+            callerName: callerName,
+            callerAvatar: callerAvatar,
+            callId: callId,
+            callType: callType,
+          ),
     );
   }
 
@@ -112,17 +114,18 @@ class GroupNotificationDispatcher {
       respectMute: false,
       skipBusyMembers: true,
       busyExcludeCallId: callId,
-      payloadBuilder: (memberId, token) => _fcm.sendGroupCallNotification(
-        receiverFcmToken: token,
-        callId: callId,
-        groupId: groupId,
-        groupName: groupName,
-        groupAvatarUrl: groupAvatarUrl,
-        callerId: callerId,
-        callerName: callerName,
-        callType: callType,
-        startedAt: startedAt,
-      ),
+      payloadBuilder:
+          (memberId, token) => _fcm.sendGroupCallNotification(
+            receiverFcmToken: token,
+            callId: callId,
+            groupId: groupId,
+            groupName: groupName,
+            groupAvatarUrl: groupAvatarUrl,
+            callerId: callerId,
+            callerName: callerName,
+            callType: callType,
+            startedAt: startedAt,
+          ),
     );
   }
 
@@ -135,8 +138,8 @@ class GroupNotificationDispatcher {
       groupId: groupId,
       excludeUserId: initiatorId,
       respectMute: false,
-      payloadBuilder: (memberId, token) =>
-          _fcm.sendGroupCallCancelledNotification(
+      payloadBuilder:
+          (memberId, token) => _fcm.sendGroupCallCancelledNotification(
             receiverFcmToken: token,
             callId: callId,
             groupId: groupId,

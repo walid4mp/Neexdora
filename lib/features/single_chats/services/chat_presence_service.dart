@@ -12,11 +12,12 @@ class ChatPresenceService {
 
   Future<DateTime?> getUserLastSeen(String userId) async {
     try {
-      final data = await _supabase
-          .from(SupabaseConstants.userPresence)
-          .select(PresenceColumns.lastSeen)
-          .eq(PresenceColumns.userId, userId)
-          .maybeSingle();
+      final data =
+          await _supabase
+              .from(SupabaseConstants.userPresence)
+              .select(PresenceColumns.lastSeen)
+              .eq(PresenceColumns.userId, userId)
+              .maybeSingle();
       final raw = data?[PresenceColumns.lastSeen];
       if (raw == null) return null;
       return DateTime.parse(raw.toString());
@@ -65,18 +66,18 @@ class ChatPresenceService {
         final row = rows.first as Map<String, dynamic>;
 
         final updatedAtRaw = row[PresenceColumns.updatedAt];
-        final updatedAt = updatedAtRaw != null
-            ? DateTime.parse(updatedAtRaw.toString())
-            : null;
+        final updatedAt =
+            updatedAtRaw != null
+                ? DateTime.parse(updatedAtRaw.toString())
+                : null;
         final isOnline = PresenceService.isConsideredOnline(
           isOnline: row[PresenceColumns.isOnline] as bool? ?? false,
           updatedAt: updatedAt,
         );
 
         final lastSeenRaw = row['last_seen'];
-        final lastSeen = lastSeenRaw != null
-            ? DateTime.parse(lastSeenRaw.toString())
-            : null;
+        final lastSeen =
+            lastSeenRaw != null ? DateTime.parse(lastSeenRaw.toString()) : null;
 
         controller.add(
           PresenceSnapshot(isOnline: isOnline, lastSeen: lastSeen),
@@ -91,20 +92,21 @@ class ChatPresenceService {
     final channelName = 'presence_$userId';
     _supabase.removeChannel(_supabase.channel(channelName));
 
-    final channel = _supabase
-        .channel(channelName)
-        .onPostgresChanges(
-          event: PostgresChangeEvent.all,
-          schema: 'public',
-          table: SupabaseConstants.userPresence,
-          filter: PostgresChangeFilter(
-            type: PostgresChangeFilterType.eq,
-            column: 'user_id',
-            value: userId,
-          ),
-          callback: (_) => fetchAndEmit(),
-        )
-        .subscribe();
+    final channel =
+        _supabase
+            .channel(channelName)
+            .onPostgresChanges(
+              event: PostgresChangeEvent.all,
+              schema: 'public',
+              table: SupabaseConstants.userPresence,
+              filter: PostgresChangeFilter(
+                type: PostgresChangeFilterType.eq,
+                column: 'user_id',
+                value: userId,
+              ),
+              callback: (_) => fetchAndEmit(),
+            )
+            .subscribe();
 
     controller.onCancel = () {
       _supabase.removeChannel(channel);
@@ -126,9 +128,8 @@ class ChatPresenceService {
           TypingStatusColumns.userId: currentUserId,
           TypingStatusColumns.isTyping: actionType == ChatActionType.typing,
           'action_type': actionType.value,
-          TypingStatusColumns.updatedAt: DateTime.now()
-              .toUtc()
-              .toIso8601String(),
+          TypingStatusColumns.updatedAt:
+              DateTime.now().toUtc().toIso8601String(),
         },
         onConflict:
             '${TypingStatusColumns.chatId},${TypingStatusColumns.userId}',
@@ -324,55 +325,62 @@ class ChatPresenceService {
     const channelName = 'global_actions_watcher';
     _supabase.removeChannel(_supabase.channel(channelName));
 
-    final channel = _supabase
-        .channel(channelName)
-        .onPostgresChanges(
-          event: PostgresChangeEvent.all,
-          schema: 'public',
-          table: SupabaseConstants.typingStatus,
-          callback: (payload) {
-            if (controller.isClosed) return;
+    final channel =
+        _supabase
+            .channel(channelName)
+            .onPostgresChanges(
+              event: PostgresChangeEvent.all,
+              schema: 'public',
+              table: SupabaseConstants.typingStatus,
+              callback: (payload) {
+                if (controller.isClosed) return;
 
-            final record = payload.eventType == PostgresChangeEvent.delete
-                ? payload.oldRecord
-                : payload.newRecord;
+                final record =
+                    payload.eventType == PostgresChangeEvent.delete
+                        ? payload.oldRecord
+                        : payload.newRecord;
 
-            final userId = record[TypingStatusColumns.userId] as String?;
-            final chatId = record[TypingStatusColumns.chatId] as String?;
-            if (userId == null || chatId == null) return;
-            if (userId == currentUserId) return;
+                final userId = record[TypingStatusColumns.userId] as String?;
+                final chatId = record[TypingStatusColumns.chatId] as String?;
+                if (userId == null || chatId == null) return;
+                if (userId == currentUserId) return;
 
-            final ids = chatId.split('_');
-            if (!ids.contains(currentUserId)) return;
+                final ids = chatId.split('_');
+                if (!ids.contains(currentUserId)) return;
 
-            final actionType = ChatActionTypeX.fromValue(
-              record['action_type'] as String?,
-            );
-            final updatedAtRaw =
-                record[TypingStatusColumns.updatedAt] as String?;
-            final updatedAt = updatedAtRaw != null
-                ? DateTime.tryParse(updatedAtRaw)?.toUtc()
-                : null;
+                final actionType = ChatActionTypeX.fromValue(
+                  record['action_type'] as String?,
+                );
+                final updatedAtRaw =
+                    record[TypingStatusColumns.updatedAt] as String?;
+                final updatedAt =
+                    updatedAtRaw != null
+                        ? DateTime.tryParse(updatedAtRaw)?.toUtc()
+                        : null;
 
-            final isFreshEnough =
-                updatedAt == null ||
-                DateTime.now().toUtc().difference(updatedAt).abs().inMinutes <=
-                    10;
+                final isFreshEnough =
+                    updatedAt == null ||
+                    DateTime.now()
+                            .toUtc()
+                            .difference(updatedAt)
+                            .abs()
+                            .inMinutes <=
+                        10;
 
-            if (actionType != ChatActionType.none && isFreshEnough) {
-              byChatId[chatId] = (
-                userId: userId,
-                action: actionType,
-                receivedAt: DateTime.now(),
-              );
-            } else {
-              byChatId.remove(chatId);
-            }
+                if (actionType != ChatActionType.none && isFreshEnough) {
+                  byChatId[chatId] = (
+                    userId: userId,
+                    action: actionType,
+                    receivedAt: DateTime.now(),
+                  );
+                } else {
+                  byChatId.remove(chatId);
+                }
 
-            emitIfChanged();
-          },
-        )
-        .subscribe();
+                emitIfChanged();
+              },
+            )
+            .subscribe();
 
     final watchdog = Timer.periodic(
       const Duration(seconds: _presenceWatchdogTickSeconds),
