@@ -105,32 +105,30 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
       case IncomingShareKind.image:
       case IncomingShareKind.video:
         final file = File(payload.files.first.path);
-        final type =
-            payload.kind == IncomingShareKind.image ? 'image' : 'video';
+        final type = payload.kind == IncomingShareKind.image
+            ? 'image'
+            : 'video';
 
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder:
-                (_) => BlocProvider.value(
-                  value: _chatCubit,
-                  child: MediaPreviewScreen(
-                    file: file,
-                    type: type,
-                    onSend:
-                        (caption, sendFile, durationSeconds) =>
-                            _chatCubit.sendMessage(
-                              receiverId: _receiverId,
-                              messageText: '',
-                              messageType: type,
-                              imageFile: type == 'image' ? sendFile : null,
-                              videoFile: type == 'video' ? sendFile : null,
-                              fileSizeBytes: sendFile.lengthSync(),
-                              durationSeconds:
-                                  type == 'video' ? durationSeconds : null,
-                              caption: caption,
-                            ),
-                  ),
-                ),
+            builder: (_) => BlocProvider.value(
+              value: _chatCubit,
+              child: MediaPreviewScreen(
+                file: file,
+                type: type,
+                onSend: (caption, sendFile, durationSeconds) =>
+                    _chatCubit.sendMessage(
+                      receiverId: _receiverId,
+                      messageText: '',
+                      messageType: type,
+                      imageFile: type == 'image' ? sendFile : null,
+                      videoFile: type == 'video' ? sendFile : null,
+                      fileSizeBytes: sendFile.lengthSync(),
+                      durationSeconds: type == 'video' ? durationSeconds : null,
+                      caption: caption,
+                    ),
+              ),
+            ),
           ),
         );
         break;
@@ -349,49 +347,48 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.transparent,
-      builder:
-          (ctx) => Material(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+      builder: (ctx) => Material(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
 
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      context.l10n.deleteNMessages(count),
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.person_outline),
-                    title: Text(context.l10n.deleteForMe),
-                    onTap: () {
-                      Navigator.pop(ctx);
-                      cubit.deleteSelectedForMe();
-                    },
-                  ),
-                  if (canDeleteForEveryone)
-                    ListTile(
-                      leading: const Icon(Icons.delete_outline),
-                      title: Text(
-                        context.l10n.deleteForEveryone,
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium!.copyWith(color: Colors.red),
-                      ),
-                      onTap: () {
-                        Navigator.pop(ctx);
-                        cubit.deleteSelectedForEveryone();
-                      },
-                    ),
-                ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                child: Text(
+                  context.l10n.deleteNMessages(count),
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
               ),
-            ),
+              ListTile(
+                leading: const Icon(Icons.person_outline),
+                title: Text(context.l10n.deleteForMe),
+                onTap: () {
+                  Navigator.pop(ctx);
+                  cubit.deleteSelectedForMe();
+                },
+              ),
+              if (canDeleteForEveryone)
+                ListTile(
+                  leading: const Icon(Icons.delete_outline),
+                  title: Text(
+                    context.l10n.deleteForEveryone,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium!.copyWith(color: Colors.red),
+                  ),
+                  onTap: () {
+                    Navigator.pop(ctx);
+                    cubit.deleteSelectedForEveryone();
+                  },
+                ),
+            ],
           ),
+        ),
+      ),
     );
   }
 
@@ -407,16 +404,15 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder:
-            (_) => MessageInfoView(
-              args: MessageInfoArgs.fromSingleChat(
-                message: message,
-                receiverUser: widget.receiverUser,
-                currentUserId: _chatCubit.currentUserId,
-                currentUserName: _chatCubit.currentUserName,
-                currentUserAvatar: _chatCubit.senderImageUrl,
-              ),
-            ),
+        builder: (_) => MessageInfoView(
+          args: MessageInfoArgs.fromSingleChat(
+            message: message,
+            receiverUser: widget.receiverUser,
+            currentUserId: _chatCubit.currentUserId,
+            currentUserName: _chatCubit.currentUserName,
+            currentUserAvatar: _chatCubit.senderImageUrl,
+          ),
+        ),
       ),
     );
   }
@@ -444,11 +440,10 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
           if (context.mounted) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder:
-                    (_) => AiChatView(
-                      initialDraftImageRemoteUrl: msg.imageUrl,
-                      initialDraftImageCaption: msg.caption,
-                    ),
+                builder: (_) => AiChatView(
+                  initialDraftImageRemoteUrl: msg.imageUrl,
+                  initialDraftImageCaption: msg.caption,
+                ),
               ),
             );
           }
@@ -459,12 +454,11 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
           if (context.mounted) {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder:
-                    (_) => AiChatView(
-                      initialDraftFileRemoteUrl: msg.fileUrl,
-                      initialDraftFileName: msg.fileName,
-                      initialDraftFileCaption: msg.caption,
-                    ),
+                builder: (_) => AiChatView(
+                  initialDraftFileRemoteUrl: msg.fileUrl,
+                  initialDraftFileName: msg.fileName,
+                  initialDraftFileCaption: msg.caption,
+                ),
               ),
             );
           }
@@ -505,19 +499,18 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
       // Falls back to 'You' / no avatar — see fix note above.
     }
 
-    final forwardableMessages =
-        selectedMessages
-            .map(
-              (m) => ForwardableMessage.fromSingleChatMessage(
-                m,
-                currentUserId: currentUserId,
-                currentUserName: currentUserName,
-                currentUserAvatar: currentUserAvatar,
-                otherUserName: widget.receiverUser.name,
-                otherUserAvatar: widget.receiverUser.imageUrl,
-              ),
-            )
-            .toList();
+    final forwardableMessages = selectedMessages
+        .map(
+          (m) => ForwardableMessage.fromSingleChatMessage(
+            m,
+            currentUserId: currentUserId,
+            currentUserName: currentUserName,
+            currentUserAvatar: currentUserAvatar,
+            otherUserName: widget.receiverUser.name,
+            otherUserAvatar: widget.receiverUser.imageUrl,
+          ),
+        )
+        .toList();
 
     try {
       await ForwardService().forwardMessages(
@@ -559,13 +552,13 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
                         return ChatSearchAppBar(
                           controller: _searchTextController,
                           focusNode: _searchFocusNode,
-                          onChanged:
-                              (q) => _chatCubit.searchController.updateQuery(q),
+                          onChanged: (q) =>
+                              _chatCubit.searchController.updateQuery(q),
                           counterTextNotifier:
                               _chatCubit.searchController.counterTextNotifier,
                           hasMatches: matches.isNotEmpty,
-                          onPrevious:
-                              () => _chatCubit.searchController.previousMatch(),
+                          onPrevious: () =>
+                              _chatCubit.searchController.previousMatch(),
                           onNext: () => _chatCubit.searchController.nextMatch(),
                           onClose: _exitSearch,
                         );
@@ -593,20 +586,18 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
                             isStarred: isStarred,
                             onStarToggle: _chatCubit.toggleStarSelected,
                             onInfoTap: () => _openMessageInfo(context),
-                            onForwardTap:
-                                () => _openForwardPicker(
-                                  context,
-                                  messageCount: selectedIds.length,
-                                ),
+                            onForwardTap: () => _openForwardPicker(
+                              context,
+                              messageCount: selectedIds.length,
+                            ),
                             showCopy: _canCopySelectedMessage(
                               _chatCubit.selectedMessages,
                             ),
-                            onCopyTap:
-                                () => _copySelectedMessage(
-                                  _chatCubit.selectedMessages,
-                                ),
-                            onDeleteTap:
-                                () => _showBulkDeleteMenu(context, _chatCubit),
+                            onCopyTap: () => _copySelectedMessage(
+                              _chatCubit.selectedMessages,
+                            ),
+                            onDeleteTap: () =>
+                                _showBulkDeleteMenu(context, _chatCubit),
                           );
                         },
                       );
@@ -681,21 +672,21 @@ class _ChatDetailsViewState extends State<ChatDetailsView>
                                 horizontal: 16,
                                 vertical: 10,
                               ),
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.surfaceContainerHighest,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerHighest,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     isAwaitingMe
                                         ? context.l10n.sentYouAMessage(
-                                          widget.receiverUser,
-                                        )
+                                            widget.receiverUser,
+                                          )
                                         : context.l10n.youAreNotFriends,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
                                   ),
                                   if (isAwaitingMe) ...[
                                     const SizedBox(height: 6),

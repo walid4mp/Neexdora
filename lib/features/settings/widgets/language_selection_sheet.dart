@@ -18,11 +18,10 @@ Future<void> showLanguageSelectionSheet(BuildContext context) {
     context: context,
     backgroundColor: Colors.transparent,
     isScrollControlled: true,
-    builder:
-        (_) => BlocProvider<SettingsCubit>.value(
-          value: cubit,
-          child: const LanguageSelectionSheet(),
-        ),
+    builder: (_) => BlocProvider<SettingsCubit>.value(
+      value: cubit,
+      child: const LanguageSelectionSheet(),
+    ),
   );
 }
 
@@ -209,10 +208,9 @@ class _LanguageOptionTile extends StatelessWidget {
                 selected
                     ? Icons.check_circle_rounded
                     : Icons.radio_button_unchecked_rounded,
-                color:
-                    selected
-                        ? primary
-                        : (isDark ? Colors.white24 : Colors.grey.shade400),
+                color: selected
+                    ? primary
+                    : (isDark ? Colors.white24 : Colors.grey.shade400),
                 size: 22,
               ),
             ],

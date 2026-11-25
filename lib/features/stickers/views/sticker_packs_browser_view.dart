@@ -17,10 +17,9 @@ class StickerPacksBrowserView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:
-          (_) => StickerPacksCubit(
-            mediaCacheRepository: context.read<MediaCacheRepository>(),
-          ),
+      create: (_) => StickerPacksCubit(
+        mediaCacheRepository: context.read<MediaCacheRepository>(),
+      ),
       child: const _StickerPacksBrowserSheetBody(),
     );
   }
@@ -129,14 +128,12 @@ class _StickerPacksBrowserSheetBody extends StatelessWidget {
                         );
                         cubit.loadPacks();
                       },
-                      onToggleDownload:
-                          () => context
-                              .read<StickerPacksCubit>()
-                              .togglePackDownloaded(pack.id),
-                      onCancelDownload:
-                          () => context
-                              .read<StickerPacksCubit>()
-                              .cancelDownload(pack.id),
+                      onToggleDownload: () => context
+                          .read<StickerPacksCubit>()
+                          .togglePackDownloaded(pack.id),
+                      onCancelDownload: () => context
+                          .read<StickerPacksCubit>()
+                          .cancelDownload(pack.id),
                     );
                   }, childCount: packs.length + 1),
                 ),

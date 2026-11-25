@@ -10,20 +10,18 @@ class ChatTranscriptBuilder {
     required String otherUserName,
     required int maxMessages,
   }) {
-    final recent =
-        messages.length > maxMessages
-            ? messages.sublist(messages.length - maxMessages)
-            : messages;
+    final recent = messages.length > maxMessages
+        ? messages.sublist(messages.length - maxMessages)
+        : messages;
 
     final buffer = StringBuffer();
     for (final message in recent) {
       final text = message.text.trim();
       if (text.isEmpty) continue; // skip media/voice messages with no text
 
-      final who =
-          message.senderId == currentUserId
-              ? AppL10n.current.you
-              : otherUserName;
+      final who = message.senderId == currentUserId
+          ? AppL10n.current.you
+          : otherUserName;
       buffer.writeln('$who: $text');
     }
     return buffer.toString().trim();

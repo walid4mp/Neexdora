@@ -23,11 +23,10 @@ class StoryViewsIndicator extends StatelessWidget {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder:
-          (bottomSheetContext) => BlocProvider.value(
-            value: viewsCubit,
-            child: const StoryViewsBottomSheet(),
-          ),
+      builder: (bottomSheetContext) => BlocProvider.value(
+        value: viewsCubit,
+        child: const StoryViewsBottomSheet(),
+      ),
     );
 
     onClose();

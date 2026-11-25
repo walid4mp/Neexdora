@@ -32,8 +32,11 @@ class EditProfileServices {
   }
 
   Future<UserData> fetchUpdatedUser(String userId) async {
-    final data =
-        await _supabase.from('users').select().eq('id', userId).single();
+    final data = await _supabase
+        .from('users')
+        .select()
+        .eq('id', userId)
+        .single();
     return UserData.fromMap(data);
   }
 

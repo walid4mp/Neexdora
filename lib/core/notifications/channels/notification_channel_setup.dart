@@ -40,11 +40,10 @@ class NotificationChannelSetup {
   Future<void> createAllChannels(
     FlutterLocalNotificationsPlugin localNotifications,
   ) async {
-    final androidPlugin =
-        localNotifications
-            .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin
-            >();
+    final androidPlugin = localNotifications
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
 
     await androidPlugin?.createNotificationChannel(messageChannel);
     await androidPlugin?.createNotificationChannel(callChannel);

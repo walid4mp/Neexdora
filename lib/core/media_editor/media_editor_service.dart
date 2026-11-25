@@ -30,15 +30,13 @@ class MediaEditorService {
     MediaCleanupService.instance.purgeStaleTempFiles();
 
     if (!context.mounted) return null;
-    final bytes = await Navigator.of(
-      context,
-      rootNavigator: true,
-    ).push<Uint8List>(
-      MaterialPageRoute(
-        fullscreenDialog: true,
-        builder: (_) => AppImageEditorView(file: source, preset: preset),
-      ),
-    );
+    final bytes = await Navigator.of(context, rootNavigator: true)
+        .push<Uint8List>(
+          MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (_) => AppImageEditorView(file: source, preset: preset),
+          ),
+        );
     if (bytes == null || bytes.isEmpty) return null;
 
     try {
@@ -70,8 +68,8 @@ class MediaEditorService {
     return Navigator.of(context, rootNavigator: true).push<TrimmedVideo>(
       MaterialPageRoute(
         fullscreenDialog: true,
-        builder:
-            (_) => AppVideoTrimView(file: source, maxDuration: maxDuration),
+        builder: (_) =>
+            AppVideoTrimView(file: source, maxDuration: maxDuration),
       ),
     );
   }

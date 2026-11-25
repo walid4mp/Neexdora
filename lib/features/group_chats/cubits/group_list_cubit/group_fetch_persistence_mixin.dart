@@ -9,10 +9,9 @@ mixin GroupFetchPersistenceMixin on GroupListBase {
 
     if (!isRefresh) emit(GroupListLoading());
     try {
-      final fetchedGroups =
-          await services.getMyGroups()
-            ..removeWhere((g) => locallyDeletedGroupIds.contains(g.id))
-            ..removeWhere(isHiddenByLocalClear);
+      final fetchedGroups = await services.getMyGroups()
+        ..removeWhere((g) => locallyDeletedGroupIds.contains(g.id))
+        ..removeWhere(isHiddenByLocalClear);
 
       final fetchedIds = fetchedGroups.map((g) => g.id).toList();
       try {
@@ -51,40 +50,37 @@ mixin GroupFetchPersistenceMixin on GroupListBase {
         return newGroup.unreadCount;
       }
 
-      var mergedActive =
-          fetchedGroups.map((newGroup) {
-            final effectiveUnread = resolveUnreadCount(newGroup);
-            final existingIndex = cached.indexWhere((g) => g.id == newGroup.id);
-            if (existingIndex != -1) {
-              final existingGroup = cached[existingIndex];
-              final isExistingReaction =
-                  existingGroup.lastMessageType == 'message_react';
-              final isNewMessageEmpty =
-                  !isExistingReaction &&
-                  (newGroup.lastMessage?.isEmpty ?? true) &&
-                  newGroup.lastMessageAt == null;
-              return newGroup.copyWith(
-                unreadCount: effectiveUnread,
-                lastMessage:
-                    isNewMessageEmpty
-                        ? existingGroup.lastMessage
-                        : newGroup.lastMessage,
-                lastMessageType:
-                    isNewMessageEmpty
-                        ? existingGroup.lastMessageType
-                        : newGroup.lastMessageType,
-                lastMessageAt:
-                    newGroup.lastMessageAt ?? existingGroup.lastMessageAt,
-                lastMessageSenderId:
-                    newGroup.lastMessageSenderId ??
-                    existingGroup.lastMessageSenderId,
-                lastMessageSenderName:
-                    newGroup.lastMessageSenderName ??
-                    existingGroup.lastMessageSenderName,
-              );
-            }
-            return newGroup.copyWith(unreadCount: effectiveUnread);
-          }).toList();
+      var mergedActive = fetchedGroups.map((newGroup) {
+        final effectiveUnread = resolveUnreadCount(newGroup);
+        final existingIndex = cached.indexWhere((g) => g.id == newGroup.id);
+        if (existingIndex != -1) {
+          final existingGroup = cached[existingIndex];
+          final isExistingReaction =
+              existingGroup.lastMessageType == 'message_react';
+          final isNewMessageEmpty =
+              !isExistingReaction &&
+              (newGroup.lastMessage?.isEmpty ?? true) &&
+              newGroup.lastMessageAt == null;
+          return newGroup.copyWith(
+            unreadCount: effectiveUnread,
+            lastMessage: isNewMessageEmpty
+                ? existingGroup.lastMessage
+                : newGroup.lastMessage,
+            lastMessageType: isNewMessageEmpty
+                ? existingGroup.lastMessageType
+                : newGroup.lastMessageType,
+            lastMessageAt:
+                newGroup.lastMessageAt ?? existingGroup.lastMessageAt,
+            lastMessageSenderId:
+                newGroup.lastMessageSenderId ??
+                existingGroup.lastMessageSenderId,
+            lastMessageSenderName:
+                newGroup.lastMessageSenderName ??
+                existingGroup.lastMessageSenderName,
+          );
+        }
+        return newGroup.copyWith(unreadCount: effectiveUnread);
+      }).toList();
 
       mergedActive = await _enrichGroupsWithLatestReactions(mergedActive);
 
@@ -205,8 +201,9 @@ mixin GroupFetchPersistenceMixin on GroupListBase {
 
         final createdAtStr =
             reactionRow[MessageReactionColumns.createdAt] as String?;
-        final reactionTime =
-            createdAtStr != null ? DateTime.tryParse(createdAtStr) : null;
+        final reactionTime = createdAtStr != null
+            ? DateTime.tryParse(createdAtStr)
+            : null;
         if (reactionTime == null) continue;
 
         if (group.lastMessageAt == null ||
@@ -273,8 +270,9 @@ mixin GroupFetchPersistenceMixin on GroupListBase {
 
         final createdAtStr =
             reactionRow[MessageReactionColumns.createdAt] as String?;
-        final reactionTime =
-            createdAtStr != null ? DateTime.tryParse(createdAtStr) : null;
+        final reactionTime = createdAtStr != null
+            ? DateTime.tryParse(createdAtStr)
+            : null;
         if (reactionTime == null) return group;
 
         if (group.lastMessageAt != null &&

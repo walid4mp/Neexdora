@@ -190,68 +190,67 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
                             if (!isAsset && !isLocalFile)
                               _isSaving
                                   ? const Padding(
-                                    padding: EdgeInsets.all(12.0),
-                                    child: SizedBox(
-                                      width: 24,
-                                      height: 24,
-                                      child: CustomLoadingIndicator(
-                                        color: Colors.white,
+                                      padding: EdgeInsets.all(12.0),
+                                      child: SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CustomLoadingIndicator(
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                    ),
-                                  )
+                                    )
                                   : PopupMenuButton<String>(
-                                    color: Colors.white,
-                                    icon: const Icon(
-                                      Icons.more_vert,
                                       color: Colors.white,
-                                      size: 28,
-                                    ),
-                                    offset: const Offset(
-                                      -24,
-                                      kToolbarHeight - 12,
-                                    ),
-                                    onSelected: (value) async {
-                                      if (value == 'save') {
-                                        setState(() => _isSaving = true);
+                                      icon: const Icon(
+                                        Icons.more_vert,
+                                        color: Colors.white,
+                                        size: 28,
+                                      ),
+                                      offset: const Offset(
+                                        -24,
+                                        kToolbarHeight - 12,
+                                      ),
+                                      onSelected: (value) async {
+                                        if (value == 'save') {
+                                          setState(() => _isSaving = true);
 
-                                        if (isThemedPost) {
-                                          await _saveThemedCardToGallery();
-                                        } else {
-                                          await GalleryServices.saveMediaToGallery(
-                                            context: context,
-                                            url: imageUrl,
-                                            isVideo: false,
-                                          );
-                                        }
+                                          if (isThemedPost) {
+                                            await _saveThemedCardToGallery();
+                                          } else {
+                                            await GalleryServices.saveMediaToGallery(
+                                              context: context,
+                                              url: imageUrl,
+                                              isVideo: false,
+                                            );
+                                          }
 
-                                        if (mounted) {
-                                          setState(() => _isSaving = false);
+                                          if (mounted) {
+                                            setState(() => _isSaving = false);
+                                          }
                                         }
-                                      }
-                                    },
-                                    itemBuilder:
-                                        (_) => [
-                                          PopupMenuItem(
-                                            value: 'save',
-                                            child: Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.download,
-                                                  size: 18,
+                                      },
+                                      itemBuilder: (_) => [
+                                        PopupMenuItem(
+                                          value: 'save',
+                                          child: Row(
+                                            children: [
+                                              Icon(
+                                                Icons.download,
+                                                size: 18,
+                                                color: Colors.black45,
+                                              ),
+                                              SizedBox(width: 8),
+                                              Text(
+                                                context.l10n.saveToGallery,
+                                                style: TextStyle(
                                                   color: Colors.black45,
                                                 ),
-                                                SizedBox(width: 8),
-                                                Text(
-                                                  context.l10n.saveToGallery,
-                                                  style: TextStyle(
-                                                    color: Colors.black45,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
                           ],
                         ),
                       ),
@@ -271,35 +270,34 @@ class _FullScreenImageViewerState extends State<FullScreenImageViewer> {
                             maxScale: 4.0,
                             child: Hero(
                               tag: heroTag,
-                              child:
-                                  isThemedPost
-                                      ? Material(
-                                        type: MaterialType.transparency,
-                                        child: RepaintBoundary(
-                                          key: _themedRepaintKey,
-                                          child: ThemedPostCard(
-                                            post: themedPost,
-                                            isFullScreen: true,
-                                          ),
+                              child: isThemedPost
+                                  ? Material(
+                                      type: MaterialType.transparency,
+                                      child: RepaintBoundary(
+                                        key: _themedRepaintKey,
+                                        child: ThemedPostCard(
+                                          post: themedPost,
+                                          isFullScreen: true,
                                         ),
-                                      )
-                                      : isAsset
-                                      ? Image.asset(
-                                        imageUrl,
-                                        fit: BoxFit.contain,
-                                        width: double.infinity,
-                                      )
-                                      : isLocalFile
-                                      ? Image.file(
-                                        File(displayUrl),
-                                        fit: BoxFit.contain,
-                                        width: double.infinity,
-                                      )
-                                      : CachedCloudinaryImage(
-                                        secureUrl: imageUrl,
-                                        fit: BoxFit.contain,
-                                        width: double.infinity,
                                       ),
+                                    )
+                                  : isAsset
+                                  ? Image.asset(
+                                      imageUrl,
+                                      fit: BoxFit.contain,
+                                      width: double.infinity,
+                                    )
+                                  : isLocalFile
+                                  ? Image.file(
+                                      File(displayUrl),
+                                      fit: BoxFit.contain,
+                                      width: double.infinity,
+                                    )
+                                  : CachedCloudinaryImage(
+                                      secureUrl: imageUrl,
+                                      fit: BoxFit.contain,
+                                      width: double.infinity,
+                                    ),
                             ),
                           ),
                         ),
@@ -437,8 +435,9 @@ class _ViewerPostCaption extends StatelessWidget {
         return true;
       },
       builder: (context, state) {
-        final PostModel? livePost =
-            state is PostsLoaded ? state.posts.findById(postId) : null;
+        final PostModel? livePost = state is PostsLoaded
+            ? state.posts.findById(postId)
+            : null;
 
         if (livePost == null) return const SizedBox.shrink();
 

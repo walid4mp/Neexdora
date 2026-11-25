@@ -47,11 +47,10 @@ class PremiumSelectionCountLabel extends StatelessWidget {
       children: [
         AnimatedSwitcher(
           duration: const Duration(milliseconds: 180),
-          transitionBuilder:
-              (child, animation) => ScaleTransition(
-                scale: animation,
-                child: FadeTransition(opacity: animation, child: child),
-              ),
+          transitionBuilder: (child, animation) => ScaleTransition(
+            scale: animation,
+            child: FadeTransition(opacity: animation, child: child),
+          ),
           child: Text(
             '$count',
             key: ValueKey(count),
@@ -107,29 +106,26 @@ class PremiumSelectionActionIcon extends StatelessWidget {
     final isMixed = state == PremiumActionVisualState.mixed;
     final isOn = state == PremiumActionVisualState.on;
 
-    final iconColor =
-        isDestructive
-            ? Colors.red
-            : (isMixed
-                ? Theme.of(context).disabledColor
-                : (isOn ? (activeColor ?? primary) : primary));
+    final iconColor = isDestructive
+        ? Colors.red
+        : (isMixed
+              ? Theme.of(context).disabledColor
+              : (isOn ? (activeColor ?? primary) : primary));
 
     return Material(
-      color:
-          isDestructive
-              ? Colors.red.withValues(alpha: 0.10)
-              : (isOn && activeColor != null
-                  ? activeColor!.withValues(alpha: 0.14)
-                  : Colors.transparent),
+      color: isDestructive
+          ? Colors.red.withValues(alpha: 0.10)
+          : (isOn && activeColor != null
+                ? activeColor!.withValues(alpha: 0.14)
+                : Colors.transparent),
       shape: const CircleBorder(),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onTap,
         child: Tooltip(
-          message:
-              isMixed
-                  ? context.l10n.mixedSelection
-                  : (isOn ? onLabel : offLabel),
+          message: isMixed
+              ? context.l10n.mixedSelection
+              : (isOn ? onLabel : offLabel),
           child: Padding(
             padding: const EdgeInsets.all(9),
             child: Icon(isOn ? onIcon : offIcon, color: iconColor, size: 21),

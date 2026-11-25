@@ -18,11 +18,10 @@ class StickerPackDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create:
-          (_) => StickerPackDetailCubit(
-            packId: pack.id,
-            mediaCacheRepository: context.read<MediaCacheRepository>(),
-          ),
+      create: (_) => StickerPackDetailCubit(
+        packId: pack.id,
+        mediaCacheRepository: context.read<MediaCacheRepository>(),
+      ),
       child: _StickerPackDetailSheetBody(pack: pack),
     );
   }
@@ -57,9 +56,9 @@ class _StickerPackDetailSheetBody extends StatelessWidget {
             Text(
               pack.totalSizeBytes > 0
                   ? context.l10n.stickers3(
-                    pack.stickerCount,
-                    pack.totalSizeBytes.asReadableSize,
-                  )
+                      pack.stickerCount,
+                      pack.totalSizeBytes.asReadableSize,
+                    )
                   : context.l10n.stickers4(pack.stickerCount),
               style: theme.textTheme.labelSmall?.copyWith(
                 color: AppColors.grey6,

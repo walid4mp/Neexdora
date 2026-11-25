@@ -93,9 +93,8 @@ class TapActionHandler {
     if (_coldStartLaunchInspected) return;
     _coldStartLaunchInspected = true;
     try {
-      final details =
-          await NotificationPluginBootstrap.plugin
-              .getNotificationAppLaunchDetails();
+      final details = await NotificationPluginBootstrap.plugin
+          .getNotificationAppLaunchDetails();
       final response = details?.notificationResponse;
       if (details != null &&
           details.didNotificationLaunchApp &&
@@ -357,12 +356,11 @@ class TapActionHandler {
   static Future<_CallVerdict> _verifySingleCall(String callId) async {
     if (callId.isEmpty) return _CallVerdict.unknown;
     try {
-      final row =
-          await SupabaseProvider.client
-              .from('calls')
-              .select('status, start_time')
-              .eq('call_id', callId)
-              .maybeSingle();
+      final row = await SupabaseProvider.client
+          .from('calls')
+          .select('status, start_time')
+          .eq('call_id', callId)
+          .maybeSingle();
       if (row == null) return _CallVerdict.gone;
 
       final status = row['status'] as String? ?? '';
@@ -427,12 +425,11 @@ class TapActionHandler {
     // Verify the call is still alive and pick up authoritative details.
     Map<String, dynamic>? row;
     try {
-      row =
-          await SupabaseProvider.client
-              .from('group_calls')
-              .select()
-              .eq('call_id', data.callId)
-              .maybeSingle();
+      row = await SupabaseProvider.client
+          .from('group_calls')
+          .select()
+          .eq('call_id', data.callId)
+          .maybeSingle();
     } catch (e) {
       debugPrint('[TapActionHandler] group call lookup failed: $e');
     }
@@ -452,10 +449,9 @@ class TapActionHandler {
       return;
     }
 
-    final callerId =
-        data.callerId.isNotEmpty
-            ? data.callerId
-            : (row?['initiator_id'] as String? ?? '');
+    final callerId = data.callerId.isNotEmpty
+        ? data.callerId
+        : (row?['initiator_id'] as String? ?? '');
 
     if (IncomingCallNavigationGuard.shouldBlockIncomingGroupCall(
       callId: data.callId,
@@ -473,15 +469,13 @@ class TapActionHandler {
       callId: data.callId,
       groupId: data.groupId,
       groupName: data.groupName,
-      groupAvatarUrl:
-          data.groupAvatarUrl.isNotEmpty
-              ? data.groupAvatarUrl
-              : row?['group_avatar_url'] as String?,
+      groupAvatarUrl: data.groupAvatarUrl.isNotEmpty
+          ? data.groupAvatarUrl
+          : row?['group_avatar_url'] as String?,
       initiatorId: callerId,
-      initiatorName:
-          data.callerName.isNotEmpty
-              ? data.callerName
-              : (row?['initiator_name'] as String? ?? data.groupName),
+      initiatorName: data.callerName.isNotEmpty
+          ? data.callerName
+          : (row?['initiator_name'] as String? ?? data.groupName),
       status: GroupCallStatus.ringing,
       type: type == 'video' ? GroupCallType.video : GroupCallType.audio,
       startedAt:
@@ -500,11 +494,8 @@ class TapActionHandler {
       navigator
           .push(
             MaterialPageRoute(
-              builder:
-                  (_) => IncomingGroupCallScreen(
-                    call: call,
-                    autoAccept: autoAccept,
-                  ),
+              builder: (_) =>
+                  IncomingGroupCallScreen(call: call, autoAccept: autoAccept),
             ),
           )
           .then((_) => IncomingCallNavigationGuard.release(data.callId)),
@@ -677,10 +668,9 @@ class TapActionHandler {
     try {
       await storiesCubit.fetchStories(isRefresh: true);
       final myUserId = SupabaseProvider.idOrNull;
-      final myStories =
-          storiesCubit.cachedStories
-              .where((s) => s.authorId == myUserId)
-              .toList();
+      final myStories = storiesCubit.cachedStories
+          .where((s) => s.authorId == myUserId)
+          .toList();
       final storyIndex = myStories.indexWhere((s) => s.id == storyId);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -723,12 +713,11 @@ class TapActionHandler {
       await storiesCubit.fetchStories(isRefresh: true);
       final match = storiesCubit.cachedStories.where((s) => s.id == storyId);
       final authorId = match.isNotEmpty ? match.first.authorId : null;
-      final authorGroup =
-          authorId == null
-              ? <StoryModel>[]
-              : storiesCubit.cachedStories
-                  .where((s) => s.authorId == authorId)
-                  .toList();
+      final authorGroup = authorId == null
+          ? <StoryModel>[]
+          : storiesCubit.cachedStories
+                .where((s) => s.authorId == authorId)
+                .toList();
       final storyIndex = authorGroup.indexWhere((s) => s.id == storyId);
 
       WidgetsBinding.instance.addPostFrameCallback((_) {

@@ -57,34 +57,33 @@ class GroupPreviewDialog extends StatelessWidget {
                   children: [
                     hasAvatar
                         ? CachedCloudinaryImage(
-                          secureUrl: group.avatarUrl!,
-                          fit: BoxFit.cover,
-                          height: imageHeight,
-                          width: double.infinity,
-                          isAvatar: true,
-                          placeholder:
-                              (context) => ShimmerLowResImagePlaceholder(
-                                secureUrl: group.avatarUrl!,
-                                height: imageHeight,
-                                width: double.infinity,
-                                borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(20),
+                            secureUrl: group.avatarUrl!,
+                            fit: BoxFit.cover,
+                            height: imageHeight,
+                            width: double.infinity,
+                            isAvatar: true,
+                            placeholder: (context) =>
+                                ShimmerLowResImagePlaceholder(
+                                  secureUrl: group.avatarUrl!,
+                                  height: imageHeight,
+                                  width: double.infinity,
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(20),
+                                  ),
                                 ),
-                              ),
-                          errorWidget:
-                              (context, error) => Image.asset(
-                                defaultGroupImage,
-                                fit: BoxFit.cover,
-                                height: imageHeight,
-                                width: double.infinity,
-                              ),
-                        )
+                            errorWidget: (context, error) => Image.asset(
+                              defaultGroupImage,
+                              fit: BoxFit.cover,
+                              height: imageHeight,
+                              width: double.infinity,
+                            ),
+                          )
                         : Image.asset(
-                          defaultGroupImage,
-                          fit: BoxFit.cover,
-                          height: imageHeight,
-                          width: double.infinity,
-                        ),
+                            defaultGroupImage,
+                            fit: BoxFit.cover,
+                            height: imageHeight,
+                            width: double.infinity,
+                          ),
                     Positioned(
                       top: 0,
                       left: 0,
@@ -107,8 +106,9 @@ class GroupPreviewDialog extends StatelessWidget {
                         child: Text(
                           group.name,
                           textDirection: nameDirection,
-                          textAlign:
-                              isArabicName ? TextAlign.right : TextAlign.left,
+                          textAlign: isArabicName
+                              ? TextAlign.right
+                              : TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(

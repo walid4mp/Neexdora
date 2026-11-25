@@ -94,10 +94,9 @@ class _GlobalGroupCallListenerState extends State<GlobalGroupCallListener> {
     // Depending on the realtime client version the callback receives either
     // the inner payload or the whole broadcast envelope.
     final inner = raw['payload'];
-    final data =
-        inner is Map
-            ? Map<String, dynamic>.from(inner)
-            : Map<String, dynamic>.from(raw);
+    final data = inner is Map
+        ? Map<String, dynamic>.from(inner)
+        : Map<String, dynamic>.from(raw);
 
     final callId = (data['callId'] ?? data['call_id']) as String? ?? '';
     if (callId.isEmpty) return;

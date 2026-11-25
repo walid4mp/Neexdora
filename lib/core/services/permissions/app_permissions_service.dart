@@ -85,8 +85,9 @@ class AppPermissionsService {
     if (await hasCallPermissions(isVideo: isVideo)) return true;
 
     final micStatus = await Permission.microphone.request();
-    final camStatus =
-        isVideo ? await Permission.camera.request() : PermissionStatus.granted;
+    final camStatus = isVideo
+        ? await Permission.camera.request()
+        : PermissionStatus.granted;
 
     if (micStatus.isGranted && camStatus.isGranted) return true;
 
@@ -123,30 +124,28 @@ class AppPermissionsService {
     }
 
     final isAr = AppL10n.isArabic;
-    final what =
-        missingMic && missingCamera
-            ? (isAr ? 'الميكروفون والكاميرا' : 'Microphone and Camera')
-            : (missingMic
-                ? (isAr ? 'الميكروفون' : 'Microphone')
-                : (isAr ? 'الكاميرا' : 'Camera'));
+    final what = missingMic && missingCamera
+        ? (isAr ? 'الميكروفون والكاميرا' : 'Microphone and Camera')
+        : (missingMic
+              ? (isAr ? 'الميكروفون' : 'Microphone')
+              : (isAr ? 'الكاميرا' : 'Camera'));
 
     final openSettings = await showDialog<bool>(
       context: host,
-      builder:
-          (dialogContext) => AlertDialog(
-            title: Text(AppL10n.current.permissionRequired),
-            content: Text(AppL10n.current.accessIsTurnedOff(what)),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(dialogContext).pop(false),
-                child: Text(AppL10n.current.notNow),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(dialogContext).pop(true),
-                child: Text(AppL10n.current.openSettings),
-              ),
-            ],
+      builder: (dialogContext) => AlertDialog(
+        title: Text(AppL10n.current.permissionRequired),
+        content: Text(AppL10n.current.accessIsTurnedOff(what)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(AppL10n.current.notNow),
           ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(AppL10n.current.openSettings),
+          ),
+        ],
+      ),
     );
 
     if (openSettings == true) {

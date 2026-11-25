@@ -62,10 +62,9 @@ class CallNotificationDispatcher {
       profileBitmap = await _avatarBuilder.defaultBitmap();
     }
 
-    final subtitle =
-        callType == 'video'
-            ? AppL10n.current.incomingVideoCall
-            : AppL10n.current.incomingVoiceCall;
+    final subtitle = callType == 'video'
+        ? AppL10n.current.incomingVideoCall
+        : AppL10n.current.incomingVoiceCall;
     final androidDetails = AndroidNotificationDetails(
       NotificationChannelSetup.callChannel.id,
       NotificationChannelSetup.callChannel.name,

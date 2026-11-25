@@ -95,31 +95,30 @@ class _SingleUserStoryViewState extends State<SingleUserStoryView>
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder:
-          (context) => SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 24, left: 16, right: 16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 40,
-                    height: 4,
-                    margin: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                  MessageLinkPreview(
-                    text: url,
-                    isMe: false,
-                    textWidget: const SizedBox.shrink(),
-                  ),
-                ],
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 24, left: 16, right: 16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 12),
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.circular(2),
+                ),
               ),
-            ),
+              MessageLinkPreview(
+                text: url,
+                isMe: false,
+                textWidget: const SizedBox.shrink(),
+              ),
+            ],
           ),
+        ),
+      ),
     );
     if (!mounted) return;
 
@@ -142,18 +141,16 @@ class _SingleUserStoryViewState extends State<SingleUserStoryView>
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create:
-              (context) => StoryReplyCubit(
-                mediaCacheRepository: context.read<MediaCacheRepository>(),
-              ),
+          create: (context) => StoryReplyCubit(
+            mediaCacheRepository: context.read<MediaCacheRepository>(),
+          ),
         ),
         if (!isMyStory)
           BlocProvider(
-            create:
-                (_) => StoryReactionCubit(
-                  storyId: widget.story.id,
-                  storyAuthorId: widget.story.authorId,
-                ),
+            create: (_) => StoryReactionCubit(
+              storyId: widget.story.id,
+              storyAuthorId: widget.story.authorId,
+            ),
           ),
         if (isMyStory)
           BlocProvider(
@@ -223,8 +220,8 @@ class _SingleUserStoryViewState extends State<SingleUserStoryView>
                                 _resumeStory();
                               }
                             },
-                            onMentionTap:
-                                (userId, name) => _openProfile(context, userId),
+                            onMentionTap: (userId, name) =>
+                                _openProfile(context, userId),
                             onLinkTap: _showLinkPreviewSheet,
                           );
                           if (isOnlyLink) {
@@ -268,8 +265,9 @@ class _SingleUserStoryViewState extends State<SingleUserStoryView>
                                 (a, b) => a.viewedAt.compareTo(b.viewedAt),
                               );
 
-                        final reactionEmojis =
-                            reactedViewers.map((v) => v.reaction!).toList();
+                        final reactionEmojis = reactedViewers
+                            .map((v) => v.reaction!)
+                            .toList();
 
                         return ReactionFountainWidget(
                           reactionEmojis: reactionEmojis,
@@ -324,9 +322,8 @@ class _SingleUserStoryViewState extends State<SingleUserStoryView>
                                     _resumeStory();
                                   }
                                 },
-                                onMentionTap:
-                                    (userId, name) =>
-                                        _openProfile(context, userId),
+                                onMentionTap: (userId, name) =>
+                                    _openProfile(context, userId),
                                 onLinkTap: _showLinkPreviewSheet,
                               ),
                             ),
@@ -377,10 +374,9 @@ class _SingleUserStoryViewState extends State<SingleUserStoryView>
       if (widget.story.authorId == currentUserId) {
         AppToast.info(context.l10n.youMentionedYourselfIn4);
       } else {
-        final authorName =
-            widget.story.authorName.trim().isNotEmpty
-                ? widget.story.authorName.trim()
-                : context.l10n.someone;
+        final authorName = widget.story.authorName.trim().isNotEmpty
+            ? widget.story.authorName.trim()
+            : context.l10n.someone;
         AppToast.info(context.l10n.mentionedYouInThis4(authorName));
       }
     } else {

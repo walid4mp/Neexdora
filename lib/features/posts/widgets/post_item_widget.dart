@@ -73,8 +73,9 @@ class PostItemWidget extends StatelessWidget {
 
         final bool canPin =
             isProfileContext && currentPost.authorId == currentUserId;
-        final PostModel? displayPost =
-            isSharedPost ? currentPost.originalPost : currentPost;
+        final PostModel? displayPost = isSharedPost
+            ? currentPost.originalPost
+            : currentPost;
 
         if (isSharedPost && displayPost == null) {
           return const SizedBox.shrink();
@@ -130,10 +131,9 @@ class PostItemWidget extends StatelessWidget {
                             sharedPost: currentPost,
                             currentUserId: currentUserId,
                             postsCubit: postsCubit,
-                            contentLabel:
-                                isSharedReel
-                                    ? context.l10n.aReel
-                                    : context.l10n.aPost,
+                            contentLabel: isSharedReel
+                                ? context.l10n.aReel
+                                : context.l10n.aPost,
                             trailingAction: HeaderTrailingAction.moreActions,
                             showPinAction: canPin,
                             showPinnedBadge: showPinnedBadge,
@@ -155,33 +155,31 @@ class PostItemWidget extends StatelessWidget {
                           SharedReelPreviewCard(reel: displayPost.sharedReel!)
                         else ...[
                           Container(
-                            padding:
-                                isSharedPost
-                                    ? const EdgeInsets.all(12)
-                                    : EdgeInsets.zero,
-                            decoration:
-                                isSharedPost
-                                    ? BoxDecoration(
-                                      borderRadius: BorderRadius.circular(14),
-                                      gradient: LinearGradient(
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                        colors: [
-                                          colorScheme.onSurface.withValues(
-                                            alpha: 0.03,
-                                          ),
-                                          colorScheme.onSurface.withValues(
-                                            alpha: 0.01,
-                                          ),
-                                        ],
-                                      ),
-                                      border: Border.all(
-                                        color: colorScheme.outlineVariant
-                                            .withValues(alpha: 0.2),
-                                        width: 1,
-                                      ),
-                                    )
-                                    : null,
+                            padding: isSharedPost
+                                ? const EdgeInsets.all(12)
+                                : EdgeInsets.zero,
+                            decoration: isSharedPost
+                                ? BoxDecoration(
+                                    borderRadius: BorderRadius.circular(14),
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                      colors: [
+                                        colorScheme.onSurface.withValues(
+                                          alpha: 0.03,
+                                        ),
+                                        colorScheme.onSurface.withValues(
+                                          alpha: 0.01,
+                                        ),
+                                      ],
+                                    ),
+                                    border: Border.all(
+                                      color: colorScheme.outlineVariant
+                                          .withValues(alpha: 0.2),
+                                      width: 1,
+                                    ),
+                                  )
+                                : null,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -189,23 +187,23 @@ class PostItemWidget extends StatelessWidget {
                                   post: displayPost,
                                   currentUserId: currentUserId,
                                   postsCubit: postsCubit,
-                                  trailingAction:
-                                      isSharedPost
-                                          ? HeaderTrailingAction.none
-                                          : HeaderTrailingAction.moreActions,
+                                  trailingAction: isSharedPost
+                                      ? HeaderTrailingAction.none
+                                      : HeaderTrailingAction.moreActions,
                                   showPinAction: canPin,
-                                  showPinnedBadge:
-                                      isSharedPost ? false : showPinnedBadge,
+                                  showPinnedBadge: isSharedPost
+                                      ? false
+                                      : showPinnedBadge,
                                   isProfileContext: isProfileContext,
                                 ),
                                 const SizedBox(height: 8),
                                 displayPost.hasBackgroundTheme
                                     ? ThemedPostCard(
-                                      post: displayPost,
-                                      postsCubit: postsCubit,
-                                      heroTag:
-                                          'themed-post-${currentPost.id}-${displayPost.id}',
-                                    )
+                                        post: displayPost,
+                                        postsCubit: postsCubit,
+                                        heroTag:
+                                            'themed-post-${currentPost.id}-${displayPost.id}',
+                                      )
                                     : PostTxtContentWidget(post: displayPost),
                                 PostMediaWidget(
                                   post: displayPost,

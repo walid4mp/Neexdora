@@ -74,14 +74,12 @@ class _DialingViewState extends State<DialingView> {
                     SizedBox(height: metrics.topGap),
 
                     CallStatusPill(
-                      icon:
-                          isVideo
-                              ? Icons.videocam_rounded
-                              : Icons.phone_rounded,
-                      label:
-                          isVideo
-                              ? context.l10n.videoCall2
-                              : context.l10n.voiceCall2,
+                      icon: isVideo
+                          ? Icons.videocam_rounded
+                          : Icons.phone_rounded,
+                      label: isVideo
+                          ? context.l10n.videoCall2
+                          : context.l10n.voiceCall2,
                     ),
 
                     SizedBox(height: metrics.midGap),

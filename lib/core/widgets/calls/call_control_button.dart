@@ -75,10 +75,9 @@ class _CallControlButtonState extends State<CallControlButton>
           AnimatedBuilder(
             animation: _emphasisController,
             builder: (context, child) {
-              final emphasisScale =
-                  widget.emphasized
-                      ? 1.0 + (_emphasisController.value * 0.06)
-                      : 1.0;
+              final emphasisScale = widget.emphasized
+                  ? 1.0 + (_emphasisController.value * 0.06)
+                  : 1.0;
               final pressScale = _pressed ? 0.92 : 1.0;
               return Transform.scale(
                 scale: emphasisScale * pressScale,

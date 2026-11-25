@@ -105,14 +105,13 @@ class _PostThemesViewState extends State<PostThemesView> {
     final themeData = Theme.of(context);
     final colorScheme = themeData.colorScheme;
 
-    final customAddedEmojis =
-        _motifs
-            .where(
-              (m) =>
-                  !PostThemePresetIcons.isIconToken(m) &&
-                  !PostThemePresetIcons.quickEmojis.contains(m),
-            )
-            .toList();
+    final customAddedEmojis = _motifs
+        .where(
+          (m) =>
+              !PostThemePresetIcons.isIconToken(m) &&
+              !PostThemePresetIcons.quickEmojis.contains(m),
+        )
+        .toList();
 
     return BackgroundThemeWidget(
       bottom: false,
@@ -248,10 +247,9 @@ class _PostThemesViewState extends State<PostThemesView> {
                           Icon(
                             Icons.block_rounded,
                             size: 16,
-                            color:
-                                _motifs.isEmpty
-                                    ? colorScheme.onPrimary
-                                    : colorScheme.onSurfaceVariant,
+                            color: _motifs.isEmpty
+                                ? colorScheme.onPrimary
+                                : colorScheme.onSurfaceVariant,
                           ),
                           const Gap(5),
                           Text(
@@ -259,10 +257,9 @@ class _PostThemesViewState extends State<PostThemesView> {
                             style: TextStyle(
                               fontSize: 12.5,
                               fontWeight: FontWeight.w600,
-                              color:
-                                  _motifs.isEmpty
-                                      ? colorScheme.onPrimary
-                                      : colorScheme.onSurface,
+                              color: _motifs.isEmpty
+                                  ? colorScheme.onPrimary
+                                  : colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -313,10 +310,9 @@ class _PostThemesViewState extends State<PostThemesView> {
                         child: Icon(
                           preset.icon,
                           size: 19,
-                          color:
-                              _motifs.contains(preset.token)
-                                  ? colorScheme.onPrimary
-                                  : colorScheme.onSurface,
+                          color: _motifs.contains(preset.token)
+                              ? colorScheme.onPrimary
+                              : colorScheme.onSurface,
                         ),
                       ),
                     ],
@@ -472,16 +468,14 @@ class _MotifChoiceChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return Material(
-      color:
-          isSelected
-              ? colorScheme.primary
-              : colorScheme.surfaceContainerHighest.withValues(alpha: 0.65),
+      color: isSelected
+          ? colorScheme.primary
+          : colorScheme.surfaceContainerHighest.withValues(alpha: 0.65),
       shape: StadiumBorder(
         side: BorderSide(
-          color:
-              isSelected
-                  ? colorScheme.primary
-                  : colorScheme.outlineVariant.withValues(alpha: 0.4),
+          color: isSelected
+              ? colorScheme.primary
+              : colorScheme.outlineVariant.withValues(alpha: 0.4),
         ),
       ),
       child: InkWell(
@@ -559,13 +553,14 @@ class _CustomEmojiInputSheetState extends State<_CustomEmojiInputSheet> {
                   controller: _controller,
                   autofocus: true,
                   textAlign: TextAlign.center,
-                  style: (Theme.of(context).textTheme.headlineMedium ??
-                          const TextStyle())
-                      .copyWith(
-                        fontSize: 28,
-                        fontFamily: null,
-                        fontFamilyFallback: AppTypography.emojiFontFallback,
-                      ),
+                  style:
+                      (Theme.of(context).textTheme.headlineMedium ??
+                              const TextStyle())
+                          .copyWith(
+                            fontSize: 28,
+                            fontFamily: null,
+                            fontFamilyFallback: AppTypography.emojiFontFallback,
+                          ),
                   decoration: InputDecoration(
                     hintText: '✨ 🔥 🌸',
                     border: OutlineInputBorder(
@@ -580,10 +575,9 @@ class _CustomEmojiInputSheetState extends State<_CustomEmojiInputSheet> {
               ),
               const Gap(12),
               FilledButton(
-                onPressed:
-                    emoji == null
-                        ? null
-                        : () => Navigator.of(context).pop(emoji),
+                onPressed: emoji == null
+                    ? null
+                    : () => Navigator.of(context).pop(emoji),
                 style: FilledButton.styleFrom(
                   minimumSize: const Size(56, 54),
                   shape: RoundedRectangleBorder(
@@ -633,10 +627,9 @@ class _ThemeTile extends StatelessWidget {
                   color: theme.previewColor,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color:
-                        isSelected
-                            ? primary
-                            : Colors.white.withValues(alpha: 0.14),
+                    color: isSelected
+                        ? primary
+                        : Colors.white.withValues(alpha: 0.14),
                     width: isSelected ? 3 : 1,
                   ),
                 ),

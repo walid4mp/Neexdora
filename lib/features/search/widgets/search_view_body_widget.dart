@@ -166,20 +166,19 @@ class _SearchViewBodyWidgetState extends State<SearchViewBodyWidget>
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
                         ),
-                        tabs:
-                            tabLabels
-                                .map(
-                                  (label) => Tab(
-                                    height: 36,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 13.0,
-                                      ),
-                                      child: Text(label),
-                                    ),
+                        tabs: tabLabels
+                            .map(
+                              (label) => Tab(
+                                height: 36,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 13.0,
                                   ),
-                                )
-                                .toList(),
+                                  child: Text(label),
+                                ),
+                              ),
+                            )
+                            .toList(),
                       ),
                     ),
                   ),

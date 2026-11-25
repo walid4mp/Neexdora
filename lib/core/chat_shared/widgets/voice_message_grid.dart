@@ -28,70 +28,58 @@ class VoiceMessageGrid extends StatelessWidget {
       items: items,
       tileBuilder: (context, item) {
         final isMe = item.senderId == SupabaseProvider.id;
-        final avatarUrl =
-            isMe ? (currentUserAvatar ?? item.senderAvatar) : item.senderAvatar;
+        final avatarUrl = isMe
+            ? (currentUserAvatar ?? item.senderAvatar)
+            : item.senderAvatar;
         final hasAvatar = (avatarUrl ?? '').isNotEmpty;
         return GestureDetector(
-          onTap:
-              () => MediaActionHelper.openFullScreenMedia(context, items, item),
-          onLongPressStart:
-              (details) => showSharedMediaActionMenu(
-                context: context,
-                globalPosition: details.globalPosition,
-                isMe: isMe,
-                onShowInChat:
-                    () => MediaActionHelper.handleShowInChat(
-                      context,
-                      item,
-                      onShowInChat,
-                    ),
-                onConfirmedDelete:
-                    () => MediaActionHelper.handleDelete(
-                      context,
-                      item,
-                      forEveryone: isMe,
-                    ),
-                onOpen:
-                    () => MediaActionHelper.openFullScreenMedia(
-                      context,
-                      items,
-                      item,
-                    ),
-                openLabel: context.l10n.openLabel,
-                openIcon: Icons.mic_none_rounded,
-              ),
+          onTap: () =>
+              MediaActionHelper.openFullScreenMedia(context, items, item),
+          onLongPressStart: (details) => showSharedMediaActionMenu(
+            context: context,
+            globalPosition: details.globalPosition,
+            isMe: isMe,
+            onShowInChat: () =>
+                MediaActionHelper.handleShowInChat(context, item, onShowInChat),
+            onConfirmedDelete: () => MediaActionHelper.handleDelete(
+              context,
+              item,
+              forEveryone: isMe,
+            ),
+            onOpen: () =>
+                MediaActionHelper.openFullScreenMedia(context, items, item),
+            openLabel: context.l10n.openLabel,
+            openIcon: Icons.mic_none_rounded,
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             child: Row(
               children: [
                 GestureDetector(
-                  onTap:
-                      () => MediaActionHelper.openFullScreenMedia(
-                        context,
-                        items,
-                        item,
-                      ),
+                  onTap: () => MediaActionHelper.openFullScreenMedia(
+                    context,
+                    items,
+                    item,
+                  ),
                   child: CircleAvatar(
                     radius: 18,
                     backgroundColor: Theme.of(
                       context,
                     ).primaryColor.withValues(alpha: 0.12),
-                    backgroundImage:
-                        hasAvatar
-                            ? AppImageProvider.avatar(avatarUrl!, radius: 18)
-                            : null,
-                    child:
-                        !hasAvatar
-                            ? Text(
-                              item.senderName.isNotEmpty
-                                  ? item.senderName[0].toUpperCase()
-                                  : '?',
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 13,
-                              ),
-                            )
-                            : null,
+                    backgroundImage: hasAvatar
+                        ? AppImageProvider.avatar(avatarUrl!, radius: 18)
+                        : null,
+                    child: !hasAvatar
+                        ? Text(
+                            item.senderName.isNotEmpty
+                                ? item.senderName[0].toUpperCase()
+                                : '?',
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontSize: 13,
+                            ),
+                          )
+                        : null,
                   ),
                 ),
                 const Gap(10),
@@ -100,12 +88,11 @@ class VoiceMessageGrid extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       GestureDetector(
-                        onTap:
-                            () => MediaActionHelper.openFullScreenMedia(
-                              context,
-                              items,
-                              item,
-                            ),
+                        onTap: () => MediaActionHelper.openFullScreenMedia(
+                          context,
+                          items,
+                          item,
+                        ),
                         child: Text(
                           isMe ? context.l10n.you : item.senderName,
                           style: Theme.of(context).textTheme.titleSmall,

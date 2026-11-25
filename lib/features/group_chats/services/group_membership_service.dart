@@ -32,19 +32,18 @@ class GroupMembershipService {
     String? avatarPublicId,
     required List<String> memberIds,
   }) async {
-    final row =
-        await _supabase
-            .rpc(
-              'create_group_with_members',
-              params: {
-                'p_creator_id': currentUserId,
-                'p_name': name,
-                'p_avatar_url': avatarUrl,
-                'p_avatar_public_id': avatarPublicId,
-                'p_member_ids': memberIds,
-              },
-            )
-            .single();
+    final row = await _supabase
+        .rpc(
+          'create_group_with_members',
+          params: {
+            'p_creator_id': currentUserId,
+            'p_name': name,
+            'p_avatar_url': avatarUrl,
+            'p_avatar_public_id': avatarPublicId,
+            'p_member_ids': memberIds,
+          },
+        )
+        .single();
 
     return GroupModel.fromMap(row);
   }
@@ -114,13 +113,13 @@ class GroupMembershipService {
 
     final dataList = (response as List).cast<Map<String, dynamic>>();
 
-    final members =
-        dataList.map((row) => GroupMemberModel.fromMap(row)).toList();
+    final members = dataList
+        .map((row) => GroupMemberModel.fromMap(row))
+        .toList();
 
-    final total =
-        dataList.isNotEmpty
-            ? (dataList.first['total_count'] as num).toInt()
-            : 0;
+    final total = dataList.isNotEmpty
+        ? (dataList.first['total_count'] as num).toInt()
+        : 0;
 
     return (members: members, totalCount: total);
   }
@@ -140,13 +139,12 @@ class GroupMembershipService {
     required String groupId,
     required String userId,
   }) async {
-    final response =
-        await _supabase
-            .from(SupabaseConstants.groupMembers)
-            .select(GroupMemberColumns.membershipStatus)
-            .eq(GroupMemberColumns.groupId, groupId)
-            .eq(GroupMemberColumns.userId, userId)
-            .maybeSingle();
+    final response = await _supabase
+        .from(SupabaseConstants.groupMembers)
+        .select(GroupMemberColumns.membershipStatus)
+        .eq(GroupMemberColumns.groupId, groupId)
+        .eq(GroupMemberColumns.userId, userId)
+        .maybeSingle();
 
     return response?[GroupMemberColumns.membershipStatus] == 'active';
   }
@@ -233,8 +231,9 @@ class GroupMembershipService {
             'role': 'member',
             GroupMemberColumns.membershipStatus: 'active',
             GroupMemberColumns.leftAt: null,
-            GroupMemberColumns.joinedAt:
-                DateTime.now().toUtc().toIso8601String(),
+            GroupMemberColumns.joinedAt: DateTime.now()
+                .toUtc()
+                .toIso8601String(),
           },
           onConflict:
               '${GroupMemberColumns.groupId},${GroupMemberColumns.userId}',
@@ -283,13 +282,12 @@ class GroupMembershipService {
       targetName: names[userId] ?? 'Unknown',
     );
 
-    final response =
-        await _supabase
-            .from(SupabaseConstants.groupMembers)
-            .update({GroupMemberColumns.membershipStatus: 'removed'})
-            .eq(GroupMemberColumns.groupId, groupId)
-            .eq(GroupMemberColumns.userId, userId)
-            .select();
+    final response = await _supabase
+        .from(SupabaseConstants.groupMembers)
+        .update({GroupMemberColumns.membershipStatus: 'removed'})
+        .eq(GroupMemberColumns.groupId, groupId)
+        .eq(GroupMemberColumns.userId, userId)
+        .select();
     if (response.isEmpty) {
       throw Exception(
         'Membership row was not deleted — likely blocked by an RLS policy on group_members.',
@@ -306,14 +304,13 @@ class GroupMembershipService {
       actorName: names[currentUserId] ?? 'Someone',
     );
 
-    final response =
-        await _supabase
-            .from(SupabaseConstants.groupMembers)
-            .update({GroupMemberColumns.membershipStatus: 'left'})
-            .eq(GroupMemberColumns.groupId, groupId)
-            .eq(GroupMemberColumns.userId, currentUserId)
-            .eq(GroupMemberColumns.membershipStatus, 'active')
-            .select();
+    final response = await _supabase
+        .from(SupabaseConstants.groupMembers)
+        .update({GroupMemberColumns.membershipStatus: 'left'})
+        .eq(GroupMemberColumns.groupId, groupId)
+        .eq(GroupMemberColumns.userId, currentUserId)
+        .eq(GroupMemberColumns.membershipStatus, 'active')
+        .select();
     if (response.isEmpty) {
       throw Exception(
         'Membership row was not deleted — likely blocked by an RLS policy on group_members.',
@@ -332,18 +329,18 @@ class GroupMembershipService {
       );
     }
 
-    final response =
-        await _supabase
-            .from(SupabaseConstants.groupMembers)
-            .update({
-              GroupMemberColumns.membershipStatus: 'left',
-              GroupMemberColumns.isBlocked: true,
-              GroupMemberColumns.blockedAt:
-                  DateTime.now().toUtc().toIso8601String(),
-            })
-            .eq(GroupMemberColumns.groupId, groupId)
-            .eq(GroupMemberColumns.userId, currentUserId)
-            .select();
+    final response = await _supabase
+        .from(SupabaseConstants.groupMembers)
+        .update({
+          GroupMemberColumns.membershipStatus: 'left',
+          GroupMemberColumns.isBlocked: true,
+          GroupMemberColumns.blockedAt: DateTime.now()
+              .toUtc()
+              .toIso8601String(),
+        })
+        .eq(GroupMemberColumns.groupId, groupId)
+        .eq(GroupMemberColumns.userId, currentUserId)
+        .select();
 
     if (response.isEmpty) {
       throw Exception(
@@ -396,15 +393,14 @@ class GroupMembershipService {
     String? avatarPublicId,
   ) async {
     try {
-      final response =
-          await _supabase
-              .from(SupabaseConstants.groups)
-              .update({
-                'avatar_url': newAvatarUrl,
-                if (avatarPublicId != null) 'avatar_public_id': avatarPublicId,
-              })
-              .eq('id', groupId)
-              .select();
+      final response = await _supabase
+          .from(SupabaseConstants.groups)
+          .update({
+            'avatar_url': newAvatarUrl,
+            if (avatarPublicId != null) 'avatar_public_id': avatarPublicId,
+          })
+          .eq('id', groupId)
+          .select();
 
       if (response.isEmpty) {
         throw Exception('Database update blocked by RLS Policy!');
@@ -423,36 +419,33 @@ class GroupMembershipService {
   }
 
   Future<void> removeGroupAvatar(String groupId) async {
-    final response =
-        await _supabase
-            .from(SupabaseConstants.groups)
-            .update({'avatar_url': null, 'avatar_public_id': null})
-            .eq('id', groupId)
-            .select();
+    final response = await _supabase
+        .from(SupabaseConstants.groups)
+        .update({'avatar_url': null, 'avatar_public_id': null})
+        .eq('id', groupId)
+        .select();
     if (response.isEmpty) {
       throw Exception('Database update blocked by RLS Policy!');
     }
   }
 
   Future<bool> getMyMuteStatus(String groupId) async {
-    final row =
-        await _supabase
-            .from(SupabaseConstants.groupMembers)
-            .select(GroupMemberColumns.isMuted)
-            .eq(GroupMemberColumns.groupId, groupId)
-            .eq(GroupMemberColumns.userId, currentUserId)
-            .maybeSingle();
+    final row = await _supabase
+        .from(SupabaseConstants.groupMembers)
+        .select(GroupMemberColumns.isMuted)
+        .eq(GroupMemberColumns.groupId, groupId)
+        .eq(GroupMemberColumns.userId, currentUserId)
+        .maybeSingle();
     return (row?[GroupMemberColumns.isMuted] as bool?) ?? false;
   }
 
   Future<void> toggleMute(String groupId, bool muted) async {
-    final response =
-        await _supabase
-            .from(SupabaseConstants.groupMembers)
-            .update({GroupMemberColumns.isMuted: muted})
-            .eq(GroupMemberColumns.groupId, groupId)
-            .eq(GroupMemberColumns.userId, currentUserId)
-            .select();
+    final response = await _supabase
+        .from(SupabaseConstants.groupMembers)
+        .update({GroupMemberColumns.isMuted: muted})
+        .eq(GroupMemberColumns.groupId, groupId)
+        .eq(GroupMemberColumns.userId, currentUserId)
+        .select();
 
     if (response.isEmpty) {
       throw Exception('Update blocked by RLS or row not found');
@@ -508,12 +501,11 @@ class GroupMembershipService {
   }
 
   Future<Map<String, String?>> getUserInfo(String userId) async {
-    final userProfile =
-        await _supabase
-            .from('users')
-            .select('name, image_url')
-            .eq('id', userId)
-            .maybeSingle();
+    final userProfile = await _supabase
+        .from('users')
+        .select('name, image_url')
+        .eq('id', userId)
+        .maybeSingle();
 
     return {
       'name': userProfile?['name'] as String?,

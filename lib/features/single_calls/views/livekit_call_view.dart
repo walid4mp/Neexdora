@@ -177,8 +177,9 @@ class _LiveKitCallViewState extends State<LiveKitCallView> {
         context.read<ActiveCallSessionCubit>().startSingleCallSession(
           callId: widget.call.callId,
           title: isCaller ? widget.call.receiverName : widget.call.callerName,
-          avatarUrl:
-              isCaller ? widget.call.receiverAvatar : widget.call.callerAvatar,
+          avatarUrl: isCaller
+              ? widget.call.receiverAvatar
+              : widget.call.callerAvatar,
           isVideo: _isVideo,
           startedAt: _startedAt,
           call: widget.call,
@@ -348,8 +349,9 @@ class _LiveKitCallViewState extends State<LiveKitCallView> {
     if (localVideoTrack == null) return;
 
     _isSwitchingCamera = true;
-    final nextPosition =
-        _isFrontCamera ? CameraPosition.back : CameraPosition.front;
+    final nextPosition = _isFrontCamera
+        ? CameraPosition.back
+        : CameraPosition.front;
 
     try {
       await localVideoTrack.setCameraPosition(nextPosition);
@@ -384,10 +386,9 @@ class _LiveKitCallViewState extends State<LiveKitCallView> {
       pipCubit: pipCubit,
       sessionCubit: sessionCubit,
       signalEnd: () => callCubit.endCall(widget.call.callId),
-      endMessage:
-          notifyPeer
-              ? CallControlMessage.singleEnded(widget.call.callId)
-              : null,
+      endMessage: notifyPeer
+          ? CallControlMessage.singleEnded(widget.call.callId)
+          : null,
     );
 
     if (mounted) CallTerminationService.popRouteIfActive(context);
@@ -424,8 +425,8 @@ class _LiveKitCallViewState extends State<LiveKitCallView> {
                 Text(context.l10n.theCallCouldNot),
                 const SizedBox(height: 8),
                 ElevatedButton(
-                  onPressed:
-                      () => CallTerminationService.popRouteIfActive(context),
+                  onPressed: () =>
+                      CallTerminationService.popRouteIfActive(context),
                   child: Text(context.l10n.back),
                 ),
               ],
@@ -443,10 +444,12 @@ class _LiveKitCallViewState extends State<LiveKitCallView> {
     final primary = Theme.of(context).primaryColor;
     final remoteTrack = room == null ? null : _resolveRemoteTrack(room);
     final isCaller = widget.currentUserId == widget.call.callerId;
-    final otherPersonName =
-        isCaller ? widget.call.receiverName : widget.call.callerName;
-    final otherPersonAvatar =
-        isCaller ? widget.call.receiverAvatar : widget.call.callerAvatar;
+    final otherPersonName = isCaller
+        ? widget.call.receiverName
+        : widget.call.callerName;
+    final otherPersonAvatar = isCaller
+        ? widget.call.receiverAvatar
+        : widget.call.callerAvatar;
     final showRemoteVideo = _isVideo && remoteTrack != null;
 
     return PopScope(
@@ -561,10 +564,9 @@ class _LiveKitCallViewState extends State<LiveKitCallView> {
                       const SizedBox(height: 2),
                       CallStatusPill(
                         icon: Icons.circle,
-                        label:
-                            isConnectingUi
-                                ? context.l10n.connecting
-                                : _durationText,
+                        label: isConnectingUi
+                            ? context.l10n.connecting
+                            : _durationText,
                         showLiveDot: !isConnectingUi,
                       ),
                     ],
@@ -629,10 +631,9 @@ class _LiveKitCallViewState extends State<LiveKitCallView> {
           CallControlButton(
             icon: _micEnabled ? Icons.mic_rounded : Icons.mic_off_rounded,
             label: _micEnabled ? context.l10n.mute : context.l10n.unmute,
-            variant:
-                _micEnabled
-                    ? CallControlVariant.neutral
-                    : CallControlVariant.warning,
+            variant: _micEnabled
+                ? CallControlVariant.neutral
+                : CallControlVariant.warning,
             size: buttonSize,
             onTap: _toggleMic,
           ),
@@ -641,15 +642,13 @@ class _LiveKitCallViewState extends State<LiveKitCallView> {
           _gated(
             isConnectingUi,
             CallControlButton(
-              icon:
-                  _cameraEnabled
-                      ? Icons.videocam_rounded
-                      : Icons.videocam_off_rounded,
+              icon: _cameraEnabled
+                  ? Icons.videocam_rounded
+                  : Icons.videocam_off_rounded,
               label: _cameraEnabled ? context.l10n.camera : context.l10n.off,
-              variant:
-                  _cameraEnabled
-                      ? CallControlVariant.neutral
-                      : CallControlVariant.warning,
+              variant: _cameraEnabled
+                  ? CallControlVariant.neutral
+                  : CallControlVariant.warning,
               size: buttonSize,
               onTap: _toggleCamera,
             ),

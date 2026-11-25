@@ -54,8 +54,9 @@ class CommentsService {
           .order(CommentColumns.createdAt, ascending: true);
 
       final combined = [...topLevelRows, ...replyRows];
-      final flatComments =
-          combined.map((row) => CommentModel.fromMap(row)).toList();
+      final flatComments = combined
+          .map((row) => CommentModel.fromMap(row))
+          .toList();
 
       return CommentTreeBuilder.build(flatComments);
     } catch (e) {
@@ -173,11 +174,9 @@ class CommentsService {
     required String emoji,
   }) async {
     try {
-      final existing =
-          await _supabase.from('comment_reactions').select().match({
-            'comment_id': commentId,
-            'user_id': userId,
-          }).maybeSingle();
+      final existing = await _supabase.from('comment_reactions').select().match(
+        {'comment_id': commentId, 'user_id': userId},
+      ).maybeSingle();
 
       if (existing != null) {
         if (existing['emoji'] == emoji) {

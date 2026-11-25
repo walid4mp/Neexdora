@@ -48,18 +48,17 @@ class StoryHeader extends StatelessWidget {
         ),
         const Gap(10),
         GestureDetector(
-          onTap:
-              isMyStory
-                  ? null
-                  : () async {
-                    onPause();
-                    await Navigator.pushNamed(
-                      context,
-                      AppRoutes.profileViewRoute,
-                      arguments: story.authorId,
-                    );
-                    onResume();
-                  },
+          onTap: isMyStory
+              ? null
+              : () async {
+                  onPause();
+                  await Navigator.pushNamed(
+                    context,
+                    AppRoutes.profileViewRoute,
+                    arguments: story.authorId,
+                  );
+                  onResume();
+                },
           child: Row(
             children: [
               PresenceAvatarWidget(
@@ -68,14 +67,13 @@ class StoryHeader extends StatelessWidget {
 
                 showBorder: false,
                 child: CircleAvatar(
-                  backgroundImage:
-                      story.authorImageUrl?.isNotEmpty == true
-                          ? AppImageProvider.avatar(
-                            story.authorImageUrl!,
-                            radius: 20,
-                          )
-                          : const AssetImage(AppImages.defaultUserImg)
-                              as ImageProvider,
+                  backgroundImage: story.authorImageUrl?.isNotEmpty == true
+                      ? AppImageProvider.avatar(
+                          story.authorImageUrl!,
+                          radius: 20,
+                        )
+                      : const AssetImage(AppImages.defaultUserImg)
+                            as ImageProvider,
                 ),
               ),
               const Gap(10),
@@ -145,20 +143,19 @@ class StoryHeader extends StatelessWidget {
                 onResume();
               }
             },
-            itemBuilder:
-                (_) => [
-                  PopupMenuItem(
-                    value: 'share',
-                    child: Text(context.l10n.shareStory),
-                  ),
-                  PopupMenuItem(
-                    value: 'delete',
-                    child: Text(
-                      context.l10n.deleteStory,
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ),
-                ],
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 'share',
+                child: Text(context.l10n.shareStory),
+              ),
+              PopupMenuItem(
+                value: 'delete',
+                child: Text(
+                  context.l10n.deleteStory,
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
           ),
 
         if (!isMyStory)
@@ -180,13 +177,12 @@ class StoryHeader extends StatelessWidget {
               );
               onResume();
             },
-            itemBuilder:
-                (_) => [
-                  PopupMenuItem(
-                    value: 'report',
-                    child: Text(context.l10n.reportStory),
-                  ),
-                ],
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: 'report',
+                child: Text(context.l10n.reportStory),
+              ),
+            ],
           ),
       ],
     );

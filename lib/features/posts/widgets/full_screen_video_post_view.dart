@@ -272,10 +272,9 @@ class _FullScreenVideoPostViewState extends State<FullScreenVideoPostView> {
       child: Padding(
         padding: EdgeInsetsDirectional.only(
           end: 14,
-          bottom:
-              hasCaption
-                  ? _rightColumnBottomWithCaption
-                  : _rightColumnBottomNoCaption,
+          bottom: hasCaption
+              ? _rightColumnBottomWithCaption
+              : _rightColumnBottomNoCaption,
         ),
         child: RightInteractionsPostVideoColumn(
           post: widget.post,

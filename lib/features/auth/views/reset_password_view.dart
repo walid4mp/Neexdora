@@ -98,12 +98,11 @@ class _ResetPasswordViewCustomState extends State<ResetPasswordView> {
                     const Gap(24),
                     Text(
                       context.l10n.createNewPassword,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.black,
-                      ),
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.black,
+                          ),
                     ),
                     const Gap(8),
                     Text(
@@ -131,9 +130,8 @@ class _ResetPasswordViewCustomState extends State<ResetPasswordView> {
                         width: MediaQuery.sizeOf(context).width * 0.6,
                         child: ValueListenableBuilder<TextEditingValue>(
                           valueListenable: _newPwdController,
-                          builder:
-                              (context, value, _) =>
-                                  PasswordStrengthBar(password: value.text),
+                          builder: (context, value, _) =>
+                              PasswordStrengthBar(password: value.text),
                         ),
                       ),
                     ),
@@ -145,18 +143,15 @@ class _ResetPasswordViewCustomState extends State<ResetPasswordView> {
                       hintText: context.l10n.reEnterYourPassword,
                       isPassword: true,
                       inputFormatters: AppFormatters.noSpaces,
-                      validator:
-                          (val) => AppValidators.validateConfirmPassword(
-                            val,
-                            _newPwdController.text,
-                          ),
+                      validator: (val) => AppValidators.validateConfirmPassword(
+                        val,
+                        _newPwdController.text,
+                      ),
                     ),
                     const Gap(32),
                     BlocConsumer<AuthCubit, AuthState>(
-                      listenWhen:
-                          (prev, curr) =>
-                              curr is PasswordUpdateSuccess ||
-                              curr is AuthFailure,
+                      listenWhen: (prev, curr) =>
+                          curr is PasswordUpdateSuccess || curr is AuthFailure,
                       listener: (context, state) {
                         if (state is PasswordUpdateSuccess) {
                           AppToast.success(
@@ -178,10 +173,9 @@ class _ResetPasswordViewCustomState extends State<ResetPasswordView> {
                         return CustomElevatedButton(
                           txtBtn: 'Update Password',
                           isLoading: state is AuthLoading,
-                          onPressed:
-                              state is AuthLoading
-                                  ? null
-                                  : _executePasswordUpdate,
+                          onPressed: state is AuthLoading
+                              ? null
+                              : _executePasswordUpdate,
                         );
                       },
                     ),

@@ -56,10 +56,9 @@ mixin GroupMessagesStreamMixin on Cubit<GroupDetailsState> {
                 myRow.isNotEmpty &&
                 myRow[GroupMemberColumns.membershipStatus] == 'active';
 
-            final lastStateIsMember =
-                state is GroupDetailsLoaded
-                    ? (state as GroupDetailsLoaded).isMember
-                    : null;
+            final lastStateIsMember = state is GroupDetailsLoaded
+                ? (state as GroupDetailsLoaded).isMember
+                : null;
 
             if (lastStateIsMember == newIsMember) return;
 
@@ -93,15 +92,12 @@ mixin GroupMessagesStreamMixin on Cubit<GroupDetailsState> {
 
     _hasReceivedFirstStreamEvent = false;
     final int myEpoch = ++(this as GroupDetailsCubit)._messagesEpoch;
-    (this as GroupDetailsCubit)._protectedKeys =
-        cachedMessages
-            .map(
-              (m) => correlationKeyFor(
-                id: m.id,
-                clientMessageId: m.clientMessageId,
-              ),
-            )
-            .toSet();
+    (this as GroupDetailsCubit)._protectedKeys = cachedMessages
+        .map(
+          (m) =>
+              correlationKeyFor(id: m.id, clientMessageId: m.clientMessageId),
+        )
+        .toSet();
 
     final clearedAt = GroupChatClearStore.instance.clearedAtFor(group.id);
 
@@ -111,25 +107,23 @@ mixin GroupMessagesStreamMixin on Cubit<GroupDetailsState> {
           (messages) {
             if (myEpoch != (this as GroupDetailsCubit)._messagesEpoch) return;
 
-            final visibleMessages =
-                clearedAt == null
-                    ? messages
-                    : messages
-                        .where((m) => m.createdAt.isAfter(clearedAt))
-                        .toList();
+            final visibleMessages = clearedAt == null
+                ? messages
+                : messages
+                      .where((m) => m.createdAt.isAfter(clearedAt))
+                      .toList();
 
             final existingById = {for (final c in cachedMessages) c.id: c};
-            final enriched =
-                visibleMessages.map((msg) {
-                  final existing = existingById[msg.id];
-                  final mentions =
-                      _mentionsCache[msg.id] ??
-                      existing?.mentions ??
-                      const <MentionRef>[];
-                  final reactions =
-                      _reactionsCache[msg.id] ?? existing?.reactions ?? {};
-                  return msg.copyWith(mentions: mentions, reactions: reactions);
-                }).toList();
+            final enriched = visibleMessages.map((msg) {
+              final existing = existingById[msg.id];
+              final mentions =
+                  _mentionsCache[msg.id] ??
+                  existing?.mentions ??
+                  const <MentionRef>[];
+              final reactions =
+                  _reactionsCache[msg.id] ?? existing?.reactions ?? {};
+              return msg.copyWith(mentions: mentions, reactions: reactions);
+            }).toList();
 
             final bool isFirstEventThisTime = !_hasReceivedFirstStreamEvent;
 
@@ -154,14 +148,11 @@ mixin GroupMessagesStreamMixin on Cubit<GroupDetailsState> {
               final bool hasOwnNewMessage = resolved.any(
                 (m) => newIds.contains(m.id) && m.senderId == currentUserId,
               );
-              final int otherNewCount =
-                  resolved
-                      .where(
-                        (m) =>
-                            newIds.contains(m.id) &&
-                            m.senderId != currentUserId,
-                      )
-                      .length;
+              final int otherNewCount = resolved
+                  .where(
+                    (m) => newIds.contains(m.id) && m.senderId != currentUserId,
+                  )
+                  .length;
 
               if (!isAtBottomNotifier.value &&
                   otherNewCount > 0 &&
@@ -214,8 +205,9 @@ mixin GroupMessagesStreamMixin on Cubit<GroupDetailsState> {
 
     if (resolved.isNotEmpty) {
       final latest = resolved.first;
-      final existingGroup =
-          groupListCubit.cached.where((g) => g.id == group.id).firstOrNull;
+      final existingGroup = groupListCubit.cached
+          .where((g) => g.id == group.id)
+          .firstOrNull;
       final hasNewerReactionPreview =
           existingGroup != null &&
           existingGroup.lastMessageType == 'message_react' &&
@@ -225,10 +217,8 @@ mixin GroupMessagesStreamMixin on Cubit<GroupDetailsState> {
       if (!hasNewerReactionPreview) {
         final previewMessage =
             (latest.messageType == 'file' || latest.messageType == 'document')
-                ? (latest.fileName ?? latest.text)
-                : (latest.text.isNotEmpty
-                    ? latest.text
-                    : (latest.caption ?? ''));
+            ? (latest.fileName ?? latest.text)
+            : (latest.text.isNotEmpty ? latest.text : (latest.caption ?? ''));
         groupListCubit.updateGroupLastMessage(
           groupId: group.id,
           message: previewMessage,
@@ -315,10 +305,9 @@ mixin GroupMessagesStreamMixin on Cubit<GroupDetailsState> {
   }
 
   void _recomputeListVisiblePresence() {
-    listVisiblePresenceNotifier.value =
-        isAtBottomNotifier.value
-            ? presenceNotifier.value
-            : GroupPresenceSnapshot.empty;
+    listVisiblePresenceNotifier.value = isAtBottomNotifier.value
+        ? presenceNotifier.value
+        : GroupPresenceSnapshot.empty;
   }
 
   void onTyping() {

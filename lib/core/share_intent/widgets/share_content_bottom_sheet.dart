@@ -29,15 +29,14 @@ class ShareContentBottomSheet {
       useRootNavigator: true,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder:
-          (_) => _ShareContentSheet(
-            url: url,
-            shareText: shareText,
-            originalAuthorId: originalAuthorId,
-            originalAuthorName: originalAuthorName,
-            originalAuthorAvatarUrl: originalAuthorAvatarUrl,
-            onShared: onShared,
-          ),
+      builder: (_) => _ShareContentSheet(
+        url: url,
+        shareText: shareText,
+        originalAuthorId: originalAuthorId,
+        originalAuthorName: originalAuthorName,
+        originalAuthorAvatarUrl: originalAuthorAvatarUrl,
+        onShared: onShared,
+      ),
     );
   }
 }

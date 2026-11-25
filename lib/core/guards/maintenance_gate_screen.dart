@@ -95,17 +95,16 @@ class _MaintenanceGateScreenState extends State<MaintenanceGateScreen> {
               borderRadius: BorderRadius.circular(14),
             ),
           ),
-          icon:
-              _checking
-                  ? const SizedBox(
-                    width: 18,
-                    height: 18,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: Colors.white,
-                    ),
-                  )
-                  : const Icon(Icons.refresh_rounded),
+          icon: _checking
+              ? const SizedBox(
+                  width: 18,
+                  height: 18,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : const Icon(Icons.refresh_rounded),
           label: Text(
             _checking
                 ? l10n.systemMaintenanceChecking

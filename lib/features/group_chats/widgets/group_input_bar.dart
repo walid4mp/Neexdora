@@ -94,10 +94,9 @@ class GroupInputBar extends StatelessWidget {
             mediaCaption: mediaCaption,
             targetUserName: targetUserName,
             targetMediaType: targetMediaType,
-            targetImageBytesProvider:
-                targetImageUrl != null
-                    ? () => RemoteMediaFetcher.fetchBytes(targetImageUrl!)
-                    : null,
+            targetImageBytesProvider: targetImageUrl != null
+                ? () => RemoteMediaFetcher.fetchBytes(targetImageUrl!)
+                : null,
           ),
           onSlashAiTrigger: onSlashAiTrigger,
         ),

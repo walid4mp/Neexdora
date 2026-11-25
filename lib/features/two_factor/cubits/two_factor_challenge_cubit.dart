@@ -99,11 +99,10 @@ class TwoFactorChallengeCubit extends Cubit<TwoFactorChallengeState> {
         emit(
           state.copyWith(
             submitting: false,
-            error:
-                left == null
-                    ? 'Invalid recovery code.'
-                    : 'Invalid recovery code. $left '
-                        '${left == 1 ? 'attempt' : 'attempts'} left.',
+            error: left == null
+                ? 'Invalid recovery code.'
+                : 'Invalid recovery code. $left '
+                      '${left == 1 ? 'attempt' : 'attempts'} left.',
           ),
         );
       }

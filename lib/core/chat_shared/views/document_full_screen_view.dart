@@ -131,17 +131,17 @@ class _DocumentFullScreenViewState extends State<DocumentFullScreenView> {
     final extPart = dotIndex != -1 ? rawName.substring(dotIndex + 1) : '';
     final isArabic =
         BidiTextHelper.detectDirection(baseName) == TextDirection.rtl;
-    final displayName =
-        isArabic && extPart.isNotEmpty ? '$baseName .$extPart' : rawName;
+    final displayName = isArabic && extPart.isNotEmpty
+        ? '$baseName .$extPart'
+        : rawName;
 
-    final ext =
-        extPart.isNotEmpty
-            ? extPart.toLowerCase()
-            : (widget.item.fileUrl != null && widget.item.fileUrl!.contains('.')
-                ? widget.item.fileUrl!
+    final ext = extPart.isNotEmpty
+        ? extPart.toLowerCase()
+        : (widget.item.fileUrl != null && widget.item.fileUrl!.contains('.')
+              ? widget.item.fileUrl!
                     .substring(widget.item.fileUrl!.lastIndexOf('.') + 1)
                     .toLowerCase()
-                : 'file');
+              : 'file');
 
     final (fileIcon, iconAccent) = FileIconHelper.getIconAndColor(ext, primary);
     final sizeStr = formatMediaFileSize(widget.item.fileSizeBytes);
@@ -233,29 +233,25 @@ class _DocumentFullScreenViewState extends State<DocumentFullScreenView> {
                         ],
                       ),
                       alignment: Alignment.center,
-                      child:
-                          _isDownloading
-                              ? SizedBox(
-                                width: 44,
-                                height: 44,
-                                child: CircularProgressIndicator(
-                                  value:
-                                      _downloadProgress > 0
-                                          ? _downloadProgress
-                                          : null,
-                                  strokeWidth: 3.5,
-                                  valueColor: AlwaysStoppedAnimation(
-                                    iconAccent,
-                                  ),
-                                ),
-                              )
-                              : isDownloaded
-                              ? FaIcon(fileIcon, color: iconAccent, size: 42)
-                              : Icon(
-                                Icons.arrow_downward_rounded,
-                                color: iconAccent,
-                                size: 42,
+                      child: _isDownloading
+                          ? SizedBox(
+                              width: 44,
+                              height: 44,
+                              child: CircularProgressIndicator(
+                                value: _downloadProgress > 0
+                                    ? _downloadProgress
+                                    : null,
+                                strokeWidth: 3.5,
+                                valueColor: AlwaysStoppedAnimation(iconAccent),
                               ),
+                            )
+                          : isDownloaded
+                          ? FaIcon(fileIcon, color: iconAccent, size: 42)
+                          : Icon(
+                              Icons.arrow_downward_rounded,
+                              color: iconAccent,
+                              size: 42,
+                            ),
                     ),
                     const SizedBox(height: 20),
                     Text(
@@ -263,8 +259,9 @@ class _DocumentFullScreenViewState extends State<DocumentFullScreenView> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: isArabic ? TextAlign.right : TextAlign.left,
-                      textDirection:
-                          isArabic ? TextDirection.rtl : TextDirection.ltr,
+                      textDirection: isArabic
+                          ? TextDirection.rtl
+                          : TextDirection.ltr,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 17,
@@ -323,10 +320,9 @@ class _DocumentFullScreenViewState extends State<DocumentFullScreenView> {
                           ),
                           elevation: 0,
                         ),
-                        onPressed:
-                            _isDownloading
-                                ? null
-                                : (isDownloaded ? _openFile : _startDownload),
+                        onPressed: _isDownloading
+                            ? null
+                            : (isDownloaded ? _openFile : _startDownload),
                         icon: Icon(
                           isDownloaded
                               ? Icons.open_in_new_rounded

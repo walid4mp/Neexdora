@@ -80,12 +80,11 @@ class _AppImageEditorViewState extends State<AppImageEditorView> {
             url,
             fit: BoxFit.contain,
             gaplessPlayback: true,
-            errorBuilder:
-                (_, __, ___) => const Icon(
-                  Icons.broken_image_rounded,
-                  color: AppColors.white70,
-                  size: 48,
-                ),
+            errorBuilder: (_, __, ___) => const Icon(
+              Icons.broken_image_rounded,
+              color: AppColors.white70,
+              size: 48,
+            ),
           ),
         ),
       ),
@@ -204,10 +203,9 @@ class _AppImageEditorViewState extends State<AppImageEditorView> {
   ProImageEditorConfigs _configs(BuildContext context) {
     return ProImageEditorConfigs(
       i18n: _buildI18n(context),
-      imageGeneration:
-          _isPng
-              ? ImageGenerationConfigs(outputFormat: OutputFormat.png)
-              : const ImageGenerationConfigs(),
+      imageGeneration: _isPng
+          ? ImageGenerationConfigs(outputFormat: OutputFormat.png)
+          : const ImageGenerationConfigs(),
       cropRotateEditor: _cropConfigs(context),
       textEditor: TextEditorConfigs(
         customTextStyles: const [

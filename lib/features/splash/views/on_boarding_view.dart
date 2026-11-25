@@ -63,9 +63,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                 controller: _pageController,
                 itemCount: onboardingPages.length,
                 onPageChanged: (index) => setState(() => _currentPage = index),
-                itemBuilder:
-                    (context, index) =>
-                        OnBoardingContent(model: onboardingPages[index]),
+                itemBuilder: (context, index) =>
+                    OnBoardingContent(model: onboardingPages[index]),
               ),
             ),
             Row(
@@ -78,8 +77,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
             const Gap(40),
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 600),
-              transitionBuilder:
-                  (Widget child, Animation<double> animation) => FadeTransition(
+              transitionBuilder: (Widget child, Animation<double> animation) =>
+                  FadeTransition(
                     opacity: animation,
                     child: SlideTransition(
                       position: Tween<Offset>(
@@ -89,42 +88,41 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                       child: child,
                     ),
                   ),
-              child:
-                  _currentPage == onboardingPages.length - 1
-                      ? Padding(
-                        key: const ValueKey('buttons'),
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
-                        child: Column(
-                          children: [
-                            CustomElevatedButton(
-                              onPressed: _finishOnboarding,
-                              bgColor: Theme.of(context).primaryColor,
-                              minimumSize: const Size(double.infinity, 54),
+              child: _currentPage == onboardingPages.length - 1
+                  ? Padding(
+                      key: const ValueKey('buttons'),
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      child: Column(
+                        children: [
+                          CustomElevatedButton(
+                            onPressed: _finishOnboarding,
+                            bgColor: Theme.of(context).primaryColor,
+                            minimumSize: const Size(double.infinity, 54),
 
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              txtBtn: 'Join Now',
-                              txtBtnStyle: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 18,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            txtBtn: 'Join Now',
+                            txtBtnStyle: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                          const Gap(15),
+                          TextButton(
+                            onPressed: _finishOnboarding,
+                            child: Text(
+                              context.l10n.signIn,
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Gap(15),
-                            TextButton(
-                              onPressed: _finishOnboarding,
-                              child: Text(
-                                context.l10n.signIn,
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                      : SizedBox(key: const ValueKey('empty'), height: 118),
+                          ),
+                        ],
+                      ),
+                    )
+                  : SizedBox(key: const ValueKey('empty'), height: 118),
             ),
           ],
         ),
@@ -140,10 +138,9 @@ class _OnBoardingViewState extends State<OnBoardingView> {
       height: 8,
       width: _currentPage == index ? 20 : 10,
       decoration: BoxDecoration(
-        color:
-            _currentPage == index
-                ? Theme.of(context).primaryColor
-                : AppColors.grey2,
+        color: _currentPage == index
+            ? Theme.of(context).primaryColor
+            : AppColors.grey2,
         borderRadius: BorderRadius.circular(5),
       ),
     );

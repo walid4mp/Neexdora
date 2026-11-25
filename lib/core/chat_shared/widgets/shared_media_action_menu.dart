@@ -45,20 +45,18 @@ Future<void> showSharedMediaActionMenu({
     close();
     showDialog(
       context: context,
-      builder:
-          (dialogContext) => CustomConfirmationDialog(
-            title:
-                isMe
-                    ? AppL10n.current.deleteThisMessageFor
-                    : AppL10n.current.deleteThisMessageFor2,
-            textAlign: TextAlign.center,
-            img: AppImages.deleteFilesAnimationLot,
-            confirmBtnText: AppL10n.current.delete,
-            onConfirm: () {
-              Navigator.of(dialogContext, rootNavigator: true).pop();
-              onConfirmedDelete();
-            },
-          ),
+      builder: (dialogContext) => CustomConfirmationDialog(
+        title: isMe
+            ? AppL10n.current.deleteThisMessageFor
+            : AppL10n.current.deleteThisMessageFor2,
+        textAlign: TextAlign.center,
+        img: AppImages.deleteFilesAnimationLot,
+        confirmBtnText: AppL10n.current.delete,
+        onConfirm: () {
+          Navigator.of(dialogContext, rootNavigator: true).pop();
+          onConfirmedDelete();
+        },
+      ),
     );
   }
 
@@ -89,12 +87,11 @@ Future<void> showSharedMediaActionMenu({
   ];
 
   entry = OverlayEntry(
-    builder:
-        (context) => _SharedMediaActionMenuOverlay(
-          anchor: globalPosition,
-          actions: actions,
-          onDismiss: close,
-        ),
+    builder: (context) => _SharedMediaActionMenuOverlay(
+      anchor: globalPosition,
+      actions: actions,
+      onDismiss: close,
+    ),
   );
 
   overlay.insert(entry);

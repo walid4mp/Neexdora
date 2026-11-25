@@ -30,11 +30,10 @@ class ReportBottomSheet extends StatelessWidget {
       useRootNavigator: true,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      builder:
-          (_) => BlocProvider(
-            create: (_) => ReportCubit(target: target),
-            child: const ReportBottomSheet(),
-          ),
+      builder: (_) => BlocProvider(
+        create: (_) => ReportCubit(target: target),
+        child: const ReportBottomSheet(),
+      ),
     );
   }
 
@@ -121,10 +120,9 @@ class _ReportForm extends StatelessWidget {
                           maxLines: 3,
                           textInputAction: TextInputAction.newline,
                           decoration: InputDecoration(
-                            hintText:
-                                selected == ReportReason.other
-                                    ? context.l10n.tellUsWhatIs
-                                    : context.l10n.addDetailsOptional,
+                            hintText: selected == ReportReason.other
+                                ? context.l10n.tellUsWhatIs
+                                : context.l10n.addDetailsOptional,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(12),
                             ),

@@ -167,10 +167,9 @@ class IncidentReporter implements CrashReporter {
   @override
   Future<void> setCustomKey(String key, Object value) async {
     if (!_contextKeyAllowList.contains(key)) return;
-    _customKeys[key] =
-        (value is num || value is bool)
-            ? value
-            : TelemetryScrubber.scrubLine(value.toString(), maxLength: 60);
+    _customKeys[key] = (value is num || value is bool)
+        ? value
+        : TelemetryScrubber.scrubLine(value.toString(), maxLength: 60);
   }
 
   /// Intentionally a no-op: the server derives the reporter from the JWT, and
@@ -193,10 +192,9 @@ class IncidentReporter implements CrashReporter {
 
   /// Sends everything buffered, in batches of at most [maxBatchSize].
   /// Always completes normally. Concurrent calls share one run.
-  Future<void> flush() =>
-      _inFlight ??= _drain().whenComplete(() {
-        _inFlight = null;
-      });
+  Future<void> flush() => _inFlight ??= _drain().whenComplete(() {
+    _inFlight = null;
+  });
 
   void _enqueue(_QueuedReport report, {required bool immediate}) {
     _buffer.add(report);
@@ -372,12 +370,11 @@ class IncidentReporter implements CrashReporter {
 
     return <String, dynamic>{
       'category': _serverCategory[category] ?? 'other',
-      'severity':
-          fatal
-              ? 'fatal'
-              : (isOverflow || category == ErrorCategory.layoutOverflow
-                  ? 'warning'
-                  : 'error'),
+      'severity': fatal
+          ? 'fatal'
+          : (isOverflow || category == ErrorCategory.layoutOverflow
+                ? 'warning'
+                : 'error'),
       'title': title,
       'message': message,
       'fingerprint': fingerprint,

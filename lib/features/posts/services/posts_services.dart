@@ -24,7 +24,8 @@ class PostsServices {
   PostsServices({NetworkStatusService? networkStatus})
     : _networkStatus = networkStatus ?? NetworkStatusService.instance;
 
-  static const String _postFields = '''
+  static const String _postFields =
+      '''
   *,
   saved_count,
   is_post_saved,
@@ -64,10 +65,9 @@ class PostsServices {
   PostModel _hydratePost(Map<String, dynamic> data) {
     final post = PostModel.fromMap(data);
 
-    final flatComments =
-        (data['comments'] as List? ?? [])
-            .map((e) => CommentModel.fromMap(e))
-            .toList();
+    final flatComments = (data['comments'] as List? ?? [])
+        .map((e) => CommentModel.fromMap(e))
+        .toList();
     final tree = CommentTreeBuilder.build(flatComments);
 
     PostModel? hydratedOriginal;
@@ -87,11 +87,10 @@ class PostsServices {
   ) async {
     if (rawPostsData.isEmpty) return [];
 
-    final Set<String> sharedPostIds =
-        rawPostsData
-            .map((p) => p['shared_post_id'] as String?)
-            .whereType<String>()
-            .toSet();
+    final Set<String> sharedPostIds = rawPostsData
+        .map((p) => p['shared_post_id'] as String?)
+        .whereType<String>()
+        .toSet();
 
     final Map<String, Map<String, dynamic>> originalsDataMap = {};
 
@@ -289,10 +288,9 @@ class PostsServices {
       return (posts: <PostModel>[], rankedCount: 0, asOf: serverAsOf);
     }
 
-    final fresh =
-        ranked
-            .where((r) => !excludeIds.contains(r['post_id'] as String))
-            .toList();
+    final fresh = ranked
+        .where((r) => !excludeIds.contains(r['post_id'] as String))
+        .toList();
     if (fresh.isEmpty) {
       return (
         posts: <PostModel>[],
@@ -309,13 +307,9 @@ class PostsServices {
 
     final hydrated = await fetchPostsByIds(orderedIds);
 
-    final flagged =
-        hydrated
-            .map(
-              (p) =>
-                  p.copyWith(isSuggestedForYou: suggestedById[p.id] ?? false),
-            )
-            .toList();
+    final flagged = hydrated
+        .map((p) => p.copyWith(isSuggestedForYou: suggestedById[p.id] ?? false))
+        .toList();
 
     return (
       posts: _spreadOutByAuthor(flagged),
@@ -354,8 +348,9 @@ class PostsServices {
         continue;
       }
 
-      final searchLimit =
-          remaining.length < lookahead ? remaining.length : lookahead;
+      final searchLimit = remaining.length < lookahead
+          ? remaining.length
+          : lookahead;
       var swapIndex = -1;
       for (var i = 1; i < searchLimit; i++) {
         if (authorAllowed(remaining[i].authorId)) {
@@ -430,10 +425,9 @@ class PostsServices {
           schema: 'public',
           table: SupabaseConstants.likes,
           callback: (payload) {
-            final record =
-                payload.newRecord.isNotEmpty
-                    ? payload.newRecord
-                    : payload.oldRecord;
+            final record = payload.newRecord.isNotEmpty
+                ? payload.newRecord
+                : payload.oldRecord;
             final postId = record[LikeColumns.postId] as String?;
             if (postId != null && !controller.isClosed) {
               controller.add(LikeChangedEvent(postId, payload.eventType));
@@ -445,10 +439,9 @@ class PostsServices {
           schema: 'public',
           table: SupabaseConstants.comments,
           callback: (payload) {
-            final record =
-                payload.newRecord.isNotEmpty
-                    ? payload.newRecord
-                    : payload.oldRecord;
+            final record = payload.newRecord.isNotEmpty
+                ? payload.newRecord
+                : payload.oldRecord;
             final postId = record[CommentColumns.postId] as String?;
 
             if (postId != null && !controller.isClosed) {
@@ -461,10 +454,9 @@ class PostsServices {
           schema: 'public',
           table: SupabaseConstants.postShares,
           callback: (payload) {
-            final record =
-                payload.newRecord.isNotEmpty
-                    ? payload.newRecord
-                    : payload.oldRecord;
+            final record = payload.newRecord.isNotEmpty
+                ? payload.newRecord
+                : payload.oldRecord;
             final postId = record[PostShareColumns.postId] as String?;
             if (postId != null && !controller.isClosed) {
               controller.add(ShareChangedEvent(postId, payload.eventType));

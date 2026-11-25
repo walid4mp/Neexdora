@@ -72,17 +72,12 @@ class GroupOwnerAdminsSection extends StatelessWidget {
                 leading: CircleAvatar(
                   radius: 22,
                   backgroundColor: Colors.grey.shade200,
-                  backgroundImage:
-                      owner.userAvatar != null
-                          ? AppImageProvider.avatar(
-                            owner.userAvatar!,
-                            radius: 22,
-                          )
-                          : null,
-                  child:
-                      owner.userAvatar == null
-                          ? Icon(Icons.person, color: Colors.grey.shade400)
-                          : null,
+                  backgroundImage: owner.userAvatar != null
+                      ? AppImageProvider.avatar(owner.userAvatar!, radius: 22)
+                      : null,
+                  child: owner.userAvatar == null
+                      ? Icon(Icons.person, color: Colors.grey.shade400)
+                      : null,
                 ),
                 title: Text(
                   isMe ? context.l10n.you : owner.userName,
@@ -138,10 +133,9 @@ class GroupOwnerAdminsSection extends StatelessWidget {
         List<GroupMemberModel> admins = [];
 
         if (memberState is GroupMembersLoaded) {
-          admins =
-              memberState.members
-                  .where((m) => m.role == GroupMemberRole.admin)
-                  .toList();
+          admins = memberState.members
+              .where((m) => m.role == GroupMemberRole.admin)
+              .toList();
         }
 
         if (admins.isEmpty) return const SizedBox.shrink();
@@ -183,17 +177,15 @@ class GroupOwnerAdminsSection extends StatelessWidget {
                     leading: CircleAvatar(
                       radius: 22,
                       backgroundColor: Colors.grey.shade200,
-                      backgroundImage:
-                          admin.userAvatar != null
-                              ? AppImageProvider.avatar(
-                                admin.userAvatar!,
-                                radius: 22,
-                              )
-                              : null,
-                      child:
-                          admin.userAvatar == null
-                              ? Icon(Icons.person, color: Colors.grey.shade400)
-                              : null,
+                      backgroundImage: admin.userAvatar != null
+                          ? AppImageProvider.avatar(
+                              admin.userAvatar!,
+                              radius: 22,
+                            )
+                          : null,
+                      child: admin.userAvatar == null
+                          ? Icon(Icons.person, color: Colors.grey.shade400)
+                          : null,
                     ),
                     title: Text(
                       isMe ? context.l10n.you : admin.userName,
@@ -233,20 +225,19 @@ class GroupOwnerAdminsSection extends StatelessWidget {
                               size: 20,
                             ),
                             onSelected: (value) => onAdminAction(admin, value),
-                            itemBuilder:
-                                (context) => [
-                                  PopupMenuItem(
-                                    value: 'demote',
-                                    child: Text(context.l10n.removeAdmin),
-                                  ),
-                                  PopupMenuItem(
-                                    value: 'remove',
-                                    child: Text(
-                                      context.l10n.removeFromGroup,
-                                      style: TextStyle(color: Colors.redAccent),
-                                    ),
-                                  ),
-                                ],
+                            itemBuilder: (context) => [
+                              PopupMenuItem(
+                                value: 'demote',
+                                child: Text(context.l10n.removeAdmin),
+                              ),
+                              PopupMenuItem(
+                                value: 'remove',
+                                child: Text(
+                                  context.l10n.removeFromGroup,
+                                  style: TextStyle(color: Colors.redAccent),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ],

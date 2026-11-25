@@ -151,8 +151,8 @@ class CreateStickerPackPrivacySection extends StatelessWidget {
                     state.selectedFriendIds.isEmpty
                         ? context.l10n.noFriendsSelected
                         : context.l10n.friendSSelected(
-                          state.selectedFriendIds.length,
-                        ),
+                            state.selectedFriendIds.length,
+                          ),
                     style: theme.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -170,8 +170,8 @@ class CreateStickerPackPrivacySection extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed:
-                      () async => await showCreatePackFriendPicker(context),
+                  onPressed: () async =>
+                      await showCreatePackFriendPicker(context),
                   child: Text(
                     context.l10n.edit,
                     style: TextStyle(

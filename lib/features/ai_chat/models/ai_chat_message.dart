@@ -94,8 +94,9 @@ class AiChatMessage {
       fileName: fileName,
       fileSizeBytes: fileSizeBytes,
       durationSeconds: durationSeconds,
-      uploadProgress:
-          clearUploadProgress ? null : (uploadProgress ?? this.uploadProgress),
+      uploadProgress: clearUploadProgress
+          ? null
+          : (uploadProgress ?? this.uploadProgress),
       model: model,
       replyToMessageId: replyToMessageId ?? this.replyToMessageId,
       replyToText: replyToText ?? this.replyToText,

@@ -10,8 +10,9 @@ class BrandMark extends StatelessWidget {
   Widget build(BuildContext context) {
     final primary = Theme.of(context).primaryColor;
     final hsl = HSLColor.fromColor(primary);
-    final deep =
-        hsl.withLightness((hsl.lightness - 0.16).clamp(0.0, 1.0)).toColor();
+    final deep = hsl
+        .withLightness((hsl.lightness - 0.16).clamp(0.0, 1.0))
+        .toColor();
     return Container(
       width: size,
       height: size,
@@ -40,19 +41,17 @@ class _NPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final w = size.width;
     final h = size.height;
-    final paint =
-        Paint()
-          ..color = Colors.white
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = w * 0.11
-          ..strokeCap = StrokeCap.round
-          ..strokeJoin = StrokeJoin.round;
-    final path =
-        Path()
-          ..moveTo(w * 0.30, h * 0.72)
-          ..lineTo(w * 0.30, h * 0.28)
-          ..lineTo(w * 0.70, h * 0.72)
-          ..lineTo(w * 0.70, h * 0.28);
+    final paint = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = w * 0.11
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+    final path = Path()
+      ..moveTo(w * 0.30, h * 0.72)
+      ..lineTo(w * 0.30, h * 0.28)
+      ..lineTo(w * 0.70, h * 0.72)
+      ..lineTo(w * 0.70, h * 0.28);
     canvas.drawPath(path, paint);
   }
 

@@ -71,21 +71,21 @@ class _CustomTabWrapperState<T> extends State<CustomTabWrapper<T>> {
               child: AnimatedSize(
                 duration: const Duration(milliseconds: 400),
 
-                child:
-                    _isRetrying
-                        ? const SizedBox(width: double.infinity)
-                        : Text(
-                          displayError,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodyLarge?.copyWith(
-                            fontSize: 15,
-                            color: theme.colorScheme.onSurfaceVariant
-                                .withValues(alpha: 0.9),
-                            fontWeight: FontWeight.w500,
+                child: _isRetrying
+                    ? const SizedBox(width: double.infinity)
+                    : Text(
+                        displayError,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontSize: 15,
+                          color: theme.colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.9,
                           ),
+                          fontWeight: FontWeight.w500,
                         ),
+                      ),
               ),
             ),
             SizedBox(height: screenSize.height * 0.04),

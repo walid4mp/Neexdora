@@ -148,20 +148,19 @@ class _StoryMediaViewState extends State<StoryMediaView> {
 
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 280),
-          child:
-              !_videoReady
-                  ? BlurredVideoPlaceholder(
-                    key: const ValueKey('video-loading'),
-                    videoUrl: widget.story.videoUrl!,
-                    localThumbnailBytes: _localThumbnailBytes,
-                  )
-                  : Center(
-                    key: const ValueKey('video-ready'),
-                    child: AspectRatio(
-                      aspectRatio: _videoController!.value.aspectRatio,
-                      child: VideoPlayer(_videoController!),
-                    ),
+          child: !_videoReady
+              ? BlurredVideoPlaceholder(
+                  key: const ValueKey('video-loading'),
+                  videoUrl: widget.story.videoUrl!,
+                  localThumbnailBytes: _localThumbnailBytes,
+                )
+              : Center(
+                  key: const ValueKey('video-ready'),
+                  child: AspectRatio(
+                    aspectRatio: _videoController!.value.aspectRatio,
+                    child: VideoPlayer(_videoController!),
                   ),
+                ),
         );
 
       case StoryType.image:
@@ -186,9 +185,8 @@ class _StoryMediaViewState extends State<StoryMediaView> {
           secureUrl: widget.story.imageUrl!,
           fit: BoxFit.contain,
           onReady: () => widget.onMediaReady(null),
-          placeholder:
-              (context) =>
-                  BlurredImagePlaceholder(secureUrl: widget.story.imageUrl!),
+          placeholder: (context) =>
+              BlurredImagePlaceholder(secureUrl: widget.story.imageUrl!),
         );
 
       case StoryType.text:

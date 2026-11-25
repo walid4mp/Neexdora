@@ -117,9 +117,8 @@ class FeedbackQuota {
   factory FeedbackQuota.fromMap(Map<String, dynamic> m) => FeedbackQuota(
     used: (m['used'] as num?)?.toInt() ?? 0,
     limit: (m['limit'] as num?)?.toInt() ?? maxPer24h,
-    resetsAt:
-        m['resets_at'] == null
-            ? null
-            : DateTime.tryParse(m['resets_at'] as String)?.toLocal(),
+    resetsAt: m['resets_at'] == null
+        ? null
+        : DateTime.tryParse(m['resets_at'] as String)?.toLocal(),
   );
 }

@@ -56,8 +56,9 @@ class StoryViewsBottomSheet extends StatelessWidget {
                   const Gap(15),
                   BlocBuilder<StoryViewsCubit, StoryViewsState>(
                     builder: (context, state) {
-                      final count =
-                          state is StoryViewsLoaded ? state.viewers.length : 0;
+                      final count = state is StoryViewsLoaded
+                          ? state.viewers.length
+                          : 0;
                       return Text(
                         context.l10n.views(count),
                         style: theme.textTheme.titleMedium?.copyWith(
@@ -96,8 +97,8 @@ class StoryViewsBottomSheet extends StatelessWidget {
                               final viewer = viewers[index];
                               return ListTile(
                                 leading: GestureDetector(
-                                  onTap:
-                                      () => _navigateToProfile(context, viewer),
+                                  onTap: () =>
+                                      _navigateToProfile(context, viewer),
                                   child: Stack(
                                     clipBehavior: Clip.none,
                                     children: [
@@ -145,8 +146,8 @@ class StoryViewsBottomSheet extends StatelessWidget {
                                   ),
                                 ),
                                 title: GestureDetector(
-                                  onTap:
-                                      () => _navigateToProfile(context, viewer),
+                                  onTap: () =>
+                                      _navigateToProfile(context, viewer),
                                   child: Text(
                                     viewer.userName,
                                     style: const TextStyle(

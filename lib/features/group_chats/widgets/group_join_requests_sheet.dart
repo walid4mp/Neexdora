@@ -21,15 +21,12 @@ class GroupJoinRequestsSheet extends StatelessWidget {
   }) {
     return AppBottomSheet.show<void>(
       context: context,
-      builder:
-          (_) => BlocProvider(
-            create:
-                (_) => GroupJoinRequestsCubit(
-                  groupId: groupId,
-                  onReviewed: onReviewed,
-                )..load(),
-            child: const GroupJoinRequestsSheet(),
-          ),
+      builder: (_) => BlocProvider(
+        create: (_) =>
+            GroupJoinRequestsCubit(groupId: groupId, onReviewed: onReviewed)
+              ..load(),
+        child: const GroupJoinRequestsSheet(),
+      ),
     );
   }
 
@@ -50,8 +47,8 @@ class GroupJoinRequestsSheet extends StatelessWidget {
                   children: [
                     Text(state.message),
                     TextButton(
-                      onPressed:
-                          () => context.read<GroupJoinRequestsCubit>().load(),
+                      onPressed: () =>
+                          context.read<GroupJoinRequestsCubit>().load(),
                       child: Text(context.l10n.retry),
                     ),
                   ],
@@ -75,11 +72,10 @@ class GroupJoinRequestsSheet extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
               itemCount: state.requests.length,
               separatorBuilder: (_, __) => const Gap(6),
-              itemBuilder:
-                  (context, i) => _RequestTile(
-                    request: state.requests[i],
-                    busy: state.busyIds.contains(state.requests[i].id),
-                  ),
+              itemBuilder: (context, i) => _RequestTile(
+                request: state.requests[i],
+                busy: state.busyIds.contains(state.requests[i].id),
+              ),
             );
           },
         ),

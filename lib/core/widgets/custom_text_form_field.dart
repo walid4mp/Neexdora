@@ -117,16 +117,14 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ),
             labelText: widget.labelText,
             floatingLabelBehavior: FloatingLabelBehavior.always,
-            floatingLabelStyle: Theme.of(
-              context,
-            ).textTheme.titleSmall!.copyWith(
-              color:
-                  _effectiveFocusNode.hasFocus
+            floatingLabelStyle: Theme.of(context).textTheme.titleSmall!
+                .copyWith(
+                  color: _effectiveFocusNode.hasFocus
                       ? Theme.of(context).primaryColor
                       : null,
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-            ),
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                ),
             hintText: widget.hintText,
             hintStyle: Theme.of(context).textTheme.titleSmall!.copyWith(
               fontSize: 15,
@@ -135,47 +133,39 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 context,
               ).colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
             ),
-            prefixIcon:
-                widget.isPassword && widget.prefixIcon != null
-                    ? Icon(
-                      _obscureText
-                          ? Icons.lock_rounded
-                          : Icons.lock_open_rounded,
-                      color:
-                          widget.prefixIcon is Icon
-                              ? (widget.prefixIcon as Icon).color
-                              : null,
-                      size:
-                          widget.prefixIcon is Icon
-                              ? (widget.prefixIcon as Icon).size
-                              : null,
-                    )
-                    : widget.prefixIcon,
-            prefixIconColor:
-                _effectiveFocusNode.hasFocus
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.5),
-            suffixIcon:
-                widget.isPassword
-                    ? IconButton(
-                      icon: Icon(
-                        _obscureText ? Icons.visibility_off : Icons.visibility,
-                        color:
-                            _effectiveFocusNode.hasFocus || !_obscureText
-                                ? Theme.of(context).primaryColor
-                                : Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.5),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    )
-                    : widget.suffixIcon,
+            prefixIcon: widget.isPassword && widget.prefixIcon != null
+                ? Icon(
+                    _obscureText ? Icons.lock_rounded : Icons.lock_open_rounded,
+                    color: widget.prefixIcon is Icon
+                        ? (widget.prefixIcon as Icon).color
+                        : null,
+                    size: widget.prefixIcon is Icon
+                        ? (widget.prefixIcon as Icon).size
+                        : null,
+                  )
+                : widget.prefixIcon,
+            prefixIconColor: _effectiveFocusNode.hasFocus
+                ? Theme.of(context).primaryColor
+                : Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.5),
+            suffixIcon: widget.isPassword
+                ? IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility_off : Icons.visibility,
+                      color: _effectiveFocusNode.hasFocus || !_obscureText
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.5),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  )
+                : widget.suffixIcon,
             border: borderStyle,
             enabledBorder: borderStyle,
             focusedBorder: borderStyle.copyWith(

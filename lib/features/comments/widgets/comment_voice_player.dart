@@ -70,10 +70,9 @@ class _CommentVoicePlayerState extends State<CommentVoicePlayer> {
     if (!_hasSetSource ||
         _player.state == PlayerState.completed ||
         _player.state == PlayerState.stopped) {
-      final audioSource =
-          widget.isLocalFile
-              ? DeviceFileSource(widget.source)
-              : UrlSource(widget.source);
+      final audioSource = widget.isLocalFile
+          ? DeviceFileSource(widget.source)
+          : UrlSource(widget.source);
 
       await _player.play(audioSource);
       _hasSetSource = true;

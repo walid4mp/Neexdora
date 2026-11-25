@@ -175,16 +175,14 @@ class SystemControlService with WidgetsBindingObserver {
     _boundaryTimer?.cancel();
     final reference = s.serverTime ?? _now();
 
-    final candidates =
-        <DateTime>[
-            if (s.maintenanceEnabled && s.maintenanceStartsAt != null)
-              s.maintenanceStartsAt!,
-            if (s.maintenanceEnabled && s.maintenanceEndsAt != null)
-              s.maintenanceEndsAt!,
-            if (s.isCallerSuspended && s.suspensionExpiresAt != null)
-              s.suspensionExpiresAt!,
-          ].where((t) => t.isAfter(reference)).toList()
-          ..sort();
+    final candidates = <DateTime>[
+      if (s.maintenanceEnabled && s.maintenanceStartsAt != null)
+        s.maintenanceStartsAt!,
+      if (s.maintenanceEnabled && s.maintenanceEndsAt != null)
+        s.maintenanceEndsAt!,
+      if (s.isCallerSuspended && s.suspensionExpiresAt != null)
+        s.suspensionExpiresAt!,
+    ].where((t) => t.isAfter(reference)).toList()..sort();
 
     if (candidates.isEmpty) return;
 

@@ -27,10 +27,9 @@ class MessageTimeAndStatus extends StatelessWidget {
           Text(
             context.l10n.edited2,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color:
-                  isMe
-                      ? AppColors.white70
-                      : Theme.of(context).colorScheme.onSurface,
+              color: isMe
+                  ? AppColors.white70
+                  : Theme.of(context).colorScheme.onSurface,
               fontSize: 9,
               fontStyle: FontStyle.italic,
             ),
@@ -40,10 +39,9 @@ class MessageTimeAndStatus extends StatelessWidget {
         Text(
           FormattedDate.getMessageTime(message.createdAt),
           style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            color:
-                isMe
-                    ? AppColors.white70
-                    : Theme.of(context).colorScheme.onSurface,
+            color: isMe
+                ? AppColors.white70
+                : Theme.of(context).colorScheme.onSurface,
             fontSize: 9,
           ),
         ),

@@ -67,16 +67,15 @@ void main() {
     });
 
     test('parses every field and tolerates unknown severity', () {
-      final s =
-          AppSystemStatus.tryParse(
-            payload(
-              maintenanceEnabled: true,
-              maintenanceActive: true,
-              suspended: true,
-              banner: '  Hello  ',
-              severity: 'wat',
-            ),
-          )!;
+      final s = AppSystemStatus.tryParse(
+        payload(
+          maintenanceEnabled: true,
+          maintenanceActive: true,
+          suspended: true,
+          banner: '  Hello  ',
+          severity: 'wat',
+        ),
+      )!;
       expect(s.blocksForMaintenance, isTrue);
       expect(s.maintenanceMessage, 'Back soon');
       expect(s.bannerMessage, 'Hello');
@@ -86,10 +85,9 @@ void main() {
     });
 
     test('bypassed callers are not blocked', () {
-      final s =
-          AppSystemStatus.tryParse(
-            payload(maintenanceActive: true, bypassed: true),
-          )!;
+      final s = AppSystemStatus.tryParse(
+        payload(maintenanceActive: true, bypassed: true),
+      )!;
       expect(s.blocksForMaintenance, isFalse);
     });
 
