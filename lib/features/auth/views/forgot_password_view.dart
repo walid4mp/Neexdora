@@ -193,11 +193,12 @@ class _ForgotPasswordViewCustomState extends State<ForgotPasswordView> {
                     const Gap(24),
                     Text(
                       context.l10n.forgotPassword,
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.black,
-                          ),
+                      style: Theme.of(
+                        context,
+                      ).textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black,
+                      ),
                     ),
                     const Gap(8),
                     Text(
@@ -213,13 +214,14 @@ class _ForgotPasswordViewCustomState extends State<ForgotPasswordView> {
                       controller: _mailInputController,
                       focusNode: _emailFocusNode,
                       readOnly: _isEmailLocked,
-                      suffixIcon: _isEmailLocked
-                          ? IconButton(
-                              tooltip: context.l10n.changeEmail,
-                              icon: const Icon(Icons.edit_outlined),
-                              onPressed: _editEmail,
-                            )
-                          : null,
+                      suffixIcon:
+                          _isEmailLocked
+                              ? IconButton(
+                                tooltip: context.l10n.changeEmail,
+                                icon: const Icon(Icons.edit_outlined),
+                                onPressed: _editEmail,
+                              )
+                              : null,
                       prefixIcon: const Icon(Icons.email_outlined),
                       labelText: context.l10n.settingsEmailAddress,
                       hintText: context.l10n.enterYourEmail,
@@ -229,8 +231,10 @@ class _ForgotPasswordViewCustomState extends State<ForgotPasswordView> {
                     ),
                     const Gap(28),
                     BlocConsumer<AuthCubit, AuthState>(
-                      listenWhen: (prev, curr) =>
-                          curr is PasswordResetEmailSent || curr is AuthFailure,
+                      listenWhen:
+                          (prev, curr) =>
+                              curr is PasswordResetEmailSent ||
+                              curr is AuthFailure,
                       listener: (context, state) {
                         if (state is PasswordResetEmailSent) {
                           AppToast.success(context.l10n.ifAnAccountExists);
@@ -242,16 +246,18 @@ class _ForgotPasswordViewCustomState extends State<ForgotPasswordView> {
                       builder: (context, state) {
                         final isLoading = state is AuthLoading;
                         final isCooldownActive = _secondsRemaining > 0;
-                        final buttonLabel = isCooldownActive
-                            ? context.l10n.resendInS(_secondsRemaining)
-                            : context.l10n.sendResetLink2;
+                        final buttonLabel =
+                            isCooldownActive
+                                ? context.l10n.resendInS(_secondsRemaining)
+                                : context.l10n.sendResetLink2;
 
                         return CustomElevatedButton(
                           txtBtn: buttonLabel,
                           isLoading: isLoading,
-                          onPressed: (isCooldownActive || isLoading)
-                              ? null
-                              : _dispatchResetRequest,
+                          onPressed:
+                              (isCooldownActive || isLoading)
+                                  ? null
+                                  : _dispatchResetRequest,
                         );
                       },
                     ),

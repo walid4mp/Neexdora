@@ -40,9 +40,12 @@ class BlockedUserTile extends StatelessWidget {
                       ),
                       backgroundImage:
                           (user.imageUrl != null && user.imageUrl!.isNotEmpty)
-                          ? AppImageProvider.avatar(user.imageUrl!, radius: 26)
-                          : const AssetImage(AppImages.defaultUserImg)
-                                as ImageProvider,
+                              ? AppImageProvider.avatar(
+                                user.imageUrl!,
+                                radius: 26,
+                              )
+                              : const AssetImage(AppImages.defaultUserImg)
+                                  as ImageProvider,
                     ),
                     const SizedBox(width: 14),
                     Expanded(

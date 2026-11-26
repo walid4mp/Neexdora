@@ -59,9 +59,10 @@ class TwoFactorSetupCubit extends Cubit<TwoFactorSetupState> {
         state.copyWith(
           step: TwoFactorSetupStep.enterCode,
           error: f.message,
-          invalidAttempts: f.kind == TwoFactorFailureKind.invalidCode
-              ? state.invalidAttempts + 1
-              : state.invalidAttempts,
+          invalidAttempts:
+              f.kind == TwoFactorFailureKind.invalidCode
+                  ? state.invalidAttempts + 1
+                  : state.invalidAttempts,
         ),
       );
       return;

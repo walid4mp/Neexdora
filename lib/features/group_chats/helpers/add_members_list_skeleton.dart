@@ -26,9 +26,10 @@ class AddMembersListSkeleton extends StatelessWidget {
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: _placeholderRowCount,
-              itemBuilder: (context, index) => _buildMemberRowPlaceholder(
-                _nameWidths[index % _nameWidths.length],
-              ),
+              itemBuilder:
+                  (context, index) => _buildMemberRowPlaceholder(
+                    _nameWidths[index % _nameWidths.length],
+                  ),
             ),
           ),
           _buildAddButtonPlaceholder(),

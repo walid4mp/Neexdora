@@ -1,0 +1,99 @@
+name: Web build
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["lib/**", "web/**", "pubspec.*", ".github/workflows/web.yml"]
+
+concurrency:
+  group: web-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  FLUTTER_VERSION: "3.44.3"
+
+jobs:
+  build-web:
+    name: Build Flutter Web (with Supabase config)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+      CLOUDINARY_UPLOAD_PRESET: ${{ secrets.CLOUDINARY_UPLOAD_PRESET }}
+      GIPHY_API_KEY: ${{ secrets.GIPHY_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: stable
+          cache: true
+
+      # 1) FAIL EARLY with names only — a web build without these compiles "fine" and then
+      #    sends every request without an `apikey` header (HTTP 401).
+      - name: Validate Supabase settings
+        run: |
+          missing=()
+          [ -n "$SUPABASE_URL" ] || missing+=(SUPABASE_URL)
+          [ -n "$SUPABASE_ANON_KEY" ] || missing+=(SUPABASE_ANON_KEY)
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "::error title=Missing GitHub Secrets::Add repository secrets: ${missing[*]}"; exit 1; fi
+          case "$SUPABASE_URL" in https://*.supabase.co|https://*.supabase.in) ;; *) echo "::error::SUPABASE_URL must be https://<ref>.supabase.co"; exit 1;; esac
+          case "$SUPABASE_ANON_KEY" in sb_secret_*|*service_role*) echo "::error::A SECRET/service_role key was supplied. Use ONLY the publishable/anon key."; exit 1;; esac
+          # a legacy JWT key must have role=anon, never service_role
+          if [[ "$SUPABASE_ANON_KEY" == eyJ* ]]; then
+            role=$(python3 -c "import sys,base64,json; p=sys.argv[1].split('.')[1]; p+='='*(-len(p)%4); print(json.loads(base64.urlsafe_b64decode(p)).get('role',''))" "$SUPABASE_ANON_KEY" 2>/dev/null || true)
+            [ "$role" = "anon" ] || { echo "::error::JWT key role is '$role' — only the anon key may be shipped in a client app."; exit 1; }
+          fi
+          echo "::add-mask::$SUPABASE_ANON_KEY"
+          echo "✅ Supabase settings present"
+
+      # 2) Prove the key is accepted by Supabase BEFORE building (apikey header → 200/204, never 401)
+      - name: Live check against Supabase (apikey header)
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 20 \
+            -H "apikey: $SUPABASE_ANON_KEY" "$SUPABASE_URL/auth/v1/settings")
+          echo "auth/v1/settings → HTTP $code"
+          [ "$code" = "200" ] || { echo "::error::Supabase rejected the key (HTTP $code). Check SUPABASE_URL / SUPABASE_ANON_KEY secrets."; exit 1; }
+
+      - name: Write dart-define file
+        run: |
+          python3 - <<'PY'
+          import json, os
+          keys = ["SUPABASE_URL","SUPABASE_ANON_KEY","CLOUDINARY_CLOUD_NAME","CLOUDINARY_UPLOAD_PRESET","GIPHY_API_KEY"]
+          json.dump({k: os.environ[k] for k in keys if os.environ.get(k)}, open("ci.env.json","w"))
+          PY
+          chmod 600 ci.env.json
+
+      - run: flutter pub get
+
+      - name: Build web
+        run: flutter build web --release --dart-define-from-file=ci.env.json
+
+      # 3) Verify the compiled bundle really contains the settings (values are never printed)
+      - name: Verify config is embedded in the bundle
+        run: |
+          js=$(ls build/web/main.dart.js 2>/dev/null || true)
+          [ -n "$js" ] || { echo "::error::build/web/main.dart.js not found"; exit 1; }
+          grep -qF "$SUPABASE_URL" "$js" || { echo "::error::SUPABASE_URL is NOT embedded in the web bundle"; exit 1; }
+          grep -qF "$SUPABASE_ANON_KEY" "$js" || { echo "::error::SUPABASE_ANON_KEY is NOT embedded in the web bundle"; exit 1; }
+          if grep -q "service_role" "$js"; then echo "::error::'service_role' string found in the bundle"; exit 1; fi
+          echo "✅ bundle contains URL + anon key, no service_role"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nexora-web
+          path: build/web
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Clean up
+        if: always()
+        run: rm -f ci.env.json

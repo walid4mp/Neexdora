@@ -85,9 +85,8 @@ class _EditProfileViewState extends State<EditProfileView> {
   /// Optional crop/edit of the photo picked in this session. Avatars get a
   /// circular 1:1 guide, covers get wide (16:9 / 2:1 / 3:1) presets.
   Future<void> _handleImageEdit(bool isProfile) async {
-    final File? current = isProfile
-        ? selectedProfileImage
-        : selectedBackgroundImage;
+    final File? current =
+        isProfile ? selectedProfileImage : selectedBackgroundImage;
     if (current == null) return;
 
     final File? edited = await MediaEditorService.editImage(
@@ -119,36 +118,40 @@ class _EditProfileViewState extends State<EditProfileView> {
   }
 
   void showImagePickerOptions(context, bool isProfile) {
-    final hasCustomPhoto = isProfile
-        ? (selectedProfileImage != null || _effectiveAvatarUrl != null)
-        : (selectedBackgroundImage != null || _effectiveCoverUrl != null);
+    final hasCustomPhoto =
+        isProfile
+            ? (selectedProfileImage != null || _effectiveAvatarUrl != null)
+            : (selectedBackgroundImage != null || _effectiveCoverUrl != null);
 
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (context) => ImagePickerBottomSheet(
-        title: isProfile
-            ? context.l10n.editProfilePicture
-            : context.l10n.editCoverPhoto,
-        showRemoveOption: hasCustomPhoto,
-        onEditImage:
-            (isProfile ? selectedProfileImage : selectedBackgroundImage) != null
-            ? () {
-                Navigator.pop(context);
-                _handleImageEdit(isProfile);
-              }
-            : null,
-        onImageSelected: (source) {
-          Navigator.pop(context);
-          _handleImageSelection(isProfile, source);
-        },
-        onRemoveImage: () {
-          Navigator.pop(context);
-          _handleImageRemoval(isProfile);
-        },
-      ),
+      builder:
+          (context) => ImagePickerBottomSheet(
+            title:
+                isProfile
+                    ? context.l10n.editProfilePicture
+                    : context.l10n.editCoverPhoto,
+            showRemoveOption: hasCustomPhoto,
+            onEditImage:
+                (isProfile ? selectedProfileImage : selectedBackgroundImage) !=
+                        null
+                    ? () {
+                      Navigator.pop(context);
+                      _handleImageEdit(isProfile);
+                    }
+                    : null,
+            onImageSelected: (source) {
+              Navigator.pop(context);
+              _handleImageSelection(isProfile, source);
+            },
+            onRemoveImage: () {
+              Navigator.pop(context);
+              _handleImageRemoval(isProfile);
+            },
+          ),
     );
   }
 
@@ -225,9 +228,11 @@ class _EditProfileViewState extends State<EditProfileView> {
     const double bottomOverlap = expandedAvatarSize * 0.5;
 
     return BlocListener<EditProfileCubit, EditProfileState>(
-      listenWhen: (previous, current) =>
-          (previous is! EditProfileSuccess && current is EditProfileSuccess) ||
-          current is EditProfileError,
+      listenWhen:
+          (previous, current) =>
+              (previous is! EditProfileSuccess &&
+                  current is EditProfileSuccess) ||
+              current is EditProfileError,
       listener: (context, state) async {
         if (state is EditProfileSuccess) {
           final updated = state.updatedUser;
@@ -366,16 +371,17 @@ class _EditProfileViewState extends State<EditProfileView> {
 
     final shouldDiscard = await showDialog<bool>(
       context: context,
-      builder: (context) => CustomConfirmationDialog(
-        title: context.l10n.youHaveUnsavedChanges,
-        textAlign: TextAlign.center,
-        img: AppImages.alertAnimationLot,
-        confirmBtnText: context.l10n.discard,
-        cancelBtnText: context.l10n.cancel,
-        onConfirm: () {
-          Navigator.of(context, rootNavigator: true).pop(true);
-        },
-      ),
+      builder:
+          (context) => CustomConfirmationDialog(
+            title: context.l10n.youHaveUnsavedChanges,
+            textAlign: TextAlign.center,
+            img: AppImages.alertAnimationLot,
+            confirmBtnText: context.l10n.discard,
+            cancelBtnText: context.l10n.cancel,
+            onConfirm: () {
+              Navigator.of(context, rootNavigator: true).pop(true);
+            },
+          ),
     );
 
     if (shouldDiscard == true && mounted) {

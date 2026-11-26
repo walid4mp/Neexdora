@@ -166,11 +166,12 @@ class PostModel {
     List<String> likesList = [];
     List<String> imagesList = [];
     List<PostReactionModel> reactionsList = [];
-    final List<MentionRef> mentions = map['post_mentions'] != null
-        ? (map['post_mentions'] as List<dynamic>)
-              .map((m) => MentionRef.fromMap(m as Map<String, dynamic>))
-              .toList()
-        : [];
+    final List<MentionRef> mentions =
+        map['post_mentions'] != null
+            ? (map['post_mentions'] as List<dynamic>)
+                .map((m) => MentionRef.fromMap(m as Map<String, dynamic>))
+                .toList()
+            : [];
     if (map[SupabaseConstants.likes] != null) {
       final likesData = map[SupabaseConstants.likes] as List<dynamic>;
       for (var item in likesData) {
@@ -195,18 +196,17 @@ class PostModel {
       text: map[PostColumns.text] as String? ?? '',
       authorId: map[PostColumns.authorId] as String? ?? '',
       createdAt: map[PostColumns.createdAt] as String? ?? '',
-      authorName: userData != null
-          ? userData[UserColumns.name] as String? ?? 'Unknown User'
-          : null,
-      authorImageUrl: userData != null
-          ? userData[UserColumns.imageUrl] as String?
-          : null,
+      authorName:
+          userData != null
+              ? userData[UserColumns.name] as String? ?? 'Unknown User'
+              : null,
+      authorImageUrl:
+          userData != null ? userData[UserColumns.imageUrl] as String? : null,
       authorIsDeleted:
           userData != null &&
           (userData[UserColumns.isDeleted] as bool? ?? false),
-      videoUrl: map['video_url'] != null
-          ? map['video_url'] as String? ?? ''
-          : null,
+      videoUrl:
+          map['video_url'] != null ? map['video_url'] as String? ?? '' : null,
       imageUrl: map['image_url'] != null ? map['image_url'] as String : null,
       fileUrl: map['file_url'] != null ? map['file_url'] as String : null,
       mediaWidth: map[PostColumns.mediaWidth] as int?,
@@ -217,27 +217,27 @@ class PostModel {
       likersImages: imagesList,
       reactions: reactionsList,
       mentions: mentions,
-      comments: commentsData != null
-          ? commentsData.map((c) => CommentModel.fromMap(c)).toList()
-          : [],
-      lastSeen: userData != null && userData[UserColumns.lastSeen] != null
-          ? DateTime.parse(userData[UserColumns.lastSeen].toString())
-          : null,
+      comments:
+          commentsData != null
+              ? commentsData.map((c) => CommentModel.fromMap(c)).toList()
+              : [],
+      lastSeen:
+          userData != null && userData[UserColumns.lastSeen] != null
+              ? DateTime.parse(userData[UserColumns.lastSeen].toString())
+              : null,
       isOnline: false,
       savedCount: map['saved_count'] as int? ?? 0,
       isSavedByMe: map['is_post_saved'] as bool? ?? false,
       sharedPostId: map[PostColumns.sharedPostId] as String?,
-      originalPost: originalPostData != null
-          ? PostModel.fromMap(originalPostData)
-          : null,
+      originalPost:
+          originalPostData != null ? PostModel.fromMap(originalPostData) : null,
       isPinned: map[PostColumns.isPinned] as bool? ?? false,
       sharesCount: map['shares_count'] as int? ?? 0,
       linkShareCount: map['link_share_count'] as int? ?? 0,
       isSharedByMe: map['is_post_shared'] as bool? ?? false,
       sharedReelId: map[PostColumns.sharedReelId] as String?,
-      sharedReel: sharedReelData != null
-          ? ReelModel.fromMap(sharedReelData)
-          : null,
+      sharedReel:
+          sharedReelData != null ? ReelModel.fromMap(sharedReelData) : null,
       privacyType: contentPrivacyFromString(
         map[PostColumns.privacyType] as String?,
       ),
@@ -379,22 +379,26 @@ class PostModel {
       imageUrl: map['image_url'] as String?,
       likes: (map['likes'] as List<dynamic>?)?.cast<String>(),
       likersImages: (map['likers_images'] as List<dynamic>?)?.cast<String>(),
-      reactions: (map['reactions'] as List<dynamic>? ?? [])
-          .map((r) => PostReactionModel.fromMap(r as Map<String, dynamic>))
-          .toList(),
-      mentions: (map['mentions'] as List<dynamic>? ?? [])
-          .map((m) => MentionRef.fromCacheJson(m as Map<String, dynamic>))
-          .toList(),
-      comments: (map['comments'] as List<dynamic>?)
-          ?.map(
-            (comment) =>
-                CommentModel.fromCacheJson(comment as Map<String, dynamic>),
-          )
-          .toList(),
+      reactions:
+          (map['reactions'] as List<dynamic>? ?? [])
+              .map((r) => PostReactionModel.fromMap(r as Map<String, dynamic>))
+              .toList(),
+      mentions:
+          (map['mentions'] as List<dynamic>? ?? [])
+              .map((m) => MentionRef.fromCacheJson(m as Map<String, dynamic>))
+              .toList(),
+      comments:
+          (map['comments'] as List<dynamic>?)
+              ?.map(
+                (comment) =>
+                    CommentModel.fromCacheJson(comment as Map<String, dynamic>),
+              )
+              .toList(),
 
-      lastSeen: map['last_seen'] != null
-          ? DateTime.parse(map['last_seen'] as String)
-          : null,
+      lastSeen:
+          map['last_seen'] != null
+              ? DateTime.parse(map['last_seen'] as String)
+              : null,
       isOnline: map['is_online'] as bool? ?? false,
       savedCount: map['saved_count'] as int? ?? 0,
       isSavedByMe: map['is_post_saved'] as bool? ?? false,
@@ -403,19 +407,21 @@ class PostModel {
       backgroundTheme: map[PostColumns.backgroundTheme] as String?,
       gifUrl: map[PostColumns.gifUrl] as String?,
       sharedPostId: map['shared_post_id'] as String?,
-      originalPost: map['original_post'] != null
-          ? PostModel.fromCacheJson(
-              map['original_post'] as Map<String, dynamic>,
-            )
-          : null,
+      originalPost:
+          map['original_post'] != null
+              ? PostModel.fromCacheJson(
+                map['original_post'] as Map<String, dynamic>,
+              )
+              : null,
       isPinned: map[PostColumns.isPinned] as bool? ?? false,
       sharesCount: map['shares_count'] as int? ?? 0,
       linkShareCount: map['link_share_count'] as int? ?? 0,
       isSharedByMe: map['is_post_shared'] as bool? ?? false,
       sharedReelId: map['shared_reel_id'] as String?,
-      sharedReel: map['shared_reel'] != null
-          ? ReelModel.fromJson(map['shared_reel'] as Map<String, dynamic>)
-          : null,
+      sharedReel:
+          map['shared_reel'] != null
+              ? ReelModel.fromJson(map['shared_reel'] as Map<String, dynamic>)
+              : null,
       privacyType: contentPrivacyFromString(
         map[PostColumns.privacyType] as String?,
       ),

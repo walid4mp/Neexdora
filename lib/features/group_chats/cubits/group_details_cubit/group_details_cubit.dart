@@ -73,14 +73,16 @@ class GroupDetailsCubit extends Cubit<GroupDetailsState>
     idOf: (m) => m.id,
     clientMessageIdOf: (m) => m.clientMessageId,
     createdAtOf: (m) => m.createdAt,
-    merge: (existing, incoming) => incoming.copyWith(
-      reactions: incoming.reactions,
-      reactionsCreatedAt:
-          incoming.reactionsCreatedAt ?? existing.reactionsCreatedAt,
-      mentions: incoming.mentions.isNotEmpty
-          ? incoming.mentions
-          : existing.mentions,
-    ),
+    merge:
+        (existing, incoming) => incoming.copyWith(
+          reactions: incoming.reactions,
+          reactionsCreatedAt:
+              incoming.reactionsCreatedAt ?? existing.reactionsCreatedAt,
+          mentions:
+              incoming.mentions.isNotEmpty
+                  ? incoming.mentions
+                  : existing.mentions,
+        ),
   );
 
   Set<String> _protectedKeys = {};
@@ -155,8 +157,8 @@ class GroupDetailsCubit extends Cubit<GroupDetailsState>
   late final ChatSearchController<GroupMessageModel> searchController =
       ChatSearchController<GroupMessageModel>(
         getMessages: () => cachedMessages,
-        getSearchableText: (m) =>
-            (m.caption?.isNotEmpty == true ? m.caption! : m.text),
+        getSearchableText:
+            (m) => (m.caption?.isNotEmpty == true ? m.caption! : m.text),
         getId: (m) => m.id,
       );
 
@@ -164,11 +166,12 @@ class GroupDetailsCubit extends Cubit<GroupDetailsState>
     _messagesSnapshotKey = 'group_messages_snapshot_${group.id}';
 
     final listState = groupListCubit.state;
-    isMember = listState is GroupListLoaded
-        ? listState.groups
-              .firstWhere((g) => g.id == group.id, orElse: () => group)
-              .isMember
-        : group.isMember;
+    isMember =
+        listState is GroupListLoaded
+            ? listState.groups
+                .firstWhere((g) => g.id == group.id, orElse: () => group)
+                .isMember
+            : group.isMember;
 
     final rawDiskMessages = _readMessagesSnapshot(_messagesSnapshotKey!);
     if (rawDiskMessages.isNotEmpty) {
@@ -254,9 +257,8 @@ class GroupDetailsCubit extends Cubit<GroupDetailsState>
   @override
   Future<void> markRead() async {
     if (!isMember) return;
-    final latestServerTime = cachedMessages.isNotEmpty
-        ? cachedMessages.first.createdAt
-        : null;
+    final latestServerTime =
+        cachedMessages.isNotEmpty ? cachedMessages.first.createdAt : null;
     groupListCubit.beginMarkGroupRead(
       group.id,
       upToServerTime: latestServerTime,
@@ -311,9 +313,8 @@ class GroupDetailsCubit extends Cubit<GroupDetailsState>
   @override
   Future<void> close() async {
     WidgetsBinding.instance.removeObserver(this);
-    final latestServerTime = cachedMessages.isNotEmpty
-        ? cachedMessages.first.createdAt
-        : null;
+    final latestServerTime =
+        cachedMessages.isNotEmpty ? cachedMessages.first.createdAt : null;
     if (isMember) {
       groupListCubit.beginMarkGroupRead(
         group.id,

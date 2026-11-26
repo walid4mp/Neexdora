@@ -106,11 +106,12 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     final callId = message.data['callId'] as String? ?? '';
     if (callId.isNotEmpty) {
       try {
-        final row = await SupabaseProvider.client
-            .from('group_calls')
-            .select('status')
-            .eq('call_id', callId)
-            .maybeSingle();
+        final row =
+            await SupabaseProvider.client
+                .from('group_calls')
+                .select('status')
+                .eq('call_id', callId)
+                .maybeSingle();
         final status = row?['status'] as String? ?? '';
         if (status == 'ended' || status == 'missed') return;
       } catch (e) {

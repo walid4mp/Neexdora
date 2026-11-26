@@ -61,3 +61,15 @@ keytool -genkey -v -keystore upload-keystore.jks -keyalg RSA -keysize 2048 -vali
 | LiveKit | اتصال صوتي بين حسابين |
 | AI | افتح المساعد وأرسل رسالة (يحتاج `GEMINI_API_KEY`) |
 | Keystore | شغّل Release؛ الخطوة تتحقق من فتح الـ keystore قبل البناء |
+
+---
+## 9) ظهور "Too many attempts. Please wait a moment and try again"
+هذه ليست مشكلة كود: Supabase يرد بـ **429 (over_email_send_rate_limit)** لأن خدمة البريد المدمجة محدودة جداً (حوالي رسالتين/ساعة للمشروع كله) وتُستهلك مع كل تسجيل أو "نسيت كلمة المرور".
+الحل الدائم: Supabase ← **Authentication ← Emails ← SMTP Settings ← Enable custom SMTP** وأدخل بيانات مزوّد (Resend أو Brevo أو Gmail SMTP) ثم ارفع الحد من **Authentication ← Rate Limits**.
+للاختبار فقط: Authentication ← Providers ← Email ← عطّل "Confirm email" (لا تتركه معطلاً في الإنتاج)، أو انتظر ساعة.
+تحقق من السبب الفعلي في Supabase ← **Logs ← Auth Logs**.
+
+## 10) بناء الويب (Nexora Web) وخطأ 401 `No API key found`
+السبب: `flutter build web` بدون `--dart-define-from-file` يُنتج نسخة تُهيّئ Supabase بقيم فارغة، فتخرج الطلبات بلا ترويسة `apikey` (وكان `assert` الذي يفحص ذلك يُحذف في نسخ release).
+الإصلاح الموجود الآن: (أ) فحص تشغيل حقيقي في `AppSecrets` وشاشة خطأ واضحة بدل طلبات بلا مفتاح، (ب) workflow **Web build** يتحقق من الأسرار ويجرّب المفتاح على Supabase مباشرة ويتأكد أن القيم مضمّنة في `main.dart.js` ويرفض أي مفتاح `service_role`/`sb_secret_`، (ج) `scripts/web_smoke_test.sh` يختبر نفس طلبات المتصفح من سطر الأوامر.
+استخدم في `SUPABASE_ANON_KEY` المفتاح **Publishable/anon فقط**.

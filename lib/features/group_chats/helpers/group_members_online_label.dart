@@ -97,9 +97,8 @@ class _GroupMembersOnlineLabelState extends State<GroupMembersOnlineLabel> {
     } else {
       final membersText = context.l10n.membersCountPlural(stats.totalMembers);
       if (stats.onlineCount > 0) {
-        final separator = Directionality.of(context) == TextDirection.rtl
-            ? '، '
-            : ', ';
+        final separator =
+            Directionality.of(context) == TextDirection.rtl ? '، ' : ', ';
         text =
             '$membersText$separator${stats.onlineCount} ${context.l10n.online}';
       } else {
@@ -108,8 +107,8 @@ class _GroupMembersOnlineLabelState extends State<GroupMembersOnlineLabel> {
     }
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      transitionBuilder: (child, anim) =>
-          FadeTransition(opacity: anim, child: child),
+      transitionBuilder:
+          (child, anim) => FadeTransition(opacity: anim, child: child),
       child: Text(
         text,
         key: ValueKey(text),

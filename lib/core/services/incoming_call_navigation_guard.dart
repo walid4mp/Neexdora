@@ -107,9 +107,8 @@ class IncomingCallNavigationGuard {
   /// or over (`null`). A merely RINGING incoming call is deliberately not
   /// registered here: an unanswered ring must never make the user "busy".
   static void setSingleCallInProgress(String? callId) {
-    _singleCallInProgressId = (callId == null || callId.isEmpty)
-        ? null
-        : callId;
+    _singleCallInProgressId =
+        (callId == null || callId.isEmpty) ? null : callId;
     _persistBusyState();
   }
 

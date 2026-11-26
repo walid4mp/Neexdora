@@ -23,11 +23,12 @@ class CallActions {
     if (currentUser == null) return null;
 
     try {
-      final row = await SupabaseProvider.client
-          .from(SupabaseConstants.users)
-          .select(UserColumns.isDeleted)
-          .eq(UserColumns.id, receiverId)
-          .maybeSingle();
+      final row =
+          await SupabaseProvider.client
+              .from(SupabaseConstants.users)
+              .select(UserColumns.isDeleted)
+              .eq(UserColumns.id, receiverId)
+              .maybeSingle();
       if (row != null && row[UserColumns.isDeleted] == true) {
         AppToast.error(AppL10n.current.thisAccountHasBeen3);
         return null;

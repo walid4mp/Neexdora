@@ -87,12 +87,13 @@ class _TextInputAreaSectionState extends State<TextInputAreaSection> {
       final cubit = _chatCubit;
       AiChatCommandTrigger.showCommandMenu(
         context: context,
-        buildTranscript: (maxMessages) => ChatTranscriptBuilder.fromMessages(
-          messages: cubit.cachedMessages,
-          currentUserId: cubit.currentUserId,
-          otherUserName: widget.receiverUser.name,
-          maxMessages: maxMessages,
-        ),
+        buildTranscript:
+            (maxMessages) => ChatTranscriptBuilder.fromMessages(
+              messages: cubit.cachedMessages,
+              currentUserId: cubit.currentUserId,
+              otherUserName: widget.receiverUser.name,
+              maxMessages: maxMessages,
+            ),
       );
       return;
     }
@@ -140,9 +141,9 @@ class _TextInputAreaSectionState extends State<TextInputAreaSection> {
                 context.read<ChatDetailsCubit>().currentUserId,
             senderName:
                 widget.replyTo!.senderId ==
-                    context.read<ChatDetailsCubit>().currentUserId
-                ? context.l10n.you
-                : widget.receiverUser.name,
+                        context.read<ChatDetailsCubit>().currentUserId
+                    ? context.l10n.you
+                    : widget.receiverUser.name,
             onCancel: widget.onCancelReply ?? () {},
           ),
 
@@ -156,9 +157,8 @@ class _TextInputAreaSectionState extends State<TextInputAreaSection> {
                 _stagedDocument = null;
                 _stagedFileName = null;
                 _stagedFileSizeBytes = null;
-                _isTextNotEmpty = widget.messageController.text
-                    .trim()
-                    .isNotEmpty;
+                _isTextNotEmpty =
+                    widget.messageController.text.trim().isNotEmpty;
               });
             },
           ),
@@ -205,35 +205,36 @@ class _TextInputAreaSectionState extends State<TextInputAreaSection> {
                         generationAction: AiActionType.replySuggestion,
                         actionContext: AiActionContext.chatReply,
                         hasReplyContext: widget.replyTo != null,
-                        targetUserName: widget.replyTo == null
-                            ? widget.receiverUser.name
-                            : (widget.replyTo!.senderId ==
-                                      context
-                                          .read<ChatDetailsCubit>()
-                                          .currentUserId
-                                  ? context.l10n.you
-                                  : widget.receiverUser.name),
+                        targetUserName:
+                            widget.replyTo == null
+                                ? widget.receiverUser.name
+                                : (widget.replyTo!.senderId ==
+                                        context
+                                            .read<ChatDetailsCubit>()
+                                            .currentUserId
+                                    ? context.l10n.you
+                                    : widget.receiverUser.name),
                         targetText:
                             (widget.replyTo == null ||
-                                widget.replyTo!.messageType == 'text')
-                            ? widget.replyTo?.text
-                            : null,
+                                    widget.replyTo!.messageType == 'text')
+                                ? widget.replyTo?.text
+                                : null,
                         mediaCaption:
                             (widget.replyTo != null &&
-                                widget.replyTo!.messageType != 'text')
-                            ? widget.replyTo!.caption
-                            : null,
+                                    widget.replyTo!.messageType != 'text')
+                                ? widget.replyTo!.caption
+                                : null,
                         targetMediaType: AiTargetMediaType.fromWireMessageType(
                           widget.replyTo?.messageType,
                         ),
                         targetImageBytesProvider:
                             (widget.replyTo != null &&
-                                widget.replyTo!.messageType == 'image' &&
-                                widget.replyTo!.imageUrl != null)
-                            ? () => RemoteMediaFetcher.fetchBytes(
-                                widget.replyTo!.imageUrl!,
-                              )
-                            : null,
+                                    widget.replyTo!.messageType == 'image' &&
+                                    widget.replyTo!.imageUrl != null)
+                                ? () => RemoteMediaFetcher.fetchBytes(
+                                  widget.replyTo!.imageUrl!,
+                                )
+                                : null,
                       ),
                     ),
                   ),
@@ -334,18 +335,22 @@ class _TextInputAreaSectionState extends State<TextInputAreaSection> {
                   }
                   cubit.startRecordingAction(widget.receiverUser.id);
                 },
-                onRecordingPause: () => context
-                    .read<ChatDetailsCubit>()
-                    .pauseRecordingAction(widget.receiverUser.id),
-                onRecordingResume: () => context
-                    .read<ChatDetailsCubit>()
-                    .resumeRecordingAction(widget.receiverUser.id),
-                onRecordingStop: () => context
-                    .read<ChatDetailsCubit>()
-                    .stopRecordingAction(widget.receiverUser.id),
-                onRecordingCancel: () => context
-                    .read<ChatDetailsCubit>()
-                    .cancelRecordingAction(widget.receiverUser.id),
+                onRecordingPause:
+                    () => context.read<ChatDetailsCubit>().pauseRecordingAction(
+                      widget.receiverUser.id,
+                    ),
+                onRecordingResume:
+                    () => context
+                        .read<ChatDetailsCubit>()
+                        .resumeRecordingAction(widget.receiverUser.id),
+                onRecordingStop:
+                    () => context.read<ChatDetailsCubit>().stopRecordingAction(
+                      widget.receiverUser.id,
+                    ),
+                onRecordingCancel:
+                    () => context
+                        .read<ChatDetailsCubit>()
+                        .cancelRecordingAction(widget.receiverUser.id),
               ),
             ),
           ),
@@ -372,22 +377,24 @@ class _TextInputAreaSectionState extends State<TextInputAreaSection> {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-              value: chatCubit,
-              child: MediaPreviewScreen(
-                file: picked.localFile!,
-                type: 'image',
-                onSend: (caption, sendFile, _) => chatCubit.sendMessage(
-                  receiverId: widget.receiverUser.id,
-                  messageText: '',
-                  messageType: 'image',
-                  imageFile: sendFile,
-                  fileSizeBytes: sendFile.lengthSync(),
-                  caption: caption,
-                  replyTo: widget.replyTo,
+            builder:
+                (context) => BlocProvider.value(
+                  value: chatCubit,
+                  child: MediaPreviewScreen(
+                    file: picked.localFile!,
+                    type: 'image',
+                    onSend:
+                        (caption, sendFile, _) => chatCubit.sendMessage(
+                          receiverId: widget.receiverUser.id,
+                          messageText: '',
+                          messageType: 'image',
+                          imageFile: sendFile,
+                          fileSizeBytes: sendFile.lengthSync(),
+                          caption: caption,
+                          replyTo: widget.replyTo,
+                        ),
+                  ),
                 ),
-              ),
-            ),
           ),
         );
         widget.onCancelReply?.call();
@@ -399,25 +406,27 @@ class _TextInputAreaSectionState extends State<TextInputAreaSection> {
         await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-              value: chatCubit,
-              child: MediaPreviewScreen(
-                file: picked.localFile!,
-                type: 'video',
-                onSend: (caption, sendFile, durationSeconds) =>
-                    chatCubit.sendMessage(
-                      receiverId: widget.receiverUser.id,
-                      messageText: '',
-                      messageType: 'video',
-                      videoFile: sendFile,
-                      fileSizeBytes: sendFile.lengthSync(),
-                      durationSeconds:
-                          durationSeconds ?? picked.durationSeconds,
-                      caption: caption,
-                      replyTo: widget.replyTo,
-                    ),
-              ),
-            ),
+            builder:
+                (context) => BlocProvider.value(
+                  value: chatCubit,
+                  child: MediaPreviewScreen(
+                    file: picked.localFile!,
+                    type: 'video',
+                    onSend:
+                        (caption, sendFile, durationSeconds) =>
+                            chatCubit.sendMessage(
+                              receiverId: widget.receiverUser.id,
+                              messageText: '',
+                              messageType: 'video',
+                              videoFile: sendFile,
+                              fileSizeBytes: sendFile.lengthSync(),
+                              durationSeconds:
+                                  durationSeconds ?? picked.durationSeconds,
+                              caption: caption,
+                              replyTo: widget.replyTo,
+                            ),
+                  ),
+                ),
           ),
         );
         widget.onCancelReply?.call();

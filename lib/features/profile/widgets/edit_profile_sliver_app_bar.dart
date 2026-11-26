@@ -160,29 +160,20 @@ class _ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
 
     final double collapsedAvatarSize = 36.0;
-    final double currentAvatarSize = lerpDouble(
-      expandedAvatarSize,
-      collapsedAvatarSize,
-      progress,
-    )!;
+    final double currentAvatarSize =
+        lerpDouble(expandedAvatarSize, collapsedAvatarSize, progress)!;
 
     final double expandedAvatarTop = coverHeight - (expandedAvatarSize * 0.5);
     final double collapsedAvatarTop =
         topPadding + (kToolbarHeight - collapsedAvatarSize) / 2;
-    final double currentAvatarTop = lerpDouble(
-      expandedAvatarTop,
-      collapsedAvatarTop,
-      progress,
-    )!;
+    final double currentAvatarTop =
+        lerpDouble(expandedAvatarTop, collapsedAvatarTop, progress)!;
 
     final bool isRtl = Directionality.of(context) == TextDirection.rtl;
     final double expandedAvatarRight = 20.0;
     final double collapsedAvatarRight = isRtl ? 56.0 : 16.0;
-    final double currentAvatarRight = lerpDouble(
-      expandedAvatarRight,
-      collapsedAvatarRight,
-      progress,
-    )!;
+    final double currentAvatarRight =
+        lerpDouble(expandedAvatarRight, collapsedAvatarRight, progress)!;
 
     return Stack(
       fit: StackFit.expand,
@@ -200,13 +191,14 @@ class _ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
           child: Opacity(
             opacity: 1.0 - progress,
             child: GestureDetector(
-              onTap: () => _openFullScreenImage(
-                context,
-                selectedFile: selectedCoverFile,
-                networkUrl: coverUrl,
-                fallbackAsset: AppImages.defaultBackgroundImg,
-                heroTag: 'edit_profile_cover',
-              ),
+              onTap:
+                  () => _openFullScreenImage(
+                    context,
+                    selectedFile: selectedCoverFile,
+                    networkUrl: coverUrl,
+                    fallbackAsset: AppImages.defaultBackgroundImg,
+                    heroTag: 'edit_profile_cover',
+                  ),
               onLongPress: onEditCover,
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(
@@ -312,13 +304,14 @@ class _ProfileHeaderDelegate extends SliverPersistentHeaderDelegate {
               clipBehavior: Clip.none,
               children: [
                 GestureDetector(
-                  onTap: () => _openFullScreenImage(
-                    context,
-                    selectedFile: selectedAvatarFile,
-                    networkUrl: avatarUrl,
-                    fallbackAsset: AppImages.defaultUserImg,
-                    heroTag: 'edit_profile_avatar',
-                  ),
+                  onTap:
+                      () => _openFullScreenImage(
+                        context,
+                        selectedFile: selectedAvatarFile,
+                        networkUrl: avatarUrl,
+                        fallbackAsset: AppImages.defaultUserImg,
+                        heroTag: 'edit_profile_avatar',
+                      ),
                   onLongPress: onEditAvatar,
                   child: Container(
                     width: currentAvatarSize,

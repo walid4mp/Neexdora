@@ -170,23 +170,25 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
   }) async {
     final result = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(title),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(context.l10n.keep),
+      builder:
+          (ctx) => AlertDialog(
+            title: Text(title),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(false),
+                child: Text(context.l10n.keep),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(true),
+                child: Text(
+                  confirmLabel,
+                  style:
+                      destructive ? const TextStyle(color: Colors.red) : null,
+                ),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            child: Text(
-              confirmLabel,
-              style: destructive ? const TextStyle(color: Colors.red) : null,
-            ),
-          ),
-        ],
-      ),
     );
     return result == true;
   }
@@ -214,10 +216,11 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (_) => BlocProvider.value(
-        value: cubit,
-        child: _ChangeEmailSheet(currentEmail: currentEmail),
-      ),
+      builder:
+          (_) => BlocProvider.value(
+            value: cubit,
+            child: _ChangeEmailSheet(currentEmail: currentEmail),
+          ),
     );
   }
 
@@ -241,8 +244,10 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
       backgroundColor: theme.scaffoldBackgroundColor,
       body: BlocListener<AccountSecurityCubit, AccountSecurityState>(
         listener: _onCubitState,
-        listenWhen: (prev, curr) =>
-            curr is AccountSecuritySuccess || curr is AccountSecurityFailure,
+        listenWhen:
+            (prev, curr) =>
+                curr is AccountSecuritySuccess ||
+                curr is AccountSecurityFailure,
         child: RefreshIndicator(
           onRefresh: _refreshUser,
           child: CustomScrollView(
@@ -258,14 +263,15 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 40),
-                  child: user == null
-                      ? Padding(
-                          padding: EdgeInsets.only(top: 40),
-                          child: Center(
-                            child: Text(context.l10n.pleaseSignInAgain),
-                          ),
-                        )
-                      : _buildBody(context, user),
+                  child:
+                      user == null
+                          ? Padding(
+                            padding: EdgeInsets.only(top: 40),
+                            child: Center(
+                              child: Text(context.l10n.pleaseSignInAgain),
+                            ),
+                          )
+                          : _buildBody(context, user),
                 ),
               ),
             ],
@@ -307,9 +313,10 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
               style: TextStyle(
                 fontSize: 12,
                 height: 1.4,
-                color: Theme.of(context).brightness == Brightness.dark
-                    ? Colors.white38
-                    : Colors.grey.shade500,
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white38
+                        : Colors.grey.shade500,
               ),
             ),
           ),
@@ -389,15 +396,15 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
           const Gap(14),
           verified
               ? _StatusChip(
-                  icon: Icons.verified_rounded,
-                  label: context.l10n.verified,
-                  color: isDark ? Colors.green.shade300 : Colors.green.shade700,
-                )
+                icon: Icons.verified_rounded,
+                label: context.l10n.verified,
+                color: isDark ? Colors.green.shade300 : Colors.green.shade700,
+              )
               : _StatusChip(
-                  icon: Icons.warning_amber_rounded,
-                  label: context.l10n.unverified,
-                  color: isDark ? Colors.amber.shade300 : Colors.amber.shade800,
-                ),
+                icon: Icons.warning_amber_rounded,
+                label: context.l10n.unverified,
+                color: isDark ? Colors.amber.shade300 : Colors.amber.shade800,
+              ),
           if (!verified) ...[
             const Gap(12),
             Text(
@@ -410,9 +417,10 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
           const Gap(14),
           Divider(
             height: 1,
-            color: isDark
-                ? Colors.white.withValues(alpha: 0.08)
-                : Colors.black.withValues(alpha: 0.06),
+            color:
+                isDark
+                    ? Colors.white.withValues(alpha: 0.08)
+                    : Colors.black.withValues(alpha: 0.06),
           ),
           const Gap(14),
           Row(
@@ -441,12 +449,13 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
             const Gap(14),
             SettingsInfoBanner(
               icon: Icons.link_rounded,
-              message: info.hasPassword
-                  ? context.l10n.isAlsoLinkedTo(
-                      info.oauthLabel,
-                      info.oauthLabel,
-                    )
-                  : context.l10n.yourPrimarySignIn(info.oauthLabel),
+              message:
+                  info.hasPassword
+                      ? context.l10n.isAlsoLinkedTo(
+                        info.oauthLabel,
+                        info.oauthLabel,
+                      )
+                      : context.l10n.yourPrimarySignIn(info.oauthLabel),
             ),
           ],
         ],
@@ -465,19 +474,23 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
                 state is AccountSecurityBusy &&
                 state.action == AccountAction.resendVerification;
             return OutlinedButton.icon(
-              onPressed: (secs > 0 || busy)
-                  ? null
-                  : () {
-                      HapticFeedback.selectionClick();
-                      context.read<AccountSecurityCubit>().resendVerification();
-                    },
-              icon: loading
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : const Icon(Icons.mark_email_read_outlined, size: 18),
+              onPressed:
+                  (secs > 0 || busy)
+                      ? null
+                      : () {
+                        HapticFeedback.selectionClick();
+                        context
+                            .read<AccountSecurityCubit>()
+                            .resendVerification();
+                      },
+              icon:
+                  loading
+                      ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                      : const Icon(Icons.mark_email_read_outlined, size: 18),
               label: Text(
                 secs > 0
                     ? context.l10n.resendInS2(secs)
@@ -564,23 +577,25 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
                     children: [
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: (secs > 0 || busy)
-                              ? null
-                              : () {
-                                  HapticFeedback.selectionClick();
-                                  context
-                                      .read<AccountSecurityCubit>()
-                                      .resendEmailChange(pendingEmail);
-                                },
-                          icon: resending
-                              ? const SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                  ),
-                                )
-                              : const Icon(Icons.refresh_rounded, size: 18),
+                          onPressed:
+                              (secs > 0 || busy)
+                                  ? null
+                                  : () {
+                                    HapticFeedback.selectionClick();
+                                    context
+                                        .read<AccountSecurityCubit>()
+                                        .resendEmailChange(pendingEmail);
+                                  },
+                          icon:
+                              resending
+                                  ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                  : const Icon(Icons.refresh_rounded, size: 18),
                           label: Text(
                             secs > 0
                                 ? context.l10n.resendInS2(secs)
@@ -591,19 +606,23 @@ class _EmailSettingsViewState extends State<EmailSettingsView>
                       const Gap(10),
                       Expanded(
                         child: TextButton.icon(
-                          onPressed: busy
-                              ? null
-                              : () =>
-                                    _cancelPending(currentEmail, pendingEmail),
-                          icon: cancelling
-                              ? const SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
+                          onPressed:
+                              busy
+                                  ? null
+                                  : () => _cancelPending(
+                                    currentEmail,
+                                    pendingEmail,
                                   ),
-                                )
-                              : const Icon(Icons.close_rounded, size: 18),
+                          icon:
+                              cancelling
+                                  ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                  : const Icon(Icons.close_rounded, size: 18),
                           label: Text(context.l10n.cancelRequest),
                           style: TextButton.styleFrom(
                             foregroundColor: Colors.red,
@@ -728,8 +747,9 @@ class _ChangeEmailSheetState extends State<_ChangeEmailSheet> {
     final isDark = theme.brightness == Brightness.dark;
 
     return BlocConsumer<AccountSecurityCubit, AccountSecurityState>(
-      listenWhen: (prev, curr) =>
-          curr is AccountSecuritySuccess || curr is AccountSecurityFailure,
+      listenWhen:
+          (prev, curr) =>
+              curr is AccountSecuritySuccess || curr is AccountSecurityFailure,
       listener: _onState,
       builder: (context, state) {
         final busy = state is AccountSecurityBusy;

@@ -45,9 +45,10 @@ class ImageSizing {
     double? screenLogicalWidth,
   }) {
     final view = PlatformDispatcher.instance.views.firstOrNull;
-    final dpr = (devicePixelRatio ?? view?.devicePixelRatio ?? 2.0)
-        .clamp(1.0, _maxDevicePixelRatio)
-        .toDouble();
+    final dpr =
+        (devicePixelRatio ?? view?.devicePixelRatio ?? 2.0)
+            .clamp(1.0, _maxDevicePixelRatio)
+            .toDouble();
     final screenWidth =
         screenLogicalWidth ??
         (view == null
@@ -62,9 +63,8 @@ class ImageSizing {
 
     final w = resolve(width);
     final h = resolve(height);
-    final logical = (w == null && h == null)
-        ? screenWidth
-        : math.max(w ?? 0, h ?? 0);
+    final logical =
+        (w == null && h == null) ? screenWidth : math.max(w ?? 0, h ?? 0);
     return bucketFor(logical * dpr);
   }
 }

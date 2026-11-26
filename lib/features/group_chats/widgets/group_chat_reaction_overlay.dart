@@ -31,83 +31,87 @@ class GroupChatReactionOverlay {
 
     const bubbleWidth = 340.0;
     final screenWidth = overlayBox.size.width;
-    final currentUserId = anchorKey.currentContext != null
-        ? context.read<GroupDetailsCubit>().currentUserId
-        : '';
+    final currentUserId =
+        anchorKey.currentContext != null
+            ? context.read<GroupDetailsCubit>().currentUserId
+            : '';
 
-    double x = isMe
-        ? (anchorRect.right - bubbleWidth).clamp(
-            8.0,
-            screenWidth - bubbleWidth - 8,
-          )
-        : anchorRect.left.clamp(8.0, screenWidth - bubbleWidth - 8);
+    double x =
+        isMe
+            ? (anchorRect.right - bubbleWidth).clamp(
+              8.0,
+              screenWidth - bubbleWidth - 8,
+            )
+            : anchorRect.left.clamp(8.0, screenWidth - bubbleWidth - 8);
 
     final double spaceBelow = overlayBox.size.height - anchorRect.bottom;
-    final double y = spaceBelow > 120
-        ? anchorRect.bottom + 6
-        : anchorRect.top - 130;
+    final double y =
+        spaceBelow > 120 ? anchorRect.bottom + 6 : anchorRect.top - 130;
 
     final cubit = context.read<GroupDetailsCubit>();
     final overlayContext = Overlay.of(context).context;
 
     _currentEntry = OverlayEntry(
-      builder: (_) => Stack(
-        children: [
-          Positioned.fill(
-            child: Listener(
-              behavior: HitTestBehavior.translucent,
-              onPointerDown: (_) => dismiss(),
-              child: const SizedBox.expand(),
-            ),
-          ),
-          Positioned(
-            left: x,
-            top: y,
-            child: GroupReactionPickerBubble(
-              message: message,
-              currentUserId: currentUserId,
-              primary: primary,
-              isMe: isMe,
-              onReact: (emoji) {
-                dismiss();
-                cubit.toggleReaction(messageId: message.id, emoji: emoji);
-              },
-              onReply: () {
-                dismiss();
-                onReply(message);
-              },
-              onEdit: onEdit != null
-                  ? () {
-                      dismiss();
-                      onEdit(message);
-                    }
-                  : null,
-              onDelete: message.senderId == currentUserId
-                  ? () {
-                      dismiss();
-                      cubit.deleteMessage(message.id);
-                    }
-                  : null,
+      builder:
+          (_) => Stack(
+            children: [
+              Positioned.fill(
+                child: Listener(
+                  behavior: HitTestBehavior.translucent,
+                  onPointerDown: (_) => dismiss(),
+                  child: const SizedBox.expand(),
+                ),
+              ),
+              Positioned(
+                left: x,
+                top: y,
+                child: GroupReactionPickerBubble(
+                  message: message,
+                  currentUserId: currentUserId,
+                  primary: primary,
+                  isMe: isMe,
+                  onReact: (emoji) {
+                    dismiss();
+                    cubit.toggleReaction(messageId: message.id, emoji: emoji);
+                  },
+                  onReply: () {
+                    dismiss();
+                    onReply(message);
+                  },
+                  onEdit:
+                      onEdit != null
+                          ? () {
+                            dismiss();
+                            onEdit(message);
+                          }
+                          : null,
+                  onDelete:
+                      message.senderId == currentUserId
+                          ? () {
+                            dismiss();
+                            cubit.deleteMessage(message.id);
+                          }
+                          : null,
 
-              onReport:
-                  message.senderId != currentUserId &&
-                      message.messageType != 'call'
-                  ? () {
-                      dismiss();
-                      ReportBottomSheet.show(
-                        overlayContext,
-                        target: ReportTarget(
-                          type: ReportTargetType.groupMessage,
-                          id: message.id,
-                        ),
-                      );
-                      cubit.clearSelection();
-                    }
-                  : null,
-            ),
+                  onReport:
+                      message.senderId != currentUserId &&
+                              message.messageType != 'call'
+                          ? () {
+                            dismiss();
+                            ReportBottomSheet.show(
+                              overlayContext,
+                              target: ReportTarget(
+                                type: ReportTargetType.groupMessage,
+                                id: message.id,
+                              ),
+                            );
+                            cubit.clearSelection();
+                          }
+                          : null,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
     );
 
     Overlay.of(context).insert(_currentEntry!);

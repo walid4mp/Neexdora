@@ -80,10 +80,11 @@ class _LoginViewWidgetState extends State<LoginViewWidget> {
               ),
               const Gap(42),
               BlocConsumer<AuthCubit, AuthState>(
-                listenWhen: (previous, current) =>
-                    (previous is! AuthSuccess && current is AuthSuccess) ||
-                    current is AuthFailure ||
-                    current is AuthMfaRequired,
+                listenWhen:
+                    (previous, current) =>
+                        (previous is! AuthSuccess && current is AuthSuccess) ||
+                        current is AuthFailure ||
+                        current is AuthMfaRequired,
                 listener: (context, state) async {
                   if (state is AuthMfaRequired) {
                     Navigator.of(
@@ -108,13 +109,14 @@ class _LoginViewWidgetState extends State<LoginViewWidget> {
                     AppToast.error(state.errMsg);
                   }
                 },
-                buildWhen: (previous, current) =>
-                    current is AuthLoading ||
-                    current is AuthSuccess ||
-                    current is AuthFailure ||
-                    current is AuthInitial ||
-                    current is AuthSignedOut ||
-                    current is AuthAccountDeleted,
+                buildWhen:
+                    (previous, current) =>
+                        current is AuthLoading ||
+                        current is AuthSuccess ||
+                        current is AuthFailure ||
+                        current is AuthInitial ||
+                        current is AuthSignedOut ||
+                        current is AuthAccountDeleted,
                 builder: (context, state) {
                   return CustomElevatedButton(
                     txtBtn: context.l10n.signIn2,

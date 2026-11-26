@@ -73,12 +73,12 @@ class _FeedbackQuotaBadgeState extends State<FeedbackQuotaBadge> {
   Widget build(BuildContext context) {
     final q = widget.quota;
     final exhausted = q.isExhausted;
-    final color = exhausted
-        ? const Color(0xFFE5484D)
-        : Theme.of(context).primaryColor;
-    final text = exhausted
-        ? context.l10n.dailyLimitReachedNext(_fmt(_left))
-        : context.l10n.ofFeedbacksLeftToday(q.remaining, q.limit);
+    final color =
+        exhausted ? const Color(0xFFE5484D) : Theme.of(context).primaryColor;
+    final text =
+        exhausted
+            ? context.l10n.dailyLimitReachedNext(_fmt(_left))
+            : context.l10n.ofFeedbacksLeftToday(q.remaining, q.limit);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),

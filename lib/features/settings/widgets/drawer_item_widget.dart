@@ -21,9 +21,10 @@ class DrawerItemWidget extends StatelessWidget {
     return ListTile(
       leading: Icon(
         icon,
-        color: color == Colors.red.withValues(alpha: 0.92)
-            ? Colors.red.withValues(alpha: 0.92)
-            : Theme.of(context).primaryColor,
+        color:
+            color == Colors.red.withValues(alpha: 0.92)
+                ? Colors.red.withValues(alpha: 0.92)
+                : Theme.of(context).primaryColor,
       ),
       title: Text(
         title,

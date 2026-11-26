@@ -106,9 +106,8 @@ class _GroupCallMessageContentState extends State<GroupCallMessageContent> {
     StreamSubscription<List<Map<String, dynamic>>>? messageSub;
     StreamSubscription<List<Map<String, dynamic>>>? callSub;
 
-    Map<String, dynamic>? messageData = initialData.isNotEmpty
-        ? initialData
-        : null;
+    Map<String, dynamic>? messageData =
+        initialData.isNotEmpty ? initialData : null;
     Map<String, dynamic>? callRow;
 
     void emit() {
@@ -220,8 +219,8 @@ class _GroupCallMessageContentState extends State<GroupCallMessageContent> {
     final rawDuration = callData['duration'];
     final duration =
         (rawDuration is String && _isValidNonZeroDuration(rawDuration))
-        ? rawDuration.trim()
-        : '';
+            ? rawDuration.trim()
+            : '';
 
     final callId = callData['call_id'] as String? ?? '';
     final groupId = callData[GroupMemberColumns.groupId] as String? ?? '';
@@ -244,18 +243,17 @@ class _GroupCallMessageContentState extends State<GroupCallMessageContent> {
 
     final showAsMissed = neverConnected && !isMe;
 
-    final bubbleBg = isMe
-        ? primary
-        : (isDark
-              ? Colors.white.withValues(alpha: 0.09)
-              : primary.withValues(alpha: 0.08));
+    final bubbleBg =
+        isMe
+            ? primary
+            : (isDark
+                ? Colors.white.withValues(alpha: 0.09)
+                : primary.withValues(alpha: 0.08));
 
-    final labelColor = isMe
-        ? Colors.white
-        : (isDark ? Colors.white70 : Colors.black87);
-    final subColor = isMe
-        ? Colors.white70
-        : (isDark ? Colors.white54 : Colors.black45);
+    final labelColor =
+        isMe ? Colors.white : (isDark ? Colors.white70 : Colors.black87);
+    final subColor =
+        isMe ? Colors.white70 : (isDark ? Colors.white54 : Colors.black45);
     final missedTint = Colors.redAccent.shade100;
 
     final badge = _resolveBadgeStyle(
@@ -266,17 +264,17 @@ class _GroupCallMessageContentState extends State<GroupCallMessageContent> {
 
     final String callLabel;
     if (neverConnected) {
-      callLabel = showAsMissed
-          ? (isAudio
-                ? context.l10n.missedVoiceCall
-                : context.l10n.missedVideoCall)
-          : context.l10n.endedCall;
+      callLabel =
+          showAsMissed
+              ? (isAudio
+                  ? context.l10n.missedVoiceCall
+                  : context.l10n.missedVideoCall)
+              : context.l10n.endedCall;
     } else if (isEndedConnected) {
       callLabel = context.l10n.endedCall;
     } else {
-      callLabel = isAudio
-          ? context.l10n.groupVoiceCall2
-          : context.l10n.groupVideoCall2;
+      callLabel =
+          isAudio ? context.l10n.groupVoiceCall2 : context.l10n.groupVideoCall2;
     }
 
     return Container(
@@ -289,12 +287,13 @@ class _GroupCallMessageContentState extends State<GroupCallMessageContent> {
           bottomStart: Radius.circular(isMe ? 18 : 4),
           bottomEnd: Radius.circular(isMe ? 4 : 18),
         ).resolve(Directionality.of(context)),
-        border: !isMe
-            ? Border.all(
-                color: primary.withValues(alpha: isDark ? 0.2 : 0.12),
-                width: 1,
-              )
-            : null,
+        border:
+            !isMe
+                ? Border.all(
+                  color: primary.withValues(alpha: isDark ? 0.2 : 0.12),
+                  width: 1,
+                )
+                : null,
       ),
       padding: const EdgeInsets.fromLTRB(12, 10, 12, 8),
       child: Column(
@@ -433,9 +432,10 @@ class _GroupCallMessageContentState extends State<GroupCallMessageContent> {
         background: const Color(0xFFEF4444).withValues(alpha: 0.22),
         border: const Color(0xFFEF4444).withValues(alpha: 0.50),
         iconColor: const Color(0xFFF87171),
-        icon: isAudio
-            ? Icons.call_missed_rounded
-            : Icons.missed_video_call_rounded,
+        icon:
+            isAudio
+                ? Icons.call_missed_rounded
+                : Icons.missed_video_call_rounded,
       );
     }
 
@@ -493,17 +493,19 @@ class _GroupCallMessageContentState extends State<GroupCallMessageContent> {
             ),
           ),
           child: ClipOval(
-            child: hasAvatar
-                ? CachedCloudinaryImage(
-                    secureUrl: avatarUrl,
-                    width: size,
-                    height: size,
-                    fit: BoxFit.cover,
+            child:
+                hasAvatar
+                    ? CachedCloudinaryImage(
+                      secureUrl: avatarUrl,
+                      width: size,
+                      height: size,
+                      fit: BoxFit.cover,
 
-                    isAvatar: true,
-                    errorWidget: (_, __) => _groupAvatarFallback(primary, size),
-                  )
-                : _groupAvatarFallback(primary, size),
+                      isAvatar: true,
+                      errorWidget:
+                          (_, __) => _groupAvatarFallback(primary, size),
+                    )
+                    : _groupAvatarFallback(primary, size),
           ),
         );
       },
@@ -529,9 +531,8 @@ class _GroupCallMessageContentState extends State<GroupCallMessageContent> {
     return Text(
       formattedTime,
       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-        color: isMe
-            ? AppColors.white70
-            : Theme.of(context).colorScheme.onSurface,
+        color:
+            isMe ? AppColors.white70 : Theme.of(context).colorScheme.onSurface,
         fontSize: 9,
       ),
     );

@@ -135,18 +135,13 @@ class _GroupInfoHeaderDelegate extends SliverPersistentHeaderDelegate {
     final hasAvatar = group.avatarUrl?.isNotEmpty == true;
 
     final hsl = HSLColor.fromColor(primary);
-    final bg1 = hsl
-        .withLightness((hsl.lightness - 0.1).clamp(0.0, 1.0))
-        .toColor();
-    final bg2 = hsl
-        .withLightness((hsl.lightness + 0.05).clamp(0.0, 1.0))
-        .toColor();
+    final bg1 =
+        hsl.withLightness((hsl.lightness - 0.1).clamp(0.0, 1.0)).toColor();
+    final bg2 =
+        hsl.withLightness((hsl.lightness + 0.05).clamp(0.0, 1.0)).toColor();
 
-    final avatarSize = lerpDouble(
-      _avatarExpandedSize,
-      _avatarCollapsedSize,
-      t,
-    )!;
+    final avatarSize =
+        lerpDouble(_avatarExpandedSize, _avatarCollapsedSize, t)!;
     final avatarTop =
         topPadding +
         lerpDouble(
@@ -154,11 +149,12 @@ class _GroupInfoHeaderDelegate extends SliverPersistentHeaderDelegate {
           (_collapsedContentHeight - _avatarCollapsedSize) / 2,
           t,
         )!;
-    final avatarLeft = lerpDouble(
-      (screenWidth - _avatarExpandedSize) / 2,
-      _avatarCollapsedLeft,
-      t,
-    )!;
+    final avatarLeft =
+        lerpDouble(
+          (screenWidth - _avatarExpandedSize) / 2,
+          _avatarCollapsedLeft,
+          t,
+        )!;
 
     final bigTitleOpacity = (1 - (t / 0.6)).clamp(0.0, 1.0);
     final smallTitleOpacity = ((t - 0.4) / 0.6).clamp(0.0, 1.0);
@@ -325,24 +321,26 @@ class _GroupInfoHeaderDelegate extends SliverPersistentHeaderDelegate {
               child: CircleAvatar(
                 radius: size / 2 - 3,
                 backgroundColor: primary,
-                backgroundImage: hasAvatar
-                    ? AppImageProvider.avatar(
-                        group.avatarUrl!,
-                        radius: size / 2 - 3,
-                      )
-                    : null,
-                child: !hasAvatar
-                    ? Container(
-                        padding: EdgeInsets.zero,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: AssetImage(AppImages.defaultGroupImg),
-                            fit: BoxFit.cover,
+                backgroundImage:
+                    hasAvatar
+                        ? AppImageProvider.avatar(
+                          group.avatarUrl!,
+                          radius: size / 2 - 3,
+                        )
+                        : null,
+                child:
+                    !hasAvatar
+                        ? Container(
+                          padding: EdgeInsets.zero,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              image: AssetImage(AppImages.defaultGroupImg),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                      )
-                    : null,
+                        )
+                        : null,
               ),
             ),
           ),
@@ -364,26 +362,31 @@ class _GroupInfoHeaderDelegate extends SliverPersistentHeaderDelegate {
                   ),
                   child: AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
-                    transitionBuilder: (child, animation) => ScaleTransition(
-                      scale: animation,
-                      child: FadeTransition(opacity: animation, child: child),
-                    ),
-                    child: isUploadingPhoto
-                        ? const SizedBox(
-                            key: ValueKey('header_loading'),
-                            width: 14,
-                            height: 14,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : const Icon(
-                            Icons.camera_alt_rounded,
-                            key: ValueKey('header_camera_icon'),
-                            size: 14,
-                            color: Colors.white,
+                    transitionBuilder:
+                        (child, animation) => ScaleTransition(
+                          scale: animation,
+                          child: FadeTransition(
+                            opacity: animation,
+                            child: child,
                           ),
+                        ),
+                    child:
+                        isUploadingPhoto
+                            ? const SizedBox(
+                              key: ValueKey('header_loading'),
+                              width: 14,
+                              height: 14,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                            : const Icon(
+                              Icons.camera_alt_rounded,
+                              key: ValueKey('header_camera_icon'),
+                              size: 14,
+                              color: Colors.white,
+                            ),
                   ),
                 ),
               ),
@@ -644,9 +647,10 @@ class _GlassIconAction extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: emphasized
-              ? Colors.white.withValues(alpha: 0.22)
-              : Colors.white.withValues(alpha: 0.08),
+          color:
+              emphasized
+                  ? Colors.white.withValues(alpha: 0.22)
+                  : Colors.white.withValues(alpha: 0.08),
           border: Border.all(
             color: Colors.white.withValues(alpha: 0.15),
             width: 1,
@@ -710,39 +714,42 @@ class _TotalMembersBadge extends StatelessWidget {
           ),
         );
       },
-      child: count <= 0
-          ? const SizedBox.shrink(key: ValueKey('total_members_badge_hidden'))
-          : _GroupInfoGlassBadge(
-              key: const ValueKey('total_members_badge_visible'),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _RollingCountText(
-                    count: count,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w700,
+      child:
+          count <= 0
+              ? const SizedBox.shrink(
+                key: ValueKey('total_members_badge_hidden'),
+              )
+              : _GroupInfoGlassBadge(
+                key: const ValueKey('total_members_badge_visible'),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _RollingCountText(
+                      count: count,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 5),
-                  const Icon(
-                    Icons.people_alt_rounded,
-                    size: 14,
-                    color: Colors.white,
-                  ),
-                  const SizedBox(width: 3),
-                  Text(
-                    context.l10n.members,
-                    style: const TextStyle(
+                    const SizedBox(width: 5),
+                    const Icon(
+                      Icons.people_alt_rounded,
+                      size: 14,
                       color: Colors.white,
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w600,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 3),
+                    Text(
+                      context.l10n.members,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
     );
   }
 }
@@ -756,37 +763,39 @@ class _OnlineMembersBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      transitionBuilder: (child, animation) =>
-          FadeTransition(opacity: animation, child: child),
-      child: count <= 0
-          ? const SizedBox.shrink(key: ValueKey('online_badge_hidden'))
-          : _GroupInfoGlassBadge(
-              key: const ValueKey('online_badge_visible'),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const _PulsingOnlineDot(size: 8),
-                  const SizedBox(width: 6),
-                  _RollingCountText(
-                    count: count,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w700,
+      transitionBuilder:
+          (child, animation) =>
+              FadeTransition(opacity: animation, child: child),
+      child:
+          count <= 0
+              ? const SizedBox.shrink(key: ValueKey('online_badge_hidden'))
+              : _GroupInfoGlassBadge(
+                key: const ValueKey('online_badge_visible'),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const _PulsingOnlineDot(size: 8),
+                    const SizedBox(width: 6),
+                    _RollingCountText(
+                      count: count,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 3),
-                  Text(
-                    context.l10n.online2,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w600,
+                    const SizedBox(width: 3),
+                    Text(
+                      context.l10n.online2,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
     );
   }
 }

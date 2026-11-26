@@ -94,8 +94,11 @@ class CustomConfirmationDialog extends StatelessWidget {
                       maximumSize: const Size(80, 40),
                       minimumSize: const Size(80, 40),
                       txtBtn: effectiveCancel,
-                      onPressed: () =>
-                          Navigator.of(context, rootNavigator: true).pop(false),
+                      onPressed:
+                          () => Navigator.of(
+                            context,
+                            rootNavigator: true,
+                          ).pop(false),
                       elevation: 1.5,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),

@@ -47,39 +47,41 @@ class GroupInfoMembersList extends StatelessWidget {
             vertical: 4,
           ),
           leading: GestureDetector(
-            onTap: isCurrentUser
-                ? () {
-                    Navigator.of(context, rootNavigator: true).pushNamed(
-                      AppRoutes.fullScreenImageViewRoute,
-                      arguments: {
-                        'url':
-                            (member.userAvatar != null &&
-                                member.userAvatar!.isNotEmpty)
-                            ? member.userAvatar!
-                            : AppImages.defaultUserImg,
-                        'tag': member.id,
-                        'isAsset':
-                            member.userAvatar == null ||
-                            member.userAvatar!.isEmpty,
-                      },
-                    );
-                  }
-                : () {
-                    final user = ChatUserModel(
-                      id: member.userId,
-                      name: member.userName,
-                      imageUrl: member.userAvatar,
-                    );
+            onTap:
+                isCurrentUser
+                    ? () {
+                      Navigator.of(context, rootNavigator: true).pushNamed(
+                        AppRoutes.fullScreenImageViewRoute,
+                        arguments: {
+                          'url':
+                              (member.userAvatar != null &&
+                                      member.userAvatar!.isNotEmpty)
+                                  ? member.userAvatar!
+                                  : AppImages.defaultUserImg,
+                          'tag': member.id,
+                          'isAsset':
+                              member.userAvatar == null ||
+                              member.userAvatar!.isEmpty,
+                        },
+                      );
+                    }
+                    : () {
+                      final user = ChatUserModel(
+                        id: member.userId,
+                        name: member.userName,
+                        imageUrl: member.userAvatar,
+                      );
 
-                    showDialog(
-                      context: context,
-                      barrierColor: Colors.black54,
-                      builder: (_) => UserPreviewDialog(
-                        user: user,
-                        showContactOptions: true,
-                      ),
-                    );
-                  },
+                      showDialog(
+                        context: context,
+                        barrierColor: Colors.black54,
+                        builder:
+                            (_) => UserPreviewDialog(
+                              user: user,
+                              showContactOptions: true,
+                            ),
+                      );
+                    },
             child: Hero(
               tag: member.id,
               child: PresenceAvatarWidget(
@@ -89,20 +91,25 @@ class GroupInfoMembersList extends StatelessWidget {
                 child: CircleAvatar(
                   radius: 24,
                   backgroundColor: primary.withValues(alpha: 0.12),
-                  backgroundImage: member.userAvatar?.isNotEmpty == true
-                      ? AppImageProvider.avatar(member.userAvatar!, radius: 24)
-                      : null,
-                  child: member.userAvatar?.isEmpty != false
-                      ? Text(
-                          member.userName.isNotEmpty
-                              ? member.userName[0].toUpperCase()
-                              : '?',
-                          style: TextStyle(
-                            color: primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      : null,
+                  backgroundImage:
+                      member.userAvatar?.isNotEmpty == true
+                          ? AppImageProvider.avatar(
+                            member.userAvatar!,
+                            radius: 24,
+                          )
+                          : null,
+                  child:
+                      member.userAvatar?.isEmpty != false
+                          ? Text(
+                            member.userName.isNotEmpty
+                                ? member.userName[0].toUpperCase()
+                                : '?',
+                            style: TextStyle(
+                              color: primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                          : null,
                 ),
               ),
             ),
@@ -217,22 +224,26 @@ class GroupInfoMembersList extends StatelessWidget {
           if (value == 'demote') onDemote(member);
           if (value == 'remove') onRemove(member);
         },
-        itemBuilder: (context) => [
-          if (!isMemberAdmin)
-            PopupMenuItem(value: 'promote', child: Text(context.l10n.makeAdmin))
-          else
-            PopupMenuItem(
-              value: 'demote',
-              child: Text(context.l10n.removeAdmin),
-            ),
-          PopupMenuItem(
-            value: 'remove',
-            child: Text(
-              context.l10n.removeFromGroup,
-              style: TextStyle(color: Colors.redAccent),
-            ),
-          ),
-        ],
+        itemBuilder:
+            (context) => [
+              if (!isMemberAdmin)
+                PopupMenuItem(
+                  value: 'promote',
+                  child: Text(context.l10n.makeAdmin),
+                )
+              else
+                PopupMenuItem(
+                  value: 'demote',
+                  child: Text(context.l10n.removeAdmin),
+                ),
+              PopupMenuItem(
+                value: 'remove',
+                child: Text(
+                  context.l10n.removeFromGroup,
+                  style: TextStyle(color: Colors.redAccent),
+                ),
+              ),
+            ],
       );
     }
 

@@ -17,32 +17,33 @@ class OnBoardingContent extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            child: isLogoApp
-                ? Transform.scale(
-                    scale: 1.20,
-                    child: Image.asset(model.image, fit: BoxFit.contain),
-                  )
-                : Image.asset(model.image, fit: BoxFit.contain),
+            child:
+                isLogoApp
+                    ? Transform.scale(
+                      scale: 1.20,
+                      child: Image.asset(model.image, fit: BoxFit.contain),
+                    )
+                    : Image.asset(model.image, fit: BoxFit.contain),
           ),
           const Gap(20),
           (model.subTitle != null && model.subTitle!.isNotEmpty)
               ? Text(
-                  model.title,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.black,
-                  ),
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Gap(20),
-                    Image.asset(model.title, fit: BoxFit.contain, width: 230),
-                    const Gap(20),
-                  ],
+                model.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.black,
                 ),
+              )
+              : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Gap(20),
+                  Image.asset(model.title, fit: BoxFit.contain, width: 230),
+                  const Gap(20),
+                ],
+              ),
 
           if (model.subTitle != null && model.subTitle!.isNotEmpty) ...[
             const Gap(15),

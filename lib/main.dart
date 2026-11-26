@@ -7,12 +7,21 @@ import 'core/errors/network_error_utils.dart';
 import 'core/observability/error_category.dart';
 import 'core/observability/observability.dart';
 import 'core/observability/overflow_filter.dart';
+import 'core/secrets/app_secrets.dart';
+import 'core/secrets/config_error_app.dart';
 import 'core/toast/app_toast.dart';
 
 void main() {
   runZonedGuarded<Future<void>>(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+
+      // Build without --dart-define(-from-file)? Stop here with a clear screen
+      // instead of firing Supabase requests that carry no `apikey` (HTTP 401).
+      if (!AppSecrets.isConfigured) {
+        runApp(ConfigErrorApp(missing: AppSecrets.missingKeys));
+        return;
+      }
 
       // ── Error handlers are installed FIRST, before Firebase exists ──
       //

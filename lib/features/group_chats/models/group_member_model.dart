@@ -22,9 +22,10 @@ class GroupMemberModel {
     required this.joinedAt,
   }) : _userName = userName;
 
-  String get userName => _userName.trim().toLowerCase() == 'deleted account'
-      ? AppL10n.current.deletedAccount
-      : _userName;
+  String get userName =>
+      _userName.trim().toLowerCase() == 'deleted account'
+          ? AppL10n.current.deletedAccount
+          : _userName;
 
   factory GroupMemberModel.fromMap(Map<String, dynamic> map) {
     final groupId = map[GroupMemberColumns.groupId] as String;

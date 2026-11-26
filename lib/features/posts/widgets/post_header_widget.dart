@@ -112,9 +112,9 @@ class PostHeaderWidget extends StatelessWidget {
     final muted = theme.colorScheme.onSurface.withValues(alpha: 0.45);
     final authorName =
         (post.authorIsDeleted ||
-            (post.authorName?.trim().toLowerCase() == 'deleted account'))
-        ? context.l10n.deletedAccount
-        : (post.authorName ?? context.l10n.unknown);
+                (post.authorName?.trim().toLowerCase() == 'deleted account'))
+            ? context.l10n.deletedAccount
+            : (post.authorName ?? context.l10n.unknown);
 
     void openGroup() {
       if (onGroup || groupId.isEmpty) return;
@@ -138,22 +138,23 @@ class PostHeaderWidget extends StatelessWidget {
         onGroupTap: onGroup ? null : openGroup,
         onAuthorTap: shouldDisableTap ? null : openAuthor,
       ),
-      onTap: isAlreadyOnSamePost
-          ? null
-          : () {
-              if (postsCubit.isPostGhost(post.id)) {
-                AppToast.info(context.l10n.thisPostIsNo);
-                return;
-              }
-              Navigator.of(context, rootNavigator: true).pushNamed(
-                AppRoutes.postDetailsViewRoute,
-                arguments: PostDetailsRouteArgs(
-                  post: post,
-                  initialActiveMode: PostDetailsActiveMode.comments,
-                  isProfileContext: isProfileContext,
-                ),
-              );
-            },
+      onTap:
+          isAlreadyOnSamePost
+              ? null
+              : () {
+                if (postsCubit.isPostGhost(post.id)) {
+                  AppToast.info(context.l10n.thisPostIsNo);
+                  return;
+                }
+                Navigator.of(context, rootNavigator: true).pushNamed(
+                  AppRoutes.postDetailsViewRoute,
+                  arguments: PostDetailsRouteArgs(
+                    post: post,
+                    initialActiveMode: PostDetailsActiveMode.comments,
+                    isProfileContext: isProfileContext,
+                  ),
+                );
+              },
       title: GestureDetector(
         onTap: onGroup ? null : openGroup,
         child: Text(
@@ -244,13 +245,14 @@ class PostHeaderWidget extends StatelessWidget {
             // Owner / admins may remove any post of their group.
             return FutureBuilder<bool>(
               future: GroupRoleResolver.isAdmin(post.groupId!),
-              builder: (context, snap) => PostActionsMenu(
-                post: post,
-                currentUserId: currentUserId,
-                postsCubit: postsCubit,
-                showPinAction: showPinAction,
-                canModerateGroupPost: snap.data == true,
-              ),
+              builder:
+                  (context, snap) => PostActionsMenu(
+                    post: post,
+                    currentUserId: currentUserId,
+                    postsCubit: postsCubit,
+                    showPinAction: showPinAction,
+                    canModerateGroupPost: snap.data == true,
+                  ),
             );
           }
           return PostActionsMenu(
@@ -308,57 +310,61 @@ class PostHeaderWidget extends StatelessWidget {
       contentPadding: EdgeInsets.zero,
       leading: AuthorImageWidget(
         post: post,
-        onTap: shouldDisableTap
-            ? null
-            : () {
-                if (isPostByMe) {
-                  if (navController != null) {
-                    navController.jumpToTab(3);
+        onTap:
+            shouldDisableTap
+                ? null
+                : () {
+                  if (isPostByMe) {
+                    if (navController != null) {
+                      navController.jumpToTab(3);
+                    }
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder:
+                          (context) => UserPreviewDialog(
+                            user: post.toChatUserModel(),
+                            showContactOptions: false,
+                          ),
+                    );
                   }
-                } else {
-                  showDialog(
-                    context: context,
-                    builder: (context) => UserPreviewDialog(
-                      user: post.toChatUserModel(),
-                      showContactOptions: false,
-                    ),
-                  );
-                }
-              },
+                },
       ),
 
-      onTap: isAlreadyOnSamePost
-          ? null
-          : () {
-              if (postsCubit.isPostGhost(post.id)) {
-                AppToast.info(context.l10n.thisPostIsNo);
-                return;
-              }
-              Navigator.of(context, rootNavigator: true).pushNamed(
-                AppRoutes.postDetailsViewRoute,
-                arguments: PostDetailsRouteArgs(
-                  post: post,
-                  initialActiveMode: PostDetailsActiveMode.comments,
-                  isProfileContext: isProfileContext,
-                ),
-              );
-            },
+      onTap:
+          isAlreadyOnSamePost
+              ? null
+              : () {
+                if (postsCubit.isPostGhost(post.id)) {
+                  AppToast.info(context.l10n.thisPostIsNo);
+                  return;
+                }
+                Navigator.of(context, rootNavigator: true).pushNamed(
+                  AppRoutes.postDetailsViewRoute,
+                  arguments: PostDetailsRouteArgs(
+                    post: post,
+                    initialActiveMode: PostDetailsActiveMode.comments,
+                    isProfileContext: isProfileContext,
+                  ),
+                );
+              },
 
       title: GestureDetector(
-        onTap: shouldDisableTap
-            ? null
-            : () {
-                if (isPostByMe) {
-                  if (navController != null) {
-                    navController.jumpToTab(3);
+        onTap:
+            shouldDisableTap
+                ? null
+                : () {
+                  if (isPostByMe) {
+                    if (navController != null) {
+                      navController.jumpToTab(3);
+                    }
+                  } else {
+                    Navigator.of(context, rootNavigator: true).pushNamed(
+                      AppRoutes.profileViewRoute,
+                      arguments: post.authorId,
+                    );
                   }
-                } else {
-                  Navigator.of(context, rootNavigator: true).pushNamed(
-                    AppRoutes.profileViewRoute,
-                    arguments: post.authorId,
-                  );
-                }
-              },
+                },
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

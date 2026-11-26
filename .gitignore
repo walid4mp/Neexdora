@@ -33,7 +33,9 @@ migrate_working_dir/
 .env.*
 !.env.example
 
+scripts/
 
+supabase/
 
 .repomix/
 master_code.txt

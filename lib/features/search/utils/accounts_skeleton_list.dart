@@ -37,13 +37,14 @@ class AccountsSkeletonList extends StatelessWidget {
           mainAxisSpacing: DiscoverGridMetrics.mainAxisSpacing,
           crossAxisSpacing: DiscoverGridMetrics.crossAxisSpacing,
           childCount: 6,
-          itemBuilder: (_, index) => _buildSkeletonItem(
-            index,
-            cardColor,
-            borderColor,
-            baseColor,
-            highlightColor,
-          ),
+          itemBuilder:
+              (_, index) => _buildSkeletonItem(
+                index,
+                cardColor,
+                borderColor,
+                baseColor,
+                highlightColor,
+              ),
         ),
       );
     }
@@ -55,13 +56,14 @@ class AccountsSkeletonList extends StatelessWidget {
       padding: padding,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 6,
-      itemBuilder: (_, index) => _buildSkeletonItem(
-        index,
-        cardColor,
-        borderColor,
-        baseColor,
-        highlightColor,
-      ),
+      itemBuilder:
+          (_, index) => _buildSkeletonItem(
+            index,
+            cardColor,
+            borderColor,
+            baseColor,
+            highlightColor,
+          ),
     );
   }
 

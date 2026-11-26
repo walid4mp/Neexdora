@@ -183,10 +183,11 @@ class _ChatsViewState extends State<ChatsView>
 
                         final errorMsg =
                             (_tabNeedsChats && chatsState is ChatsError)
-                            ? chatsState.message
-                            : (_tabNeedsGroups && groupsState is GroupListError)
-                            ? groupsState.message
-                            : null;
+                                ? chatsState.message
+                                : (_tabNeedsGroups &&
+                                    groupsState is GroupListError)
+                                ? groupsState.message
+                                : null;
 
                         return CustomTabWrapper(
                           isLoading: isLoading,
@@ -247,32 +248,37 @@ class _ChatsViewState extends State<ChatsView>
                                             ),
                                           );
                                         },
-                                        child: selection.isSelecting
-                                            ? ConversationsSelectionHeaderBar(
-                                                key: const ValueKey(
-                                                  'selection_bar',
-                                                ),
-                                                selectedRefs:
-                                                    selection.selectedRefs,
-                                                onCancel: () => context
-                                                    .read<
-                                                      ConversationSelectionCubit
-                                                    >()
-                                                    .clear(),
-                                                onDelete: () =>
-                                                    confirmAndDeleteConversations(
-                                                      context,
+                                        child:
+                                            selection.isSelecting
+                                                ? ConversationsSelectionHeaderBar(
+                                                  key: const ValueKey(
+                                                    'selection_bar',
+                                                  ),
+                                                  selectedRefs:
                                                       selection.selectedRefs,
-                                                    ),
-                                              )
-                                            : MessagesHeaderSection(
-                                                key: const ValueKey(
-                                                  'normal_header',
+                                                  onCancel:
+                                                      () =>
+                                                          context
+                                                              .read<
+                                                                ConversationSelectionCubit
+                                                              >()
+                                                              .clear(),
+                                                  onDelete:
+                                                      () =>
+                                                          confirmAndDeleteConversations(
+                                                            context,
+                                                            selection
+                                                                .selectedRefs,
+                                                          ),
+                                                )
+                                                : MessagesHeaderSection(
+                                                  key: const ValueKey(
+                                                    'normal_header',
+                                                  ),
+                                                  tabController: _tabController,
+                                                  isDark: isDark,
+                                                  primary: primary,
                                                 ),
-                                                tabController: _tabController,
-                                                isDark: isDark,
-                                                primary: primary,
-                                              ),
                                       ),
                                       const SizedBox(height: 10),
                                     ],
@@ -297,14 +303,15 @@ class _ChatsViewState extends State<ChatsView>
                           body: TabBarView(
                             controller: _tabController,
                             physics: const NeverScrollableScrollPhysics(),
-                            children: _tabOrder
-                                .map(
-                                  (tab) => ConversationsTabBody(
-                                    tab: tab,
-                                    tabController: _tabController,
-                                  ),
-                                )
-                                .toList(),
+                            children:
+                                _tabOrder
+                                    .map(
+                                      (tab) => ConversationsTabBody(
+                                        tab: tab,
+                                        tabController: _tabController,
+                                      ),
+                                    )
+                                    .toList(),
                           ),
                         ),
                       ),

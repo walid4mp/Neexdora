@@ -35,9 +35,8 @@ class CustomRefreshIndicatorWidget extends StatelessWidget {
             shape: const CircleBorder(),
             child: CircleAvatar(
               radius: radius ?? 22,
-              backgroundColor: Theme.of(
-                context,
-              ).scaffoldBackgroundColor.withValues(),
+              backgroundColor:
+                  Theme.of(context).scaffoldBackgroundColor.withValues(),
 
               child: Center(
                 child: RepaintBoundary(

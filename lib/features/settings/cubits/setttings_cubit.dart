@@ -151,8 +151,8 @@ class SettingsCubit extends Cubit<SettingsState>
 
   Future<void> toggleBiometricLock(bool value) async {
     if (value) {
-      final availability = await AppLockService.instance
-          .checkBiometricAvailability();
+      final availability =
+          await AppLockService.instance.checkBiometricAvailability();
       if (availability != BiometricAvailability.available) {
         emit(state.copyWith(error: _biometricError(availability)));
         emit(state.copyWith());
@@ -164,9 +164,10 @@ class SettingsCubit extends Cubit<SettingsState>
         final reason = AppLockService.instance.lastUnlockFailureReason;
         emit(
           state.copyWith(
-            error: reason != null
-                ? _biometricError(reason)
-                : SettingsError.identityNotVerified,
+            error:
+                reason != null
+                    ? _biometricError(reason)
+                    : SettingsError.identityNotVerified,
           ),
         );
         emit(state.copyWith());

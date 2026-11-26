@@ -116,9 +116,10 @@ void main() {
     diagnostics.observe(many, owner: 'u1');
     diagnostics.observe(many, owner: 'u1');
 
-    final pressure = reporter.errors
-        .where((e) => e.error is RealtimeChannelPressure)
-        .toList();
+    final pressure =
+        reporter.errors
+            .where((e) => e.error is RealtimeChannelPressure)
+            .toList();
     expect(pressure, hasLength(1));
   });
 }

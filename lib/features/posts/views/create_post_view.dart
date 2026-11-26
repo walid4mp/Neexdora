@@ -102,13 +102,15 @@ class _CreatePostViewState extends State<CreatePostView> {
 
     if (result == ContentPrivacy.private) {
       if (!mounted) return;
-      final selected = await Navigator.of(context, rootNavigator: true)
-          .push<Set<String>>(
-            MaterialPageRoute(
-              builder: (_) =>
-                  AudiencePickerView(initialSelectedIds: _selectedViewerIds),
-            ),
-          );
+      final selected = await Navigator.of(
+        context,
+        rootNavigator: true,
+      ).push<Set<String>>(
+        MaterialPageRoute(
+          builder:
+              (_) => AudiencePickerView(initialSelectedIds: _selectedViewerIds),
+        ),
+      );
       if (selected == null || selected.isEmpty) return;
       setState(() {
         _selectedPrivacy = ContentPrivacy.private;
@@ -131,13 +133,14 @@ class _CreatePostViewState extends State<CreatePostView> {
   /// Keeps @mentions readable: theme accent on a themed canvas, default blue
   /// otherwise.
   void _syncMentionStyle(PostBackgroundThemeModel? theme) {
-    _textEditingController.mentionStyle = theme == null
-        ? _defaultMentionStyle
-        : _defaultMentionStyle.copyWith(
-            color: theme.mentionColor,
-            decoration: TextDecoration.underline,
-            decorationColor: theme.mentionColor,
-          );
+    _textEditingController.mentionStyle =
+        theme == null
+            ? _defaultMentionStyle
+            : _defaultMentionStyle.copyWith(
+              color: theme.mentionColor,
+              decoration: TextDecoration.underline,
+              decorationColor: theme.mentionColor,
+            );
   }
 
   Future<void> _pickTheme() async {
@@ -186,9 +189,10 @@ class _CreatePostViewState extends State<CreatePostView> {
     super.initState();
     if (widget.targetGroup != null) {
       _selectedPrivacy = ContentPrivacy.private;
-      _groupMemberIds = widget.targetGroup!.members.isNotEmpty
-          ? widget.targetGroup!.members.map((m) => m.userId).toList()
-          : null;
+      _groupMemberIds =
+          widget.targetGroup!.members.isNotEmpty
+              ? widget.targetGroup!.members.map((m) => m.userId).toList()
+              : null;
       WidgetsBinding.instance.addPostFrameCallback((_) => _loadGroupMembers());
     }
     if (widget.initialText != null && widget.initialText!.trim().isNotEmpty) {
@@ -347,8 +351,8 @@ class _CreatePostViewState extends State<CreatePostView> {
                                 // Fail closed while the roster loads: never suggest non-members.
                                 restrictSuggestionsToUserIds:
                                     widget.targetGroup == null
-                                    ? null
-                                    : (_groupMemberIds ?? const <String>[]),
+                                        ? null
+                                        : (_groupMemberIds ?? const <String>[]),
                                 hasText: _hasText,
                                 focusNode: _focusNode,
                                 theme: activeTheme,
@@ -357,16 +361,17 @@ class _CreatePostViewState extends State<CreatePostView> {
                                     postsCubit.selectedVideo != null,
                                 targetMediaType:
                                     postsCubit.selectedImage != null
-                                    ? AiTargetMediaType.image
-                                    : postsCubit.selectedVideo != null
-                                    ? AiTargetMediaType.video
-                                    : AiTargetMediaType.none,
+                                        ? AiTargetMediaType.image
+                                        : postsCubit.selectedVideo != null
+                                        ? AiTargetMediaType.video
+                                        : AiTargetMediaType.none,
                                 imageBytesProvider:
                                     postsCubit.selectedImage == null
-                                    ? null
-                                    : () => File(
-                                        postsCubit.selectedImage!.path,
-                                      ).readAsBytes(),
+                                        ? null
+                                        : () =>
+                                            File(
+                                              postsCubit.selectedImage!.path,
+                                            ).readAsBytes(),
                               );
                               if (activeTheme == null ||
                                   activeThemeSelection == null) {
@@ -410,8 +415,9 @@ class _CreatePostViewState extends State<CreatePostView> {
                                             icon: Icons.shuffle_rounded,
                                             tooltip:
                                                 context.l10n.themeShuffleMotifs,
-                                            onTap: postsCubit
-                                                .shuffleSelectedThemeSeed,
+                                            onTap:
+                                                postsCubit
+                                                    .shuffleSelectedThemeSeed,
                                           ),
                                         ],
                                         const Gap(8),
@@ -455,8 +461,8 @@ class _CreatePostViewState extends State<CreatePostView> {
                                       postsCubit.selectedImage = XFile(
                                         edited.path,
                                       );
-                                      postsCubit.selectedImageSizeBytes = edited
-                                          .lengthSync();
+                                      postsCubit.selectedImageSizeBytes =
+                                          edited.lengthSync();
                                     });
                                     return edited.path;
                                   },
@@ -572,30 +578,30 @@ class _CreatePostViewState extends State<CreatePostView> {
                                       state.progress >= 1.0
                                           ? context.l10n.posted
                                           : (state.totalBytes > 0 &&
-                                                    state.sentBytes <
-                                                        state.totalBytes
-                                                ? formatMediaFileSizeRatio(
-                                                    state.sentBytes,
-                                                    state.totalBytes,
-                                                  )
-                                                : context.l10n.publishingPost),
+                                                  state.sentBytes <
+                                                      state.totalBytes
+                                              ? formatMediaFileSizeRatio(
+                                                state.sentBytes,
+                                                state.totalBytes,
+                                              )
+                                              : context.l10n.publishingPost),
                                       textAlign: TextAlign.center,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleLarge
-                                          ?.copyWith(
-                                            color:
-                                                Theme.of(context).brightness ==
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge?.copyWith(
+                                        color:
+                                            Theme.of(context).brightness ==
                                                     Brightness.light
                                                 ? Theme.of(context).primaryColor
-                                                      .withValues(alpha: 0.7)
+                                                    .withValues(alpha: 0.7)
                                                 : Theme.of(context).primaryColor
-                                                      .withValues(alpha: 0.95),
-                                            fontSize: 18,
-                                            fontWeight: state.progress >= 1.0
+                                                    .withValues(alpha: 0.95),
+                                        fontSize: 18,
+                                        fontWeight:
+                                            state.progress >= 1.0
                                                 ? FontWeight.bold
                                                 : FontWeight.w600,
-                                          ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -619,12 +625,11 @@ class _CreatePostViewState extends State<CreatePostView> {
                                     size: 20,
                                     color:
                                         Theme.of(context).brightness ==
-                                            Brightness.light
-                                        ? Theme.of(
-                                            context,
-                                          ).primaryColor.withValues(alpha: 0.85)
-                                        : Theme.of(context).primaryColor
-                                              .withValues(alpha: 0.95),
+                                                Brightness.light
+                                            ? Theme.of(context).primaryColor
+                                                .withValues(alpha: 0.85)
+                                            : Theme.of(context).primaryColor
+                                                .withValues(alpha: 0.95),
                                   ),
                                 ),
                               ),

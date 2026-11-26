@@ -99,9 +99,8 @@ class GroupCallDispatcher {
       final text = raw.trim();
       if (text.startsWith('[')) {
         try {
-          targets = (jsonDecode(text) as List)
-              .map((e) => e.toString())
-              .toList();
+          targets =
+              (jsonDecode(text) as List).map((e) => e.toString()).toList();
         } catch (_) {
           targets = const [];
         }
@@ -142,11 +141,12 @@ class GroupCallDispatcher {
 
     if (callId.isNotEmpty) {
       try {
-        final row = await SupabaseProvider.client
-            .from('group_calls')
-            .select('initiator_id, status')
-            .eq('call_id', callId)
-            .maybeSingle();
+        final row =
+            await SupabaseProvider.client
+                .from('group_calls')
+                .select('initiator_id, status')
+                .eq('call_id', callId)
+                .maybeSingle();
 
         if (row == null) {
           if (!callerProvided) return;
@@ -199,9 +199,10 @@ class GroupCallDispatcher {
       initiatorName: callerName,
       status: GroupCallStatus.ringing,
       type: callType == 'video' ? GroupCallType.video : GroupCallType.audio,
-      startedAt: startedAt != null
-          ? (DateTime.tryParse(startedAt) ?? DateTime.now())
-          : DateTime.now(),
+      startedAt:
+          startedAt != null
+              ? (DateTime.tryParse(startedAt) ?? DateTime.now())
+              : DateTime.now(),
     );
 
     if (!IncomingCallNavigationGuard.claim(callId)) return;

@@ -22,11 +22,12 @@ class GroupTimeRow extends StatelessWidget {
             Text(
               context.l10n.edited2,
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: isMe
-                    ? AppColors.white70
-                    : Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                color:
+                    isMe
+                        ? AppColors.white70
+                        : Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.6),
                 fontSize: 9,
                 fontStyle: FontStyle.italic,
               ),
@@ -38,11 +39,12 @@ class GroupTimeRow extends StatelessWidget {
             FormattedDate.getMessageTime(message.createdAt),
 
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: isMe
-                  ? AppColors.white70
-                  : Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.6),
+              color:
+                  isMe
+                      ? AppColors.white70
+                      : Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
               fontSize: 9,
             ),
           ),

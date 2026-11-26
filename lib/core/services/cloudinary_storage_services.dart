@@ -84,14 +84,16 @@ class CloudinaryStorageServices {
     Future<dio_pkg.Response<dynamic>> performUpload({
       required bool wrapAsTxt,
     }) async {
-      final effectivePublicId = (wrapAsTxt && ext.isNotEmpty)
-          ? '$publicIdPrefix.$ext'
-          : publicIdPrefix;
-      final effectiveFileName = wrapAsTxt
-          ? (ext.isNotEmpty
-                ? '$publicIdPrefix.$ext.txt'
-                : '$publicIdPrefix.txt')
-          : (ext.isNotEmpty ? '$publicIdPrefix.$ext' : publicIdPrefix);
+      final effectivePublicId =
+          (wrapAsTxt && ext.isNotEmpty)
+              ? '$publicIdPrefix.$ext'
+              : publicIdPrefix;
+      final effectiveFileName =
+          wrapAsTxt
+              ? (ext.isNotEmpty
+                  ? '$publicIdPrefix.$ext.txt'
+                  : '$publicIdPrefix.txt')
+              : (ext.isNotEmpty ? '$publicIdPrefix.$ext' : publicIdPrefix);
 
       final formData = dio_pkg.FormData.fromMap({
         'upload_preset': uploadPreset,
@@ -126,9 +128,10 @@ class CloudinaryStorageServices {
       try {
         response = await performUpload(wrapAsTxt: shouldWrapInitially);
       } on dio_pkg.DioException catch (e) {
-        final serverMsg = (e.response?.data is Map)
-            ? (e.response?.data['error']?['message'] as String? ?? '')
-            : '';
+        final serverMsg =
+            (e.response?.data is Map)
+                ? (e.response?.data['error']?['message'] as String? ?? '')
+                : '';
         final isFormatBlocked =
             resourceType == 'raw' &&
             !shouldWrapInitially &&
@@ -157,9 +160,13 @@ class CloudinaryStorageServices {
       }
 
       return CloudinaryUploadResult(
-        secureUrl: resourceType == 'raw'
-            ? secureUrl
-            : buildOptimizedUrl(secureUrl, isVideo: resourceType == 'video'),
+        secureUrl:
+            resourceType == 'raw'
+                ? secureUrl
+                : buildOptimizedUrl(
+                  secureUrl,
+                  isVideo: resourceType == 'video',
+                ),
         publicId: publicId,
         resourceType: resourceType,
         width: data['width'] as int?,
@@ -170,9 +177,10 @@ class CloudinaryStorageServices {
         debugPrint('⚠️ Upload canceled by user');
         throw const UploadCanceledException();
       }
-      final serverMessage = (e.response?.data is Map)
-          ? (e.response?.data['error']?['message'] as String?)
-          : null;
+      final serverMessage =
+          (e.response?.data is Map)
+              ? (e.response?.data['error']?['message'] as String?)
+              : null;
       debugPrint('❌ Cloudinary upload error: ${serverMessage ?? e.message}');
       throw Exception(serverMessage ?? 'cloudinary_upload_failed');
     }

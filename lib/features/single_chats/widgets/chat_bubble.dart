@@ -97,9 +97,8 @@ class ChatBubbleState extends State<ChatBubble>
 
   void _applyReaction(String emoji) {
     HapticFeedback.selectionClick();
-    final receiverId = widget.isMe
-        ? widget.message.receiverId
-        : widget.message.senderId;
+    final receiverId =
+        widget.isMe ? widget.message.receiverId : widget.message.senderId;
 
     context.read<ChatDetailsCubit>().toggleReaction(
       messageId: widget.message.id,
@@ -136,78 +135,80 @@ class ChatBubbleState extends State<ChatBubble>
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.transparent,
-      builder: (ctx) => Material(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (!isCall)
-                ListTile(
-                  leading: const Icon(Icons.reply_all_outlined),
-                  title: Text(context.l10n.reply),
-                  onTap: () {
-                    Navigator.pop(ctx);
-                    widget.onReply?.call(widget.message);
-                  },
-                ),
-              if (widget.isMe &&
-                  (widget.message.messageType == 'text' ||
-                      widget.message.caption != null))
-                ListTile(
-                  leading: const Icon(Icons.edit_outlined),
-                  title: Text(context.l10n.editMessage),
-                  onTap: () {
-                    Navigator.pop(ctx);
-                    widget.onEdit?.call(widget.message);
-                  },
-                ),
-              if (widget.isMe)
-                ListTile(
-                  leading: const Icon(Icons.delete_outline),
-                  title: Text(
-                    context.l10n.deleteMessage,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.titleMedium!.copyWith(color: Colors.red),
-                  ),
-                  onTap: () {
-                    Navigator.pop(ctx);
-                    final receiverId = widget.isMe
-                        ? widget.message.receiverId
-                        : widget.message.senderId;
-                    context.read<ChatDetailsCubit>().deleteMessage(
-                      messageId: widget.message.id,
-                      receiverId: receiverId,
-                    );
-                  },
-                ),
-
-              //  report msg at single chat
-              if (!widget.isMe &&
-                  !isCall &&
-                  widget.message.messageType != 'block_event' &&
-                  widget.message.messageType != 'unblock_event')
-                ListTile(
-                  leading: const Icon(Icons.report_gmailerrorred),
-                  title: Text(context.l10n.reportMessage),
-                  onTap: () {
-                    Navigator.pop(ctx);
-                    ReportBottomSheet.show(
-                      context,
-                      target: ReportTarget(
-                        type: ReportTargetType.message,
-                        id: widget.message.id,
+      builder:
+          (ctx) => Material(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (!isCall)
+                    ListTile(
+                      leading: const Icon(Icons.reply_all_outlined),
+                      title: Text(context.l10n.reply),
+                      onTap: () {
+                        Navigator.pop(ctx);
+                        widget.onReply?.call(widget.message);
+                      },
+                    ),
+                  if (widget.isMe &&
+                      (widget.message.messageType == 'text' ||
+                          widget.message.caption != null))
+                    ListTile(
+                      leading: const Icon(Icons.edit_outlined),
+                      title: Text(context.l10n.editMessage),
+                      onTap: () {
+                        Navigator.pop(ctx);
+                        widget.onEdit?.call(widget.message);
+                      },
+                    ),
+                  if (widget.isMe)
+                    ListTile(
+                      leading: const Icon(Icons.delete_outline),
+                      title: Text(
+                        context.l10n.deleteMessage,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.titleMedium!.copyWith(color: Colors.red),
                       ),
-                    );
-                  },
-                ),
-            ],
+                      onTap: () {
+                        Navigator.pop(ctx);
+                        final receiverId =
+                            widget.isMe
+                                ? widget.message.receiverId
+                                : widget.message.senderId;
+                        context.read<ChatDetailsCubit>().deleteMessage(
+                          messageId: widget.message.id,
+                          receiverId: receiverId,
+                        );
+                      },
+                    ),
+
+                  //  report msg at single chat
+                  if (!widget.isMe &&
+                      !isCall &&
+                      widget.message.messageType != 'block_event' &&
+                      widget.message.messageType != 'unblock_event')
+                    ListTile(
+                      leading: const Icon(Icons.report_gmailerrorred),
+                      title: Text(context.l10n.reportMessage),
+                      onTap: () {
+                        Navigator.pop(ctx);
+                        ReportBottomSheet.show(
+                          context,
+                          target: ReportTarget(
+                            type: ReportTargetType.message,
+                            id: widget.message.id,
+                          ),
+                        );
+                      },
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 
@@ -234,79 +235,80 @@ class ChatBubbleState extends State<ChatBubble>
             ).primaryColor.withValues(alpha: 0.16);
 
             return GestureDetector(
-              onTap: (isSelectionMode && !isCall)
-                  ? () => _handleTap(cubit)
-                  : null,
+              onTap:
+                  (isSelectionMode && !isCall) ? () => _handleTap(cubit) : null,
               onLongPress: isCall ? null : () => _handleLongPress(cubit),
-              onDoubleTap: (isSelectionMode || isCall)
-                  ? null
-                  : () => _showDeleteMenu(context),
+              onDoubleTap:
+                  (isSelectionMode || isCall)
+                      ? null
+                      : () => _showDeleteMenu(context),
 
-              onHorizontalDragUpdate: (isCall || isSelectionMode)
-                  ? null
-                  : (details) {
-                      if (widget.isMe && details.delta.dx < 0) {
-                        setState(() {
-                          _dragOffset = (_dragOffset + details.delta.dx).clamp(
-                            -60.0,
-                            0.0,
-                          );
-                        });
-                      } else if (!widget.isMe && details.delta.dx > 0) {
-                        setState(() {
-                          _dragOffset = (_dragOffset + details.delta.dx).clamp(
-                            0.0,
-                            60.0,
-                          );
-                        });
-                      }
-                      if (!_triggered && _dragOffset.abs() >= 50) {
-                        _triggered = true;
-                        HapticFeedback.lightImpact();
-                        widget.onReply?.call(widget.message);
-                      }
-                    },
-              onHorizontalDragEnd: (isCall || isSelectionMode)
-                  ? null
-                  : (_) => setState(() {
-                      _dragOffset = 0;
-                      _triggered = false;
-                    }),
+              onHorizontalDragUpdate:
+                  (isCall || isSelectionMode)
+                      ? null
+                      : (details) {
+                        if (widget.isMe && details.delta.dx < 0) {
+                          setState(() {
+                            _dragOffset = (_dragOffset + details.delta.dx)
+                                .clamp(-60.0, 0.0);
+                          });
+                        } else if (!widget.isMe && details.delta.dx > 0) {
+                          setState(() {
+                            _dragOffset = (_dragOffset + details.delta.dx)
+                                .clamp(0.0, 60.0);
+                          });
+                        }
+                        if (!_triggered && _dragOffset.abs() >= 50) {
+                          _triggered = true;
+                          HapticFeedback.lightImpact();
+                          widget.onReply?.call(widget.message);
+                        }
+                      },
+              onHorizontalDragEnd:
+                  (isCall || isSelectionMode)
+                      ? null
+                      : (_) => setState(() {
+                        _dragOffset = 0;
+                        _triggered = false;
+                      }),
 
               child: Container(
                 color: isSelected ? selectionColor : Colors.transparent,
                 padding: const EdgeInsets.symmetric(horizontal: 4),
                 child: Row(
-                  mainAxisAlignment: widget.isMe
-                      ? MainAxisAlignment.end
-                      : MainAxisAlignment.start,
+                  mainAxisAlignment:
+                      widget.isMe
+                          ? MainAxisAlignment.end
+                          : MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     AnimatedSize(
                       duration: const Duration(milliseconds: 180),
                       curve: Curves.easeOut,
-                      child: (isSelectionMode && !isCall)
-                          ? Padding(
-                              padding: const EdgeInsets.only(right: 8),
-                              child: Icon(
-                                isSelected
-                                    ? Icons.check_circle_rounded
-                                    : Icons.circle_outlined,
-                                size: 22,
-                                color: isSelected
-                                    ? Theme.of(context).primaryColor
-                                    : AppColors.grey6,
-                              ),
-                            )
-                          : const SizedBox.shrink(),
+                      child:
+                          (isSelectionMode && !isCall)
+                              ? Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: Icon(
+                                  isSelected
+                                      ? Icons.check_circle_rounded
+                                      : Icons.circle_outlined,
+                                  size: 22,
+                                  color:
+                                      isSelected
+                                          ? Theme.of(context).primaryColor
+                                          : AppColors.grey6,
+                                ),
+                              )
+                              : const SizedBox.shrink(),
                     ),
 
                     if (!widget.isMe) ...[
                       widget.showAvatar
                           ? UserChatAvatar(
-                              userId: widget.message.senderId,
-                              userImgUrl: widget.userImgUrl,
-                            )
+                            userId: widget.message.senderId,
+                            userImgUrl: widget.userImgUrl,
+                          )
                           : const SizedBox(width: _kAvatarSlotWidth),
                       const Gap(8),
                     ],
@@ -316,15 +318,17 @@ class ChatBubbleState extends State<ChatBubble>
                         duration: const Duration(milliseconds: 400),
                         transform: Matrix4.translationValues(_dragOffset, 0, 0),
                         decoration: BoxDecoration(
-                          color: isHighlighted
-                              ? highlightColor
-                              : Colors.transparent,
+                          color:
+                              isHighlighted
+                                  ? highlightColor
+                                  : Colors.transparent,
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Row(
-                          mainAxisAlignment: widget.isMe
-                              ? MainAxisAlignment.end
-                              : MainAxisAlignment.start,
+                          mainAxisAlignment:
+                              widget.isMe
+                                  ? MainAxisAlignment.end
+                                  : MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Flexible(

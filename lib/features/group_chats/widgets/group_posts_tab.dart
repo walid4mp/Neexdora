@@ -89,9 +89,8 @@ class GroupPostsTab extends StatelessWidget {
         return BlocBuilder<PostsCubit, PostsState>(
           buildWhen: (_, current) => current is PostsLoaded,
           builder: (context, state) {
-            final feed = state is PostsLoaded
-                ? state.posts
-                : postsCubit.cachedPosts;
+            final feed =
+                state is PostsLoaded ? state.posts : postsCubit.cachedPosts;
             final byId = {for (final p in feed) p.id: p};
             final posts = [
               for (final id in feedState.postIds)
@@ -161,13 +160,14 @@ class GroupPostsTab extends StatelessWidget {
 
   Widget _scrollable(BuildContext context, Widget child) {
     return LayoutBuilder(
-      builder: (context, c) => SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: c.maxHeight),
-          child: Center(child: child),
-        ),
-      ),
+      builder:
+          (context, c) => SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: c.maxHeight),
+              child: Center(child: child),
+            ),
+          ),
     );
   }
 }

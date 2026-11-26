@@ -37,18 +37,20 @@ class FeedbackCategorySelector extends StatelessWidget {
               duration: const Duration(milliseconds: 180),
               padding: const EdgeInsets.symmetric(horizontal: 14),
               decoration: BoxDecoration(
-                color: isSel
-                    ? primary
-                    : (isDark
-                          ? Colors.white.withValues(alpha: 0.06)
-                          : Colors.grey.shade100),
+                color:
+                    isSel
+                        ? primary
+                        : (isDark
+                            ? Colors.white.withValues(alpha: 0.06)
+                            : Colors.grey.shade100),
                 borderRadius: BorderRadius.circular(22),
                 border: Border.all(
-                  color: isSel
-                      ? primary
-                      : (isDark
-                            ? Colors.white.withValues(alpha: 0.1)
-                            : Colors.black.withValues(alpha: 0.08)),
+                  color:
+                      isSel
+                          ? primary
+                          : (isDark
+                              ? Colors.white.withValues(alpha: 0.1)
+                              : Colors.black.withValues(alpha: 0.08)),
                 ),
               ),
               child: Row(
@@ -56,9 +58,10 @@ class FeedbackCategorySelector extends StatelessWidget {
                   Icon(
                     c.icon,
                     size: 16,
-                    color: isSel
-                        ? Colors.white
-                        : (isDark ? Colors.white70 : Colors.black54),
+                    color:
+                        isSel
+                            ? Colors.white
+                            : (isDark ? Colors.white70 : Colors.black54),
                   ),
                   const SizedBox(width: 7),
                   Text(
@@ -66,9 +69,10 @@ class FeedbackCategorySelector extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 13.5,
                       fontWeight: FontWeight.w600,
-                      color: isSel
-                          ? Colors.white
-                          : (isDark ? Colors.white70 : Colors.black87),
+                      color:
+                          isSel
+                              ? Colors.white
+                              : (isDark ? Colors.white70 : Colors.black87),
                     ),
                   ),
                 ],

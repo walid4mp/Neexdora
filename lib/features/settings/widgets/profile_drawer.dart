@@ -105,11 +105,12 @@ class ProfileDrawer extends StatelessWidget {
                 DrawerItemWidget(
                   icon: Icons.settings_outlined,
                   title: context.l10n.settingsTitle,
-                  onTap: () =>
-                      Navigator.of(context, rootNavigator: true).pushNamed(
-                        AppRoutes.settingsViewRoute,
-                        arguments: context.read<ProfileCubit>(),
-                      ),
+                  onTap:
+                      () =>
+                          Navigator.of(context, rootNavigator: true).pushNamed(
+                            AppRoutes.settingsViewRoute,
+                            arguments: context.read<ProfileCubit>(),
+                          ),
                 ),
                 DrawerItemWidget(
                   icon: Icons.info_outline,
@@ -130,18 +131,20 @@ class ProfileDrawer extends StatelessWidget {
                       AppToast.error(state.errMsg);
                     }
                   },
-                  buildWhen: (previous, current) =>
-                      current is AuthSignedOut ||
-                      current is AuthFailure ||
-                      current is AuthLoading,
+                  buildWhen:
+                      (previous, current) =>
+                          current is AuthSignedOut ||
+                          current is AuthFailure ||
+                          current is AuthLoading,
                   builder: (context, state) {
                     return DrawerItemWidget(
                       icon: Icons.logout,
                       color: Colors.red.withValues(alpha: 0.92),
                       title: context.l10n.logOut,
-                      onTap: state is AuthLoading
-                          ? () {}
-                          : () => context.read<AuthCubit>().signOut(),
+                      onTap:
+                          state is AuthLoading
+                              ? () {}
+                              : () => context.read<AuthCubit>().signOut(),
                     );
                   },
                 ),

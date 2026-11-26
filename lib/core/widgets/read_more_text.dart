@@ -57,14 +57,12 @@ class _ReadMoreTextState extends State<ReadMoreText> {
 
       final isOverflowing = textPainter.didExceedMaxLines;
       final effectiveMaxLines = _isExpanded ? null : widget.collapsedMaxLines;
-      final effectiveOverflow = _isExpanded
-          ? TextOverflow.visible
-          : TextOverflow.ellipsis;
+      final effectiveOverflow =
+          _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis;
 
       return Column(
-        crossAxisAlignment: isArabic
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isArabic ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Align(
@@ -77,9 +75,8 @@ class _ReadMoreTextState extends State<ReadMoreText> {
           ),
           if (isOverflowing)
             Align(
-              alignment: isArabic
-                  ? Alignment.centerRight
-                  : Alignment.centerLeft,
+              alignment:
+                  isArabic ? Alignment.centerRight : Alignment.centerLeft,
               child: Padding(
                 padding: widget.togglePadding,
                 child: GestureDetector(

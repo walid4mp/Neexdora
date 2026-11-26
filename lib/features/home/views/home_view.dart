@@ -175,9 +175,11 @@ class _HomeViewState extends State<HomeView> {
 
               builder: (context, postsState) {
                 return BlocBuilder<StoriesCubit, StoriesState>(
-                  buildWhen: (previous, current) =>
-                      current is StoriesLoaded ||
-                      (current is StoriesLoading && previous is! StoriesLoaded),
+                  buildWhen:
+                      (previous, current) =>
+                          current is StoriesLoaded ||
+                          (current is StoriesLoading &&
+                              previous is! StoriesLoaded),
                   builder: (context, storiesState) {
                     return CustomTabWrapper(
                       isLoading:
@@ -185,11 +187,12 @@ class _HomeViewState extends State<HomeView> {
                           homeState is UserDataLoading ||
                           postsState is PostsInitial ||
                           postsState is PostsLoading,
-                      errorMessage: homeState is UserDataLoadError
-                          ? homeState.message
-                          : (postsState is PostsLoadError
-                                ? postsState.message
-                                : null),
+                      errorMessage:
+                          homeState is UserDataLoadError
+                              ? homeState.message
+                              : (postsState is PostsLoadError
+                                  ? postsState.message
+                                  : null),
 
                       onRetry: () {
                         context.read<HomeCubit>().refreshUserData();
@@ -246,9 +249,8 @@ class _HomeViewState extends State<HomeView> {
                             Positioned.fill(
                               child: IgnorePointer(
                                 child: Container(
-                                  color: Theme.of(
-                                    context,
-                                  ).scaffoldBackgroundColor,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                   child: AnimatedOpacity(
                                     duration: const Duration(milliseconds: 200),
                                     opacity: 1,
@@ -264,14 +266,16 @@ class _HomeViewState extends State<HomeView> {
                             right: 0,
                             child: Center(
                               child: BlocBuilder<PostsCubit, PostsState>(
-                                buildWhen: (previous, current) =>
-                                    current is PostsPendingUpdated ||
-                                    current is PostsLoaded,
+                                buildWhen:
+                                    (previous, current) =>
+                                        current is PostsPendingUpdated ||
+                                        current is PostsLoaded,
                                 builder: (context, state) {
-                                  final pendingCount = context
-                                      .read<PostsCubit>()
-                                      .pendingPosts
-                                      .length;
+                                  final pendingCount =
+                                      context
+                                          .read<PostsCubit>()
+                                          .pendingPosts
+                                          .length;
                                   return NewPostsPill(
                                     count: pendingCount,
                                     hideForOverlap: _showBackToTop,

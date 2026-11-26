@@ -189,9 +189,10 @@ class _GroupMediaPreviewScreenState extends State<GroupMediaPreviewScreen> {
           iconTheme: const IconThemeData(color: Colors.white),
           actions: [
             IconButton(
-              tooltip: widget.type == 'video'
-                  ? context.l10n.trim
-                  : context.l10n.edit,
+              tooltip:
+                  widget.type == 'video'
+                      ? context.l10n.trim
+                      : context.l10n.edit,
               icon: Icon(
                 widget.type == 'video'
                     ? Icons.content_cut_rounded
@@ -243,20 +244,21 @@ class _GroupMediaPreviewScreenState extends State<GroupMediaPreviewScreen> {
           children: [
             Expanded(
               child: Center(
-                child: widget.type == 'image'
-                    ? Image.file(_file, fit: BoxFit.contain)
-                    : _videoCtrl != null && _videoCtrl!.value.isInitialized
-                    ? AspectRatio(
-                        aspectRatio: _videoCtrl!.value.aspectRatio,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            VideoPlayer(_videoCtrl!),
-                            _buildVideoControls(),
-                          ],
-                        ),
-                      )
-                    : const CustomLoadingIndicator(color: Colors.white),
+                child:
+                    widget.type == 'image'
+                        ? Image.file(_file, fit: BoxFit.contain)
+                        : _videoCtrl != null && _videoCtrl!.value.isInitialized
+                        ? AspectRatio(
+                          aspectRatio: _videoCtrl!.value.aspectRatio,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              VideoPlayer(_videoCtrl!),
+                              _buildVideoControls(),
+                            ],
+                          ),
+                        )
+                        : const CustomLoadingIndicator(color: Colors.white),
               ),
             ),
             Container(
@@ -330,12 +332,14 @@ class _GroupMediaPreviewScreenState extends State<GroupMediaPreviewScreen> {
                                   AiActionType.autocompleteCaption,
                               actionContext: AiActionContext.mediaCaption,
                               hasMediaAttached: true,
-                              targetMediaType: widget.type == 'image'
-                                  ? AiTargetMediaType.image
-                                  : AiTargetMediaType.video,
-                              imageBytesProvider: widget.type == 'image'
-                                  ? () => _file.readAsBytes()
-                                  : null,
+                              targetMediaType:
+                                  widget.type == 'image'
+                                      ? AiTargetMediaType.image
+                                      : AiTargetMediaType.video,
+                              imageBytesProvider:
+                                  widget.type == 'image'
+                                      ? () => _file.readAsBytes()
+                                      : null,
                             ),
                           ),
                         ),
@@ -348,10 +352,10 @@ class _GroupMediaPreviewScreenState extends State<GroupMediaPreviewScreen> {
                         final controller = _videoCtrl;
                         final int? durationSeconds =
                             widget.type == 'video' &&
-                                controller != null &&
-                                controller.value.isInitialized
-                            ? controller.value.duration.inSeconds
-                            : null;
+                                    controller != null &&
+                                    controller.value.isInitialized
+                                ? controller.value.duration.inSeconds
+                                : null;
                         Navigator.pop(context);
                         widget.onSend(
                           caption.isEmpty ? null : caption,

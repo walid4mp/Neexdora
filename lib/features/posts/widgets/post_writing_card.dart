@@ -48,9 +48,10 @@ class PostWritingCard extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: theme.brightness == Brightness.dark
-                        ? Colors.black.withValues(alpha: 0.35)
-                        : Colors.black.withValues(alpha: 0.05),
+                    color:
+                        theme.brightness == Brightness.dark
+                            ? Colors.black.withValues(alpha: 0.35)
+                            : Colors.black.withValues(alpha: 0.05),
                     blurRadius: 14,
                     offset: const Offset(0, 5),
                   ),
@@ -254,14 +255,16 @@ class _MiniIcon extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(5.5),
       decoration: BoxDecoration(
-        color: isDark
-            ? color.withValues(alpha: 0.18)
-            : color.withValues(alpha: 0.12),
+        color:
+            isDark
+                ? color.withValues(alpha: 0.18)
+                : color.withValues(alpha: 0.12),
         shape: BoxShape.circle,
         border: Border.all(
-          color: isDark
-              ? color.withValues(alpha: 0.4)
-              : color.withValues(alpha: 0.3),
+          color:
+              isDark
+                  ? color.withValues(alpha: 0.4)
+                  : color.withValues(alpha: 0.3),
           width: 0.8,
         ),
         boxShadow: [

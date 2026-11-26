@@ -114,11 +114,12 @@ class PostThemeSelection {
   }
 
   String encode() {
-    final cleaned = motifs
-        .map(_sanitizeToken)
-        .where((t) => t.isNotEmpty)
-        .take(maxMotifs)
-        .toList();
+    final cleaned =
+        motifs
+            .map(_sanitizeToken)
+            .where((t) => t.isNotEmpty)
+            .take(maxMotifs)
+            .toList();
     if (cleaned.isEmpty) return theme.id;
     final effectiveSeed = seed <= 0 ? generateSeed() : seed;
     return '${theme.id}|s=$effectiveSeed|m=${cleaned.join(',')}';

@@ -66,9 +66,8 @@ class _TwoFactorVerifyStepState extends State<TwoFactorVerifyStep> {
         Align(
           alignment: Alignment.centerRight,
           child: TextButton(
-            onPressed: widget.verifying
-                ? null
-                : () => _otp.currentState?.paste(),
+            onPressed:
+                widget.verifying ? null : () => _otp.currentState?.paste(),
             child: Text(context.l10n.pasteCode),
           ),
         ),

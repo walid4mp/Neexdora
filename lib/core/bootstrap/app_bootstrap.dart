@@ -202,10 +202,7 @@ Future<void> initializeCoreServices() async {
     // Remote App Control (maintenance / version gate / banner / suspension).
     // `init` is synchronous and starts the first fetch in the background, so an
     // offline cold start is never delayed or blocked; the fetch fails open.
-    await _safely(
-      'SystemControl',
-      () async => SystemControlService.instance.init(),
-    );
+    await _safely('SystemControl', () async => SystemControlService.instance.init());
     await _safely('AuthRecoveryRestore', AuthRecoveryCoordinator.restore);
     await _safely('AuthLinkHandler', AuthLinkHandler.instance.init);
     await _safely(
@@ -461,6 +458,9 @@ Future<void> requestBatteryOptimizationExemptionIfNeeded() async {
 }
 
 Future<void> _initFirebaseCore() async {
+  // Firebase options are generated for Android only; on web skip instead of
+  // throwing UnsupportedError before Supabase/auth can start.
+  if (kIsWeb) return;
   if (Firebase.apps.isEmpty) {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
@@ -486,7 +486,7 @@ Future<void> _requestFirebaseNotificationPermissions() async {
 
 Future<void> _initSupabase() async {
   if (_isSupabaseReady()) return;
-  AppSecrets.assertSecretsLoaded();
+  AppSecrets.requireConfigured();
   await Supabase.initialize(
     url: AppSecrets.supabaseUrl,
     anonKey: AppSecrets.supabaseAnonKey,

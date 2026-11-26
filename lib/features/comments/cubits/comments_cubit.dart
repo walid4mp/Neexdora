@@ -238,9 +238,10 @@ class CommentsCubit extends Cubit<CommentsState> {
           schema: 'public',
           table: 'comment_reactions',
           callback: (payload) {
-            final record = payload.eventType == PostgresChangeEvent.delete
-                ? payload.oldRecord
-                : payload.newRecord;
+            final record =
+                payload.eventType == PostgresChangeEvent.delete
+                    ? payload.oldRecord
+                    : payload.newRecord;
             final affectedCommentId = record['comment_id'] as String?;
             if (affectedCommentId != null &&
                 _belongsToLoadedComments(affectedCommentId)) {
@@ -331,9 +332,8 @@ class CommentsCubit extends Cubit<CommentsState> {
     final updated = node.id == tempId ? node.copyWith(id: realId) : node;
     if (updated.replies.isEmpty) return updated;
     return updated.copyWith(
-      replies: updated.replies
-          .map((r) => _replaceId(r, tempId, realId))
-          .toList(),
+      replies:
+          updated.replies.map((r) => _replaceId(r, tempId, realId)).toList(),
     );
   }
 
@@ -429,13 +429,13 @@ class CommentsCubit extends Cubit<CommentsState> {
 
   void _insertCommentLocally(CommentModel comment, String? parentId) {
     if (parentId == null) {
-      comments = currentSort == CommentSortOption.newest
-          ? [comment, ...comments]
-          : [...comments, comment];
+      comments =
+          currentSort == CommentSortOption.newest
+              ? [comment, ...comments]
+              : [...comments, comment];
     } else {
-      comments = comments
-          .map((c) => _attachReply(c, parentId, comment))
-          .toList();
+      comments =
+          comments.map((c) => _attachReply(c, parentId, comment)).toList();
     }
   }
 
@@ -449,9 +449,8 @@ class CommentsCubit extends Cubit<CommentsState> {
     }
     if (node.replies.isEmpty) return node;
     return node.copyWith(
-      replies: node.replies
-          .map((r) => _attachReply(r, parentId, reply))
-          .toList(),
+      replies:
+          node.replies.map((r) => _attachReply(r, parentId, reply)).toList(),
     );
   }
 
@@ -463,16 +462,18 @@ class CommentsCubit extends Cubit<CommentsState> {
     if (node.id == targetId) return replacement;
     if (node.replies.isEmpty) return node;
     return node.copyWith(
-      replies: node.replies
-          .map((r) => _replaceCommentInTree(r, targetId, replacement))
-          .toList(),
+      replies:
+          node.replies
+              .map((r) => _replaceCommentInTree(r, targetId, replacement))
+              .toList(),
     );
   }
 
   void _updateCommentLocally(CommentModel comment, String? parentId) {
-    comments = comments
-        .map((c) => _replaceCommentInTree(c, comment.id, comment))
-        .toList();
+    comments =
+        comments
+            .map((c) => _replaceCommentInTree(c, comment.id, comment))
+            .toList();
   }
 
   CommentModel? _removeCommentFromTree(CommentModel node, String targetId) {
@@ -483,9 +484,10 @@ class CommentsCubit extends Cubit<CommentsState> {
     }
     if (node.replies.isEmpty) return node;
     return node.copyWith(
-      replies: node.replies
-          .map((r) => _removeCommentFromTree(r, targetId) ?? r)
-          .toList(),
+      replies:
+          node.replies
+              .map((r) => _removeCommentFromTree(r, targetId) ?? r)
+              .toList(),
     );
   }
 
@@ -493,9 +495,10 @@ class CommentsCubit extends Cubit<CommentsState> {
     if (parentId == null) {
       comments = comments.where((c) => c.id != commentId).toList();
     } else {
-      comments = comments
-          .map((c) => _removeCommentFromTree(c, commentId) ?? c)
-          .toList();
+      comments =
+          comments
+              .map((c) => _removeCommentFromTree(c, commentId) ?? c)
+              .toList();
     }
   }
 
@@ -515,9 +518,8 @@ class CommentsCubit extends Cubit<CommentsState> {
     final tempId = const Uuid().v4();
     _pendingCommentIds.add(tempId);
 
-    final resolvedParentId = parentCommentId != null
-        ? resolveId(parentCommentId)
-        : null;
+    final resolvedParentId =
+        parentCommentId != null ? resolveId(parentCommentId) : null;
 
     final bool isMediaAttachment =
         attachment != null &&
@@ -544,12 +546,14 @@ class CommentsCubit extends Cubit<CommentsState> {
         postId: post.id,
         parentCommentId: resolvedParentId,
         commentType: commentType,
-        imageUrl: commentType == CommentType.image
-            ? attachment.localFile!.path
-            : null,
-        videoUrl: commentType == CommentType.video
-            ? attachment.localFile!.path
-            : null,
+        imageUrl:
+            commentType == CommentType.image
+                ? attachment.localFile!.path
+                : null,
+        videoUrl:
+            commentType == CommentType.video
+                ? attachment.localFile!.path
+                : null,
         fileSizeBytes: fileSizeBytes,
         durationSeconds: durationSeconds,
         mentions: mentions,
@@ -571,9 +575,10 @@ class CommentsCubit extends Cubit<CommentsState> {
           if (attachment.type == CommentType.file &&
               attachment.fileName != null) {
             final originalName = attachment.fileName!;
-            final nameWithoutExt = originalName.contains('.')
-                ? originalName.substring(0, originalName.lastIndexOf('.'))
-                : originalName;
+            final nameWithoutExt =
+                originalName.contains('.')
+                    ? originalName.substring(0, originalName.lastIndexOf('.'))
+                    : originalName;
             final safeName = nameWithoutExt.replaceAll(
               RegExp(r'[^a-zA-Z0-9\-_]'),
               '_',
@@ -636,29 +641,28 @@ class CommentsCubit extends Cubit<CommentsState> {
 
       isUploading = false;
 
-      final newComment =
-          (optimisticComment ??
-                  CommentModel(
-                    id: tempId,
-                    createdAt: DateTime.now().toIso8601String(),
-                    authorId: user!.id,
-                    authorName: currentUserData?.name ?? 'User',
-                    authorImageUrl: currentUserData?.imageUrl,
-                    text: trimmedText,
-                    postId: post.id,
-                    parentCommentId: resolvedParentId,
-                    commentType: commentType,
-                    mentions: mentions,
-                  ))
-              .copyWith(
-                imageUrl: imageUrl,
-                videoUrl: videoUrl,
-                voiceUrl: voiceUrl,
-                fileUrl: fileUrl,
-                fileName: fileName,
-                fileSizeBytes: fileSizeBytes,
-                durationSeconds: durationSeconds,
-              );
+      final newComment = (optimisticComment ??
+              CommentModel(
+                id: tempId,
+                createdAt: DateTime.now().toIso8601String(),
+                authorId: user!.id,
+                authorName: currentUserData?.name ?? 'User',
+                authorImageUrl: currentUserData?.imageUrl,
+                text: trimmedText,
+                postId: post.id,
+                parentCommentId: resolvedParentId,
+                commentType: commentType,
+                mentions: mentions,
+              ))
+          .copyWith(
+            imageUrl: imageUrl,
+            videoUrl: videoUrl,
+            voiceUrl: voiceUrl,
+            fileUrl: fileUrl,
+            fileName: fileName,
+            fileSizeBytes: fileSizeBytes,
+            durationSeconds: durationSeconds,
+          );
 
       if (isClosed) return;
 
@@ -737,9 +741,8 @@ class CommentsCubit extends Cubit<CommentsState> {
         );
       }
 
-      final String previewText = trimmedText.isEmpty
-          ? '📎 Attachment'
-          : trimmedText;
+      final String previewText =
+          trimmedText.isEmpty ? '📎 Attachment' : trimmedText;
 
       if (resolvedParentId == null) {
         if (post.authorId != user.id) {
@@ -855,9 +858,10 @@ class CommentsCubit extends Cubit<CommentsState> {
 
     final resolvedId = resolveId(commentId);
 
-    comments = comments
-        .map((c) => _applyEdit(c, resolvedId, trimmed, mentions))
-        .toList();
+    comments =
+        comments
+            .map((c) => _applyEdit(c, resolvedId, trimmed, mentions))
+            .toList();
     if (!isClosed) emit(CommentsUiChanged());
 
     try {
@@ -885,10 +889,11 @@ class CommentsCubit extends Cubit<CommentsState> {
     final resolvedId = resolveId(commentId);
     final previousComments = comments;
 
-    comments = comments
-        .where((c) => c.id != resolvedId)
-        .map((c) => _removeReplyById(c, resolvedId))
-        .toList();
+    comments =
+        comments
+            .where((c) => c.id != resolvedId)
+            .map((c) => _removeReplyById(c, resolvedId))
+            .toList();
     if (!isClosed) emit(CommentsUiChanged());
 
     _eventBus.emit(CommentDeletedEvent(postId: postId, commentId: resolvedId));
@@ -907,10 +912,11 @@ class CommentsCubit extends Cubit<CommentsState> {
   CommentModel _removeReplyById(CommentModel node, String commentId) {
     if (node.replies.isEmpty) return node;
     return node.copyWith(
-      replies: node.replies
-          .where((r) => r.id != commentId)
-          .map((r) => _removeReplyById(r, commentId))
-          .toList(),
+      replies:
+          node.replies
+              .where((r) => r.id != commentId)
+              .map((r) => _removeReplyById(r, commentId))
+              .toList(),
     );
   }
 
@@ -920,14 +926,16 @@ class CommentsCubit extends Cubit<CommentsState> {
     String newText,
     List<MentionRef> mentions,
   ) {
-    final updated = node.id == commentId
-        ? node.copyWith(text: newText, mentions: mentions, isEdited: true)
-        : node;
+    final updated =
+        node.id == commentId
+            ? node.copyWith(text: newText, mentions: mentions, isEdited: true)
+            : node;
     if (updated.replies.isEmpty) return updated;
     return updated.copyWith(
-      replies: updated.replies
-          .map((r) => _applyEdit(r, commentId, newText, mentions))
-          .toList(),
+      replies:
+          updated.replies
+              .map((r) => _applyEdit(r, commentId, newText, mentions))
+              .toList(),
     );
   }
 
@@ -954,9 +962,10 @@ class CommentsCubit extends Cubit<CommentsState> {
 
     final resolvedCommentId = resolveId(commentId);
 
-    comments = comments
-        .map((c) => _updateReactionInTree(c, resolvedCommentId, emoji))
-        .toList();
+    comments =
+        comments
+            .map((c) => _updateReactionInTree(c, resolvedCommentId, emoji))
+            .toList();
     if (!isClosed) emit(CommentsUiChanged());
 
     try {
@@ -1013,9 +1022,10 @@ class CommentsCubit extends Cubit<CommentsState> {
     }
     if (node.replies.isEmpty) return node;
     return node.copyWith(
-      replies: node.replies
-          .map((r) => _updateReactionInTree(r, commentId, emoji))
-          .toList(),
+      replies:
+          node.replies
+              .map((r) => _updateReactionInTree(r, commentId, emoji))
+              .toList(),
     );
   }
 
@@ -1031,36 +1041,36 @@ class CommentsCubit extends Cubit<CommentsState> {
         old.count <= 1
             ? updated.removeAt(myIdx)
             : updated[myIdx] = old.copyWith(
-                count: old.count - 1,
-                reactedByMe: false,
-              );
+              count: old.count - 1,
+              reactedByMe: false,
+            );
       } else {
         old.count <= 1
             ? updated.removeAt(myIdx)
             : updated[myIdx] = old.copyWith(
-                count: old.count - 1,
-                reactedByMe: false,
-              );
+              count: old.count - 1,
+              reactedByMe: false,
+            );
         final ni = updated.indexWhere((r) => r.emoji == emoji);
         ni >= 0
             ? updated[ni] = updated[ni].copyWith(
-                count: updated[ni].count + 1,
-                reactedByMe: true,
-              )
+              count: updated[ni].count + 1,
+              reactedByMe: true,
+            )
             : updated.add(
-                CommentReaction(emoji: emoji, count: 1, reactedByMe: true),
-              );
+              CommentReaction(emoji: emoji, count: 1, reactedByMe: true),
+            );
       }
     } else {
       final ni = updated.indexWhere((r) => r.emoji == emoji);
       ni >= 0
           ? updated[ni] = updated[ni].copyWith(
-              count: updated[ni].count + 1,
-              reactedByMe: true,
-            )
+            count: updated[ni].count + 1,
+            reactedByMe: true,
+          )
           : updated.add(
-              CommentReaction(emoji: emoji, count: 1, reactedByMe: true),
-            );
+            CommentReaction(emoji: emoji, count: 1, reactedByMe: true),
+          );
     }
     return updated;
   }

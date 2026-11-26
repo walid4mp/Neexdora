@@ -28,9 +28,10 @@ class MainUserAvatar extends StatelessWidget {
       child: AppAvatar(
         imageUrl: isDeleted ? null : imageUrl,
         size: size ?? 31,
-        borderColor: showBorder
-            ? Theme.of(context).primaryColor.withValues(alpha: 0.8)
-            : null,
+        borderColor:
+            showBorder
+                ? Theme.of(context).primaryColor.withValues(alpha: 0.8)
+                : null,
         borderWidth: 2.2,
       ),
     );

@@ -23,7 +23,7 @@ android {
     compileSdk = 36
     // ndkVersion = "27.0.12077973"
     ndkVersion = "28.2.13676358"
-
+    
        compileOptions {
 
         isCoreLibraryDesugaringEnabled = true
@@ -31,8 +31,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_21
     }
 
-
-
+    
+    
     signingConfigs {
         create("release") {
             keyAlias = keystoreProperties.getProperty("keyAlias")
@@ -47,10 +47,10 @@ android {
         applicationId = "com.nexora.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-
+        
         minSdk = 24
         // minSdk = flutter.minSdkVersion
-
+        
         targetSdk = 36
         // targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -66,19 +66,19 @@ android {
             signingConfig =
                 if (keystorePropertiesFile.exists()) signingConfigs.getByName("release")
                 else signingConfigs.getByName("debug")
-
-            isMinifyEnabled = false
+            
+            isMinifyEnabled = false 
             isShrinkResources = false
             // isMinifyEnabled = true
             // isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
-
+        
         getByName("debug") {
             signingConfig = signingConfigs.getByName("debug")
         }
 
-
+        
     }
 }
 

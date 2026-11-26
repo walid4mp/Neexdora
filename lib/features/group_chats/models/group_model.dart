@@ -67,12 +67,12 @@ class GroupModel {
        _lastMessageTargetName = lastMessageTargetName;
   String? get lastMessageSenderName =>
       _lastMessageSenderName?.trim().toLowerCase() == 'deleted account'
-      ? AppL10n.current.deletedAccount
-      : _lastMessageSenderName;
+          ? AppL10n.current.deletedAccount
+          : _lastMessageSenderName;
   String? get lastMessageTargetName =>
       _lastMessageTargetName?.trim().toLowerCase() == 'deleted account'
-      ? AppL10n.current.deletedAccount
-      : _lastMessageTargetName;
+          ? AppL10n.current.deletedAccount
+          : _lastMessageTargetName;
 
   GroupModel copyWith({
     String? id,
@@ -101,9 +101,8 @@ class GroupModel {
     return GroupModel(
       id: id ?? this.id,
       name: name ?? this.name,
-      avatarUrl: identical(avatarUrl, _unset)
-          ? this.avatarUrl
-          : avatarUrl as String?,
+      avatarUrl:
+          identical(avatarUrl, _unset) ? this.avatarUrl : avatarUrl as String?,
       title: identical(title, _unset) ? this.title : title as String?,
       createdBy: createdBy ?? this.createdBy,
       createdAt: createdAt ?? this.createdAt,
@@ -122,12 +121,12 @@ class GroupModel {
       isBlocked: isBlocked ?? this.isBlocked,
       isMuted: isMuted ?? this.isMuted,
       presence: presence ?? this.presence,
-      coverUrl: identical(coverUrl, _unset)
-          ? this.coverUrl
-          : coverUrl as String?,
-      description: identical(description, _unset)
-          ? this.description
-          : description as String?,
+      coverUrl:
+          identical(coverUrl, _unset) ? this.coverUrl : coverUrl as String?,
+      description:
+          identical(description, _unset)
+              ? this.description
+              : description as String?,
       whoCanPost: whoCanPost ?? this.whoCanPost,
     );
   }
@@ -147,9 +146,10 @@ class GroupModel {
       lastMessageSenderId: map['last_message_sender_id'],
       lastMessageSenderName: map['last_message_sender_name'],
       lastMessageType: map['last_message_type'] ?? 'text',
-      lastMessageAt: map['last_message_at'] != null
-          ? DateTime.parse(map['last_message_at'])
-          : null,
+      lastMessageAt:
+          map['last_message_at'] != null
+              ? DateTime.parse(map['last_message_at'])
+              : null,
       lastMessageTargetId: map['last_message_target_id'] as String?,
       lastMessageTargetName: map['last_message_target_name'] as String?,
       unreadCount: (map['unread_count'] as int?) ?? 0,
@@ -199,18 +199,20 @@ class GroupModel {
       avatarUrl: map['avatar_url'] as String?,
       title: map['title'] as String?,
       createdBy: map['created_by'] as String? ?? '',
-      createdAt: map['created_at'] != null
-          ? DateTime.parse(map['created_at'] as String)
-          : DateTime.now(),
+      createdAt:
+          map['created_at'] != null
+              ? DateTime.parse(map['created_at'] as String)
+              : DateTime.now(),
       isMember: map['is_member'] as bool? ?? true,
 
       lastMessage: map['last_message'] as String?,
       lastMessageSenderId: map['last_message_sender_id'] as String?,
       lastMessageSenderName: map['last_message_sender_name'] as String?,
       lastMessageType: map['last_message_type'] as String?,
-      lastMessageAt: map['last_message_at'] != null
-          ? DateTime.parse(map['last_message_at'] as String)
-          : null,
+      lastMessageAt:
+          map['last_message_at'] != null
+              ? DateTime.parse(map['last_message_at'] as String)
+              : null,
       lastMessageTargetId: map['last_message_target_id'] as String?,
       lastMessageTargetName: map['last_message_target_name'] as String?,
       unreadCount: (map['unread_count'] as num?)?.toInt() ?? 0,

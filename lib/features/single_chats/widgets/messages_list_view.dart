@@ -71,10 +71,11 @@ class _MessagesListViewState extends State<MessagesListView> {
         Expanded(
           child: BlocConsumer<ChatDetailsCubit, ChatDetailsState>(
             listener: _handleMessagesLogic,
-            buildWhen: (prev, curr) =>
-                curr is MessagesSuccessLoaded ||
-                curr is MessagesSending ||
-                curr is ChatDetailsInitial,
+            buildWhen:
+                (prev, curr) =>
+                    curr is MessagesSuccessLoaded ||
+                    curr is MessagesSending ||
+                    curr is ChatDetailsInitial,
             builder: (context, state) {
               final cubit = context.read<ChatDetailsCubit>();
               final messages = cubit.cachedMessages;
@@ -169,9 +170,8 @@ class _MessagesListViewState extends State<MessagesListView> {
                               date: FormattedDate.getChatTime(msg.createdAt),
                             ),
                           ChatBubble(
-                            userImgUrl: isMe
-                                ? null
-                                : widget.receiverUser.imageUrl,
+                            userImgUrl:
+                                isMe ? null : widget.receiverUser.imageUrl,
                             receiverUser: widget.receiverUser,
                             message: msg,
                             onReply: widget.onReply,
@@ -184,8 +184,8 @@ class _MessagesListViewState extends State<MessagesListView> {
                         ],
                       );
                     },
-                    separatorBuilder: (context, index) =>
-                        __buildSeparator(index, messages),
+                    separatorBuilder:
+                        (context, index) => __buildSeparator(index, messages),
                   ),
                   _buildScrollToBottomButton(context),
                 ],
@@ -203,15 +203,16 @@ class _MessagesListViewState extends State<MessagesListView> {
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 4),
               child: Align(
                 alignment: AlignmentDirectional.centerStart,
-                child: action == ChatActionType.recording
-                    ? RecordingBubbleWidget(
-                        receiverUserId: widget.receiverUser.id,
-                        receiverUserImgUrl: widget.receiverUser.imageUrl,
-                      )
-                    : TypingBubbleWidget(
-                        receiverUserId: widget.receiverUser.id,
-                        receiverUserImgUrl: widget.receiverUser.imageUrl,
-                      ),
+                child:
+                    action == ChatActionType.recording
+                        ? RecordingBubbleWidget(
+                          receiverUserId: widget.receiverUser.id,
+                          receiverUserImgUrl: widget.receiverUser.imageUrl,
+                        )
+                        : TypingBubbleWidget(
+                          receiverUserId: widget.receiverUser.id,
+                          receiverUserImgUrl: widget.receiverUser.imageUrl,
+                        ),
               ),
             );
           },

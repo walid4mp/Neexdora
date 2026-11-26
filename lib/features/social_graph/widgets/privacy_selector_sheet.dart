@@ -56,8 +56,8 @@ Future<ContentPrivacy?> showPrivacySelectorSheet(
               isPack
                   ? context.l10n.chooseYourAudienceFor
                   : (isStory
-                        ? context.l10n.chooseYourAudienceFor2
-                        : context.l10n.chooseYourAudienceFor3),
+                      ? context.l10n.chooseYourAudienceFor2
+                      : context.l10n.chooseYourAudienceFor3),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: Colors.grey.shade600,
                 fontWeight: FontWeight.w500,

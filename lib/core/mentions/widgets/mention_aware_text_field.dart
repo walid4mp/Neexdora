@@ -197,9 +197,10 @@ class _MentionAwareTextFieldState extends State<MentionAwareTextField> {
 
     final mediaQuery = MediaQuery.of(context);
     final screenHeight = mediaQuery.size.height;
-    final bottomInset = mediaQuery.viewInsets.bottom > 0
-        ? mediaQuery.viewInsets.bottom
-        : mediaQuery.padding.bottom;
+    final bottomInset =
+        mediaQuery.viewInsets.bottom > 0
+            ? mediaQuery.viewInsets.bottom
+            : mediaQuery.padding.bottom;
 
     const gap = 8.0;
     final spaceBelow = screenHeight - bottomInset - fieldBottom - gap;
@@ -263,22 +264,25 @@ class _MentionAwareTextFieldState extends State<MentionAwareTextField> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final effectiveDirection = widget.controller.text.trim().isEmpty
-        ? BidiTextHelper.detectDirection(
-            widget.hintText,
-            Directionality.of(context),
-          )
-        : _direction;
-    final effectiveTextAlign = widget.textAlign == TextAlign.start
-        ? BidiTextHelper.alignFor(effectiveDirection)
-        : widget.textAlign;
+    final effectiveDirection =
+        widget.controller.text.trim().isEmpty
+            ? BidiTextHelper.detectDirection(
+              widget.hintText,
+              Directionality.of(context),
+            )
+            : _direction;
+    final effectiveTextAlign =
+        widget.textAlign == TextAlign.start
+            ? BidiTextHelper.alignFor(effectiveDirection)
+            : widget.textAlign;
 
-    final effectiveStyle =
-        (widget.style ?? theme.textTheme.bodyLarge ?? const TextStyle())
-            .copyWith(
-              fontFamily: null,
-              fontFamilyFallback: AppTypography.fontFallback,
-            );
+    final effectiveStyle = (widget.style ??
+            theme.textTheme.bodyLarge ??
+            const TextStyle())
+        .copyWith(
+          fontFamily: null,
+          fontFamilyFallback: AppTypography.fontFallback,
+        );
 
     return TapRegion(
       groupId: _fieldKey,
@@ -316,14 +320,15 @@ class _MentionAwareTextFieldState extends State<MentionAwareTextField> {
                       fontWeight: FontWeight.w400,
                       fontSize: 15,
                     ),
-                suffixIcon: widget.trailingIcon == null
-                    ? null
-                    : Padding(
-                        padding: EdgeInsetsDirectional.only(
-                          end: widget.border == InputBorder.none ? 2 : 12,
+                suffixIcon:
+                    widget.trailingIcon == null
+                        ? null
+                        : Padding(
+                          padding: EdgeInsetsDirectional.only(
+                            end: widget.border == InputBorder.none ? 2 : 12,
+                          ),
+                          child: widget.trailingIcon,
                         ),
-                        child: widget.trailingIcon,
-                      ),
                 suffixIconConstraints: const BoxConstraints(
                   minWidth: 0,
                   minHeight: 0,
@@ -333,8 +338,8 @@ class _MentionAwareTextFieldState extends State<MentionAwareTextField> {
                     widget.fillColor ??
                     (widget.filled
                         ? theme.colorScheme.surfaceContainerHighest.withValues(
-                            alpha: 0.4,
-                          )
+                          alpha: 0.4,
+                        )
                         : null),
                 counterText: widget.counterText,
                 counterStyle: widget.counterStyle,
@@ -443,40 +448,41 @@ class _MentionSuggestionsCard extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14),
               decoration: BoxDecoration(
-                border: isLast
-                    ? null
-                    : Border(
-                        bottom: BorderSide(
-                          color: AppColors.grey4.withValues(alpha: 0.3),
-                          width: 1,
+                border:
+                    isLast
+                        ? null
+                        : Border(
+                          bottom: BorderSide(
+                            color: AppColors.grey4.withValues(alpha: 0.3),
+                            width: 1,
+                          ),
                         ),
-                      ),
               ),
               child: Row(
                 children: [
                   suggestion.userId == 'all'
                       ? Container(
-                          width: 34,
-                          height: 34,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: theme.primaryColor.withValues(alpha: 0.15),
-                            border: Border.all(
-                              color: theme.primaryColor.withValues(alpha: 0.4),
-                              width: 1.2,
-                            ),
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: theme.primaryColor.withValues(alpha: 0.15),
+                          border: Border.all(
+                            color: theme.primaryColor.withValues(alpha: 0.4),
+                            width: 1.2,
                           ),
-                          child: Icon(
-                            Icons.groups_rounded,
-                            size: 20,
-                            color: theme.primaryColor,
-                          ),
-                        )
-                      : AppAvatar(
-                          imageUrl: suggestion.imageUrl,
-                          size: 34,
-                          heroTag: 'mention_${suggestion.userId}',
                         ),
+                        child: Icon(
+                          Icons.groups_rounded,
+                          size: 20,
+                          color: theme.primaryColor,
+                        ),
+                      )
+                      : AppAvatar(
+                        imageUrl: suggestion.imageUrl,
+                        size: 34,
+                        heroTag: 'mention_${suggestion.userId}',
+                      ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -487,9 +493,10 @@ class _MentionSuggestionsCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
-                        color: suggestion.userId == 'all'
-                            ? theme.primaryColor
-                            : null,
+                        color:
+                            suggestion.userId == 'all'
+                                ? theme.primaryColor
+                                : null,
                       ),
                     ),
                   ),
@@ -531,9 +538,8 @@ class _MentionSuggestionsCard extends StatelessWidget {
             child: AnimatedSize(
               duration: const Duration(milliseconds: 180),
               curve: Curves.easeOut,
-              alignment: openBelow
-                  ? Alignment.topCenter
-                  : Alignment.bottomCenter,
+              alignment:
+                  openBelow ? Alignment.topCenter : Alignment.bottomCenter,
 
               child: SizedBox(
                 height: bodyHeight,

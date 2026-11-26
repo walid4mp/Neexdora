@@ -101,37 +101,42 @@ class _GroupInviteLinkSectionState extends State<GroupInviteLinkSection> {
   Future<_InviteExpiryChoice?> _pickInviteExpiryDuration() {
     return showDialog<_InviteExpiryChoice>(
       context: context,
-      builder: (_) => SimpleDialog(
-        title: Text(context.l10n.linkExpiration),
-        children: [
-          SimpleDialogOption(
-            onPressed: () =>
-                Navigator.pop(context, const _InviteExpiryChoice(null)),
-            child: Text(context.l10n.neverExpires),
+      builder:
+          (_) => SimpleDialog(
+            title: Text(context.l10n.linkExpiration),
+            children: [
+              SimpleDialogOption(
+                onPressed:
+                    () =>
+                        Navigator.pop(context, const _InviteExpiryChoice(null)),
+                child: Text(context.l10n.neverExpires),
+              ),
+              SimpleDialogOption(
+                onPressed:
+                    () => Navigator.pop(
+                      context,
+                      const _InviteExpiryChoice(Duration(hours: 24)),
+                    ),
+                child: Text(context.l10n.t24Hours),
+              ),
+              SimpleDialogOption(
+                onPressed:
+                    () => Navigator.pop(
+                      context,
+                      const _InviteExpiryChoice(Duration(days: 2)),
+                    ),
+                child: Text(context.l10n.t2Days),
+              ),
+              SimpleDialogOption(
+                onPressed:
+                    () => Navigator.pop(
+                      context,
+                      const _InviteExpiryChoice(Duration(days: 7)),
+                    ),
+                child: Text(context.l10n.t1Week),
+              ),
+            ],
           ),
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop(
-              context,
-              const _InviteExpiryChoice(Duration(hours: 24)),
-            ),
-            child: Text(context.l10n.t24Hours),
-          ),
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop(
-              context,
-              const _InviteExpiryChoice(Duration(days: 2)),
-            ),
-            child: Text(context.l10n.t2Days),
-          ),
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop(
-              context,
-              const _InviteExpiryChoice(Duration(days: 7)),
-            ),
-            child: Text(context.l10n.t1Week),
-          ),
-        ],
-      ),
     );
   }
 
@@ -206,9 +211,8 @@ class _GroupInviteLinkSectionState extends State<GroupInviteLinkSection> {
           widget.groupName,
           _inviteUrlFor(hash),
         ),
-        sharePositionOrigin: box != null
-            ? (box.localToGlobal(Offset.zero) & box.size)
-            : null,
+        sharePositionOrigin:
+            box != null ? (box.localToGlobal(Offset.zero) & box.size) : null,
       ),
     );
   }
@@ -246,14 +250,14 @@ class _GroupInviteLinkSectionState extends State<GroupInviteLinkSection> {
         const SizedBox(width: 12),
         _isUpdatingInvite
             ? const SizedBox(
-                width: 18,
-                height: 18,
-                child: CircularProgressIndicator(strokeWidth: 2),
-              )
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
             : TextButton(
-                onPressed: _generateInviteLink,
-                child: Text(context.l10n.generate),
-              ),
+              onPressed: _generateInviteLink,
+              child: Text(context.l10n.generate),
+            ),
       ],
     );
   }
@@ -374,11 +378,12 @@ class _GroupInviteLinkSectionState extends State<GroupInviteLinkSection> {
               ),
             ],
           ),
-          child: _isLoadingInvite
-              ? const InviteLinkSectionSkeleton()
-              : _inviteState == null
-              ? _buildGenerateInviteRow()
-              : _buildActiveInviteRow(_inviteState!),
+          child:
+              _isLoadingInvite
+                  ? const InviteLinkSectionSkeleton()
+                  : _inviteState == null
+                  ? _buildGenerateInviteRow()
+                  : _buildActiveInviteRow(_inviteState!),
         ),
       ],
     );

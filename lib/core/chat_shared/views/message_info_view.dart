@@ -176,10 +176,11 @@ class MessageInfoArgs {
                 .map((m) => m.userAvatar)
                 .firstOrNull;
       } else {
-        resolvedAvatar = group.members
-            .where((m) => m.userId == message.senderId)
-            .map((m) => m.userAvatar)
-            .firstOrNull;
+        resolvedAvatar =
+            group.members
+                .where((m) => m.userId == message.senderId)
+                .map((m) => m.userAvatar)
+                .firstOrNull;
       }
     }
 
@@ -228,9 +229,8 @@ class MessageInfoArgs {
       chatType: MessageInfoChatType.ai,
       messageId: message.id,
       text: message.text,
-      messageType: message.mediaType.name == 'none'
-          ? 'text'
-          : message.mediaType.name,
+      messageType:
+          message.mediaType.name == 'none' ? 'text' : message.mediaType.name,
       createdAt: message.createdAt,
       isMe: isMe,
       senderId: isMe ? currentUserId : 'ai_assistant',
@@ -377,18 +377,20 @@ class _MessageInfoViewState extends State<MessageInfoView> {
     if (args.isMe) {
       Map<String, dynamic>? row;
       try {
-        row = await client
-            .from(SupabaseConstants.messages)
-            .select('is_read, delivered_at, read_at')
-            .eq(MessagesColumns.id, args.messageId)
-            .maybeSingle();
+        row =
+            await client
+                .from(SupabaseConstants.messages)
+                .select('is_read, delivered_at, read_at')
+                .eq(MessagesColumns.id, args.messageId)
+                .maybeSingle();
       } on PostgrestException catch (e) {
         if (e.code != '42703') rethrow;
-        row = await client
-            .from(SupabaseConstants.messages)
-            .select('is_read')
-            .eq(MessagesColumns.id, args.messageId)
-            .maybeSingle();
+        row =
+            await client
+                .from(SupabaseConstants.messages)
+                .select('is_read')
+                .eq(MessagesColumns.id, args.messageId)
+                .maybeSingle();
       }
       if (row != null) {
         isRead = (row['is_read'] as bool?) ?? isRead;
@@ -437,11 +439,12 @@ class _MessageInfoViewState extends State<MessageInfoView> {
       }
 
       try {
-        final row = await client
-            .from(SupabaseConstants.groupMessages)
-            .select('read_by')
-            .eq(GroupMessageColumns.id, args.messageId)
-            .maybeSingle();
+        final row =
+            await client
+                .from(SupabaseConstants.groupMessages)
+                .select('read_by')
+                .eq(GroupMessageColumns.id, args.messageId)
+                .maybeSingle();
         final raw = row?['read_by'];
         if (raw is List) {
           for (final id in raw) {
@@ -502,14 +505,15 @@ class _MessageInfoViewState extends State<MessageInfoView> {
     final profile = _profiles[userId];
     final member = args.members.where((m) => m.userId == userId).firstOrNull;
 
-    final name = isMe
-        ? AppL10n.current.you
-        : (profile?.userName ??
-              member?.userName ??
-              (args.chatType == MessageInfoChatType.single
-                  ? args.receiverName
-                  : null) ??
-              'Unknown User');
+    final name =
+        isMe
+            ? AppL10n.current.you
+            : (profile?.userName ??
+                member?.userName ??
+                (args.chatType == MessageInfoChatType.single
+                    ? args.receiverName
+                    : null) ??
+                'Unknown User');
     final avatar =
         profile?.userImageUrl ??
         member?.userAvatar ??
@@ -569,9 +573,10 @@ class _MessageInfoViewState extends State<MessageInfoView> {
                 context,
                 primary,
                 isDark,
-                count: args.initialReactions.isNotEmpty
-                    ? args.initialReactions.length
-                    : _reactions.length,
+                count:
+                    args.initialReactions.isNotEmpty
+                        ? args.initialReactions.length
+                        : _reactions.length,
               ),
               const Gap(16),
             ] else if (_reactions.isNotEmpty) ...[
@@ -609,9 +614,10 @@ class _MessageInfoViewState extends State<MessageInfoView> {
     );
   }
 
-  Color _cardBg(BuildContext context, bool isDark) => isDark
-      ? Theme.of(context).colorScheme.surfaceContainerHigh
-      : Colors.white;
+  Color _cardBg(BuildContext context, bool isDark) =>
+      isDark
+          ? Theme.of(context).colorScheme.surfaceContainerHigh
+          : Colors.white;
 
   BoxDecoration _cardDecoration(
     BuildContext context,
@@ -696,9 +702,8 @@ class _MessageInfoViewState extends State<MessageInfoView> {
           Align(
             alignment: args.isMe ? Alignment.centerRight : Alignment.centerLeft,
             child: Column(
-              crossAxisAlignment: args.isMe
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.start,
+              crossAxisAlignment:
+                  args.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 _buildBubbleContent(context, primary, isDark),
@@ -719,8 +724,8 @@ class _MessageInfoViewState extends State<MessageInfoView> {
     for (final r in _reactions) {
       counts[r.emoji] = (counts[r.emoji] ?? 0) + 1;
     }
-    final top = counts.entries.toList()
-      ..sort((a, b) => b.value.compareTo(a.value));
+    final top =
+        counts.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
@@ -757,12 +762,12 @@ class _MessageInfoViewState extends State<MessageInfoView> {
   }
 
   Widget _buildBubbleContent(BuildContext context, Color primary, bool isDark) {
-    final bubbleColor = args.isMe
-        ? getSenderBubbleColor(context)
-        : getReceiverBubbleColor(context);
-    final textColor = args.isMe
-        ? Colors.white
-        : Theme.of(context).colorScheme.onSurface;
+    final bubbleColor =
+        args.isMe
+            ? getSenderBubbleColor(context)
+            : getReceiverBubbleColor(context);
+    final textColor =
+        args.isMe ? Colors.white : Theme.of(context).colorScheme.onSurface;
 
     final displayText = args.caption ?? args.text;
 
@@ -839,19 +844,20 @@ class _MessageInfoViewState extends State<MessageInfoView> {
         break;
 
       case 'voice':
-        content = args.voiceUrl != null
-            ? ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 260),
-                child: VoiceMessageBubbleWidget(
-                  voiceUrl: args.voiceUrl!,
-                  isMe: args.isMe,
-                  timestamp: args.createdAt,
-                  isRead: _isRead,
-                  initialDurationSeconds: args.durationSeconds,
-                  isUploading: false,
-                ),
-              )
-            : Text(context.l10n.voiceNote);
+        content =
+            args.voiceUrl != null
+                ? ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 260),
+                  child: VoiceMessageBubbleWidget(
+                    voiceUrl: args.voiceUrl!,
+                    isMe: args.isMe,
+                    timestamp: args.createdAt,
+                    isRead: _isRead,
+                    initialDurationSeconds: args.durationSeconds,
+                    isUploading: false,
+                  ),
+                )
+                : Text(context.l10n.voiceNote);
         break;
 
       case 'file':
@@ -866,26 +872,31 @@ class _MessageInfoViewState extends State<MessageInfoView> {
         break;
 
       case 'gif':
-        content = args.imageUrl != null
-            ? ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: SizedBox(
-                  width: 200,
-                  height: 200,
-                  child: GifMessageBubble(url: args.imageUrl!, isMe: args.isMe),
-                ),
-              )
-            : const SizedBox.shrink();
+        content =
+            args.imageUrl != null
+                ? ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: SizedBox(
+                    width: 200,
+                    height: 200,
+                    child: GifMessageBubble(
+                      url: args.imageUrl!,
+                      isMe: args.isMe,
+                    ),
+                  ),
+                )
+                : const SizedBox.shrink();
         break;
 
       case 'sticker':
-        content = args.imageUrl != null
-            ? SizedBox(
-                width: 140,
-                height: 140,
-                child: StickerMessageBubble(url: args.imageUrl!),
-              )
-            : const SizedBox.shrink();
+        content =
+            args.imageUrl != null
+                ? SizedBox(
+                  width: 140,
+                  height: 140,
+                  child: StickerMessageBubble(url: args.imageUrl!),
+                )
+                : const SizedBox.shrink();
         break;
 
       case 'call':
@@ -914,14 +925,15 @@ class _MessageInfoViewState extends State<MessageInfoView> {
     final isPureMedia =
         args.messageType == 'sticker' || args.messageType == 'gif';
 
-    final forwardedHeader = args.isForwarded
-        ? ForwardedHeader(
-            originalSenderId: args.forwardedFromUserId ?? '',
-            name: args.forwardedFromUserName ?? 'Unknown',
-            avatarUrl: args.forwardedFromUserAvatar,
-            onColoredBubble: args.isMe && !isPureMedia,
-          )
-        : null;
+    final forwardedHeader =
+        args.isForwarded
+            ? ForwardedHeader(
+              originalSenderId: args.forwardedFromUserId ?? '',
+              name: args.forwardedFromUserName ?? 'Unknown',
+              avatarUrl: args.forwardedFromUserAvatar,
+              onColoredBubble: args.isMe && !isPureMedia,
+            )
+            : null;
 
     if (isPureMedia) {
       if (forwardedHeader == null) return content;
@@ -1026,9 +1038,10 @@ class _MessageInfoViewState extends State<MessageInfoView> {
       if (isMe) {
         AppToast.info(context.l10n.youMentionedAllGroup);
       } else {
-        final senderName = args.senderName.trim().isNotEmpty
-            ? args.senderName.trim()
-            : 'Someone';
+        final senderName =
+            args.senderName.trim().isNotEmpty
+                ? args.senderName.trim()
+                : 'Someone';
         AppToast.info(context.l10n.mentionedAllGroupMembers(senderName));
       }
       return;
@@ -1038,9 +1051,10 @@ class _MessageInfoViewState extends State<MessageInfoView> {
       if (args.senderId == currentUserId) {
         AppToast.info(context.l10n.youMentionedYourselfIn2);
       } else {
-        final senderName = args.senderName.trim().isNotEmpty
-            ? args.senderName.trim()
-            : 'Someone';
+        final senderName =
+            args.senderName.trim().isNotEmpty
+                ? args.senderName.trim()
+                : 'Someone';
         AppToast.info(context.l10n.mentionedYouInThis2(senderName));
       }
     } else {
@@ -1154,13 +1168,12 @@ class _MessageInfoViewState extends State<MessageInfoView> {
     Color primary,
     bool isDark,
   ) {
-    final rows = [..._reactions]
-      ..sort((a, b) {
-        if (a.createdAt == null && b.createdAt == null) return 0;
-        if (a.createdAt == null) return 1;
-        if (b.createdAt == null) return -1;
-        return b.createdAt!.compareTo(a.createdAt!);
-      });
+    final rows = [..._reactions]..sort((a, b) {
+      if (a.createdAt == null && b.createdAt == null) return 0;
+      if (a.createdAt == null) return 1;
+      if (b.createdAt == null) return -1;
+      return b.createdAt!.compareTo(a.createdAt!);
+    });
 
     return Container(
       decoration: _cardDecoration(context, primary, isDark),
@@ -1456,9 +1469,8 @@ class _MessageInfoViewState extends State<MessageInfoView> {
     Color onSurface,
   ) {
     final id = _identity(reader.userId);
-    final member = args.members
-        .where((m) => m.userId == reader.userId)
-        .firstOrNull;
+    final member =
+        args.members.where((m) => m.userId == reader.userId).firstOrNull;
 
     return Material(
       type: MaterialType.transparency,
@@ -1471,16 +1483,17 @@ class _MessageInfoViewState extends State<MessageInfoView> {
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
-        subtitle: member == null
-            ? null
-            : Text(
-                member.role.name.toUpperCase(),
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500,
-                  color: onSurface.withValues(alpha: 0.5),
+        subtitle:
+            member == null
+                ? null
+                : Text(
+                  member.role.name.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: onSurface.withValues(alpha: 0.5),
+                  ),
                 ),
-              ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1516,15 +1529,15 @@ class _MessageInfoViewState extends State<MessageInfoView> {
           _buildStatusTile(
             context,
             icon: Icons.done_all_rounded,
-            iconColor: _isRead
-                ? primary
-                : AppColors.greyColor.withValues(alpha: 0.35),
+            iconColor:
+                _isRead ? primary : AppColors.greyColor.withValues(alpha: 0.35),
             title: context.l10n.read,
-            subtitle: _isRead
-                ? (args.receiverName != null
-                      ? context.l10n.seenBy(args.receiverName!)
-                      : context.l10n.read)
-                : context.l10n.notReadYet,
+            subtitle:
+                _isRead
+                    ? (args.receiverName != null
+                        ? context.l10n.seenBy(args.receiverName!)
+                        : context.l10n.read)
+                    : context.l10n.notReadYet,
             timeText: _isRead ? _fmt(_readAt) : '—',
           ),
           const Divider(height: 1, indent: 56, thickness: 0.5),
@@ -1533,9 +1546,10 @@ class _MessageInfoViewState extends State<MessageInfoView> {
             icon: Icons.done_all_rounded,
             iconColor: AppColors.greyColor,
             title: context.l10n.delivered,
-            subtitle: args.receiverName != null
-                ? context.l10n.deliveredTo(args.receiverName!)
-                : context.l10n.delivered,
+            subtitle:
+                args.receiverName != null
+                    ? context.l10n.deliveredTo(args.receiverName!)
+                    : context.l10n.delivered,
             timeText: _fmt(_deliveredAt ?? (_isRead ? _readAt : null)),
           ),
           const Divider(height: 1, indent: 56, thickness: 0.5),
@@ -1569,9 +1583,10 @@ class _MessageInfoViewState extends State<MessageInfoView> {
             icon: args.isMe ? Icons.done_rounded : Icons.schedule_rounded,
             iconColor: primary,
             title: args.isMe ? context.l10n.sent : 'Generated',
-            subtitle: args.isMe
-                ? context.l10n.deliveredToAi
-                : context.l10n.responseCreated,
+            subtitle:
+                args.isMe
+                    ? context.l10n.deliveredToAi
+                    : context.l10n.responseCreated,
             timeText: _fmt(args.createdAt),
           ),
           const Divider(height: 1, indent: 56, thickness: 0.5),
@@ -1636,9 +1651,10 @@ class _MessageInfoViewState extends State<MessageInfoView> {
             color: Colors.red,
           ),
           onTap: () {
-            final targetType = args.chatType == MessageInfoChatType.group
-                ? ReportTargetType.groupMessage
-                : ReportTargetType.message;
+            final targetType =
+                args.chatType == MessageInfoChatType.group
+                    ? ReportTargetType.groupMessage
+                    : ReportTargetType.message;
 
             ReportBottomSheet.show(
               context,

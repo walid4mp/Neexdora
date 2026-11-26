@@ -23,10 +23,11 @@ class ReelVideoPlaceholder extends StatelessWidget {
           AppNetworkImage(
             imageUrl: reel.thumbnailUrl,
             fit: BoxFit.cover,
-            placeholder: (context, url) => const ColoredBox(
-              color: Colors.black,
-              child: Center(child: CustomLoadingIndicator(radius: 14)),
-            ),
+            placeholder:
+                (context, url) => const ColoredBox(
+                  color: Colors.black,
+                  child: Center(child: CustomLoadingIndicator(radius: 14)),
+                ),
             errorWidget: (_, __, ___) => const SizedBox.shrink(),
           ),
           const Center(child: CustomLoadingIndicator(radius: 16)),

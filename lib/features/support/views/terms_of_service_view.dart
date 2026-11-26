@@ -21,9 +21,10 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
 
   Future<List<PolicySection>> _load() async {
     final isAr = Localizations.localeOf(context).languageCode == 'ar';
-    final path = isAr
-        ? 'assets/docs/terms_of_service_ar.md'
-        : 'assets/docs/terms_of_service.md';
+    final path =
+        isAr
+            ? 'assets/docs/terms_of_service_ar.md'
+            : 'assets/docs/terms_of_service.md';
     final raw = await rootBundle.loadString(path);
     return MarkdownSectionParser.parse(raw);
   }
@@ -167,9 +168,10 @@ class _TermsOfServiceViewState extends State<TermsOfServiceView> {
                           key: _sectionKeys[i],
                           padding: const EdgeInsets.only(top: 20),
                           child: MarkdownBody(
-                            data: sections[i].title.isEmpty
-                                ? sections[i].body
-                                : '## ${sections[i].title}\n\n${sections[i].body}',
+                            data:
+                                sections[i].title.isEmpty
+                                    ? sections[i].body
+                                    : '## ${sections[i].title}\n\n${sections[i].body}',
                             selectable: true,
                             styleSheet: styleSheet,
                           ),

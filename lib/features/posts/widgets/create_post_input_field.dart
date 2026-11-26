@@ -38,21 +38,24 @@ class CreatePostInputField extends StatelessWidget {
     final theme = Theme.of(context);
     final postTheme = this.theme;
 
-    final TextStyle textStyle = postTheme == null
-        ? (theme.textTheme.bodyLarge ?? const TextStyle()).copyWith(
-            fontSize: 18,
-            textBaseline: TextBaseline.alphabetic,
-            fontFamily: null,
-            fontFamilyFallback: AppTypography.fontFallback,
-          )
-        : ThemedPostCanvas.textStyleFor(
-            postTheme,
-            fontSize: ThemedPostCanvas.fontSizeFor(_textEditingController.text),
-            base: const TextStyle(
+    final TextStyle textStyle =
+        postTheme == null
+            ? (theme.textTheme.bodyLarge ?? const TextStyle()).copyWith(
+              fontSize: 18,
+              textBaseline: TextBaseline.alphabetic,
               fontFamily: null,
               fontFamilyFallback: AppTypography.fontFallback,
-            ),
-          );
+            )
+            : ThemedPostCanvas.textStyleFor(
+              postTheme,
+              fontSize: ThemedPostCanvas.fontSizeFor(
+                _textEditingController.text,
+              ),
+              base: const TextStyle(
+                fontFamily: null,
+                fontFamilyFallback: AppTypography.fontFallback,
+              ),
+            );
 
     return MentionAwareTextField(
       controller: _textEditingController,
@@ -62,24 +65,28 @@ class CreatePostInputField extends StatelessWidget {
       hintText: context.l10n.whatsOnYourHead,
       textAlign: postTheme == null ? TextAlign.start : TextAlign.center,
       style: textStyle,
-      hintStyle: postTheme == null
-          ? theme.textTheme.titleSmall!.copyWith(
-              color: theme.textTheme.titleSmall!.color?.withValues(alpha: 0.35),
-              fontSize: 19,
-              fontWeight: FontWeight.w400,
-            )
-          : textStyle.copyWith(
-              color: postTheme.textColor.withValues(alpha: 0.6),
-              shadows: null,
-            ),
+      hintStyle:
+          postTheme == null
+              ? theme.textTheme.titleSmall!.copyWith(
+                color: theme.textTheme.titleSmall!.color?.withValues(
+                  alpha: 0.35,
+                ),
+                fontSize: 19,
+                fontWeight: FontWeight.w400,
+              )
+              : textStyle.copyWith(
+                color: postTheme.textColor.withValues(alpha: 0.6),
+                shadows: null,
+              ),
       minLines: 1,
       maxLines: null,
       maxLength: 2000,
       counterText: _hasText ? null : '',
       counterStyle: TextStyle(
-        color: atLimit
-            ? (postTheme == null ? Colors.red : Colors.amberAccent)
-            : postTheme?.textColor.withValues(alpha: 0.7),
+        color:
+            atLimit
+                ? (postTheme == null ? Colors.red : Colors.amberAccent)
+                : postTheme?.textColor.withValues(alpha: 0.7),
         fontWeight: atLimit ? FontWeight.bold : null,
       ),
       filled: false,

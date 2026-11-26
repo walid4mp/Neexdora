@@ -12,8 +12,7 @@ class SupportActions {
     if (BrandConfig.supportEmail.isEmpty) {
       final wa = Uri.parse(BrandConfig.whatsappUrl);
       final ok = await launchUrl(wa, mode: LaunchMode.externalApplication);
-      if (!ok && context.mounted)
-        AppToast.error(context.l10n.couldNotOpenYour2);
+      if (!ok && context.mounted) AppToast.error(context.l10n.couldNotOpenYour2);
       return;
     }
     final uri = Uri(

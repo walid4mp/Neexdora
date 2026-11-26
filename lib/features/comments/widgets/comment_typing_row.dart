@@ -37,9 +37,10 @@ class CommentTypingRow extends StatelessWidget {
     final theme = Theme.of(context);
 
     final bool isSingle = typingUsers.length == 1;
-    final String actionText = isSingle
-        ? context.l10n.isWritingAComment
-        : context.l10n.areWritingAComment;
+    final String actionText =
+        isSingle
+            ? context.l10n.isWritingAComment
+            : context.l10n.areWritingAComment;
 
     return Row(
       children: [
@@ -85,9 +86,10 @@ class CommentTypingRow extends StatelessWidget {
                   alignment: PlaceholderAlignment.baseline,
                   baseline: TextBaseline.alphabetic,
                   child: GestureDetector(
-                    onTap: typingUsers.length == 1
-                        ? () => _openProfile(context, typingUsers.first.id)
-                        : null,
+                    onTap:
+                        typingUsers.length == 1
+                            ? () => _openProfile(context, typingUsers.first.id)
+                            : null,
                     child: Text(
                       _joinedNamesLabel(),
                       style: theme.textTheme.bodySmall?.copyWith(
@@ -122,8 +124,10 @@ class _AnchoredCommentTypingRowState extends State<AnchoredCommentTypingRow> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CommentsCubit, CommentsState>(
-      buildWhen: (previous, current) =>
-          current is CommentTypingUsersChanged || current is CommentsUiChanged,
+      buildWhen:
+          (previous, current) =>
+              current is CommentTypingUsersChanged ||
+              current is CommentsUiChanged,
       builder: (context, state) {
         final cubit = context.read<CommentsCubit>();
         final typingUsers = cubit.typingUsersById.values.toList();
@@ -172,8 +176,10 @@ class _InlineCommentTypingRowState extends State<InlineCommentTypingRow> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CommentsCubit, CommentsState>(
-      buildWhen: (previous, current) =>
-          current is CommentTypingUsersChanged || current is CommentsUiChanged,
+      buildWhen:
+          (previous, current) =>
+              current is CommentTypingUsersChanged ||
+              current is CommentsUiChanged,
       builder: (context, state) {
         final cubit = context.read<CommentsCubit>();
         final typingUsers = cubit.typingUsersById.values.toList();

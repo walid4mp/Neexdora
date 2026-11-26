@@ -32,17 +32,18 @@ class ProfileHeaderUserInfoSection extends StatelessWidget {
     final currentDirection = Directionality.of(context);
 
     final groupListState = isMe ? context.watch<GroupListCubit>().state : null;
-    final myGroupsCount = isMe
-        ? (groupListState is GroupListLoaded
-              ? groupListState.groups
+    final myGroupsCount =
+        isMe
+            ? (groupListState is GroupListLoaded
+                ? groupListState.groups
                     .where((g) => g.isMember && !g.isBlocked)
                     .length
-              : context
+                : context
                     .read<GroupListCubit>()
                     .cachedGroupsChats
                     .where((g) => g.isMember && !g.isBlocked)
                     .length)
-        : 0;
+            : 0;
 
     return Padding(
       padding: const EdgeInsets.symmetric(

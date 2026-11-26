@@ -23,11 +23,12 @@ class CreatePackBottomActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final status = loaded.isDownloaded
-        ? DownloadButtonStatus.downloaded
-        : (loaded.downloadProgress != null
-              ? DownloadButtonStatus.downloading
-              : DownloadButtonStatus.idle);
+    final status =
+        loaded.isDownloaded
+            ? DownloadButtonStatus.downloaded
+            : (loaded.downloadProgress != null
+                ? DownloadButtonStatus.downloading
+                : DownloadButtonStatus.idle);
     final isDownloading = status == DownloadButtonStatus.downloading;
     final progress = loaded.downloadProgress ?? 0.0;
     final totalMb = pack.totalSizeBytes / (1024 * 1024);
@@ -67,8 +68,11 @@ class CreatePackBottomActionBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onTap: () =>
-                      context.read<StickerPackDetailCubit>().cancelDownload(),
+                  onTap:
+                      () =>
+                          context
+                              .read<StickerPackDetailCubit>()
+                              .cancelDownload(),
                   child: Container(
                     width: 18,
                     height: 18,
@@ -88,9 +92,10 @@ class CreatePackBottomActionBar extends StatelessWidget {
                       Icons.close_rounded,
                       size: 18 * .58,
 
-                      color: theme.colorScheme
-                          .copyWith(onSurface: Colors.white)
-                          .onSurface,
+                      color:
+                          theme.colorScheme
+                              .copyWith(onSurface: Colors.white)
+                              .onSurface,
                     ),
                   ),
                 ),
@@ -114,10 +119,10 @@ class CreatePackBottomActionBar extends StatelessWidget {
             height: 56,
             status: status,
             progress: loaded.downloadProgress ?? 0,
-            onDownload: () =>
-                context.read<StickerPackDetailCubit>().toggleDownloaded(),
-            onRemove: () =>
-                context.read<StickerPackDetailCubit>().toggleDownloaded(),
+            onDownload:
+                () => context.read<StickerPackDetailCubit>().toggleDownloaded(),
+            onRemove:
+                () => context.read<StickerPackDetailCubit>().toggleDownloaded(),
           ),
         ],
       ),

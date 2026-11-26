@@ -68,23 +68,24 @@ class GroupNameTitleEditor extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(color: primary, width: 1.5),
                 ),
-                suffixIcon: isSavingName
-                    ? const Padding(
-                        padding: EdgeInsets.all(14),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                suffixIcon:
+                    isSavingName
+                        ? const Padding(
+                          padding: EdgeInsets.all(14),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        )
+                        : IconButton(
+                          icon: Icon(
+                            Icons.check_circle,
+                            color: isChanged ? primary : Colors.grey.shade300,
+                          ),
+                          onPressed: isChanged ? onSaveName : null,
+                          tooltip: context.l10n.saveName,
                         ),
-                      )
-                    : IconButton(
-                        icon: Icon(
-                          Icons.check_circle,
-                          color: isChanged ? primary : Colors.grey.shade300,
-                        ),
-                        onPressed: isChanged ? onSaveName : null,
-                        tooltip: context.l10n.saveName,
-                      ),
               ),
               onSubmitted: isChanged ? (_) => onSaveName() : null,
             );
@@ -133,23 +134,24 @@ class GroupNameTitleEditor extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(color: primary, width: 1.5),
                 ),
-                suffixIcon: isSavingTitle
-                    ? const Padding(
-                        padding: EdgeInsets.all(14),
-                        child: SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+                suffixIcon:
+                    isSavingTitle
+                        ? const Padding(
+                          padding: EdgeInsets.all(14),
+                          child: SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        )
+                        : IconButton(
+                          icon: Icon(
+                            Icons.check_circle,
+                            color: isChanged ? primary : Colors.grey.shade300,
+                          ),
+                          onPressed: isChanged ? onSaveTitle : null,
+                          tooltip: context.l10n.saveTitle,
                         ),
-                      )
-                    : IconButton(
-                        icon: Icon(
-                          Icons.check_circle,
-                          color: isChanged ? primary : Colors.grey.shade300,
-                        ),
-                        onPressed: isChanged ? onSaveTitle : null,
-                        tooltip: context.l10n.saveTitle,
-                      ),
               ),
               onSubmitted: isChanged ? (_) => onSaveTitle() : null,
             );

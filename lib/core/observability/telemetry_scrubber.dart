@@ -68,10 +68,11 @@ class TelemetryScrubber {
 
   /// Scrubs a single-line value (route names, labels) and collapses whitespace.
   static String scrubLine(String? input, {int maxLength = 100}) {
-    final collapsed = scrub(
-      input,
-      maxLength: maxLength * 4,
-    ).replaceAll(_whitespace, ' ').trim();
+    final collapsed =
+        scrub(
+          input,
+          maxLength: maxLength * 4,
+        ).replaceAll(_whitespace, ' ').trim();
     return truncate(collapsed, maxLength);
   }
 

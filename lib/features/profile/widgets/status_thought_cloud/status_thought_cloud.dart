@@ -69,12 +69,11 @@ class StatusThoughtCloud extends StatelessWidget {
 
     // ── Horizontal band ──
     final bubbleLeft = origin.dx + _bubbleLeftFromOrigin;
-    final availableWidth =
-        (screenWidth -
-                bubbleLeft -
-                ProfileUiTokens.screenPadding -
-                _iconZoneSafetyWidth)
-            .clamp(_availableWidthMin, _availableWidthMax);
+    final availableWidth = (screenWidth -
+            bubbleLeft -
+            ProfileUiTokens.screenPadding -
+            _iconZoneSafetyWidth)
+        .clamp(_availableWidthMin, _availableWidthMax);
 
     final bubbleTop = backgroundHeight + _bubbleTopFromBackground;
     final maxBubbleHeight = math.max(
@@ -120,14 +119,15 @@ class StatusThoughtCloud extends StatelessWidget {
           top: bubbleTop,
           width: fit.width,
           height: fit.height,
-          child: isMe
-              ? _OwnerTapWrapper(onTap: onEditRequested, child: bubble)
-              : ThoughtBubbleRipple(
-                  glowColor: tokens.primary,
-                  cloud: cloud,
-                  onTap: () {},
-                  child: bubble,
-                ),
+          child:
+              isMe
+                  ? _OwnerTapWrapper(onTap: onEditRequested, child: bubble)
+                  : ThoughtBubbleRipple(
+                    glowColor: tokens.primary,
+                    cloud: cloud,
+                    onTap: () {},
+                    child: bubble,
+                  ),
         ),
       ],
     );
@@ -349,9 +349,8 @@ class _ThoughtBubbleContent extends StatelessWidget {
                       fontSize: fit.fontSize,
                       fontWeight: FontWeight.w600,
                       height: 1.15,
-                      fontStyle: isPlaceholder
-                          ? FontStyle.italic
-                          : FontStyle.normal,
+                      fontStyle:
+                          isPlaceholder ? FontStyle.italic : FontStyle.normal,
                       color: tokens.onSurface.withValues(
                         alpha: isPlaceholder ? 0.55 : 1.0,
                       ),

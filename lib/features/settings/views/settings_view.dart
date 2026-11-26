@@ -53,12 +53,13 @@ class _SettingsViewState extends State<SettingsView>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SettingsCubit(
-        userService: context.read<UserService>(),
-        homeCubit: context.read<HomeCubit>(),
-        localeCubit: context.read<LocaleCubit>(),
-        currentUser: context.read<HomeCubit>().currentUserData,
-      ),
+      create:
+          (context) => SettingsCubit(
+            userService: context.read<UserService>(),
+            homeCubit: context.read<HomeCubit>(),
+            localeCubit: context.read<LocaleCubit>(),
+            currentUser: context.read<HomeCubit>().currentUserData,
+          ),
       child: BlocConsumer<SettingsCubit, SettingsState>(
         listenWhen: (previous, current) => current.error != null,
         listener: (context, state) {
@@ -122,17 +123,19 @@ class _SettingsViewState extends State<SettingsView>
                         icon: CupertinoIcons.lock_fill,
                         label: l10n.settingsChangePassword,
                         subtitle: l10n.settingsChangePasswordSubtitle,
-                        onTap: () => Navigator.of(
-                          context,
-                        ).pushNamed(AppRoutes.changePasswordRoute),
+                        onTap:
+                            () => Navigator.of(
+                              context,
+                            ).pushNamed(AppRoutes.changePasswordRoute),
                       ),
                       SettingsItemData(
                         icon: CupertinoIcons.mail_solid,
                         label: l10n.settingsEmailAddress,
                         subtitle: l10n.settingsEmailAddressSubtitle,
-                        onTap: () => Navigator.of(
-                          context,
-                        ).pushNamed(AppRoutes.emailSettingsRoute),
+                        onTap:
+                            () => Navigator.of(
+                              context,
+                            ).pushNamed(AppRoutes.emailSettingsRoute),
                       ),
                     ],
                   ),
@@ -147,26 +150,30 @@ class _SettingsViewState extends State<SettingsView>
                         label: l10n.settingsPushNotifications,
                         subtitle: l10n.settingsPushNotificationsSubtitle,
                         toggle: settingsState.pushNotifications,
-                        onToggle: (v) => context
-                            .read<SettingsCubit>()
-                            .setPushNotifications(v),
+                        onToggle:
+                            (v) => context
+                                .read<SettingsCubit>()
+                                .setPushNotifications(v),
                       ),
                       SettingsItemData(
                         icon: Icons.message_outlined,
                         label: l10n.settingsMessagePreviews,
                         subtitle: l10n.settingsMessagePreviewsSubtitle,
                         toggle: settingsState.messagePreviews,
-                        onToggle: (v) =>
-                            context.read<SettingsCubit>().setMessagePreviews(v),
+                        onToggle:
+                            (v) => context
+                                .read<SettingsCubit>()
+                                .setMessagePreviews(v),
                       ),
                       SettingsItemData(
                         icon: Icons.call_outlined,
                         label: l10n.settingsCallNotifications,
                         subtitle: l10n.settingsCallNotificationsSubtitle,
                         toggle: settingsState.callNotifications,
-                        onToggle: (v) => context
-                            .read<SettingsCubit>()
-                            .setCallNotifications(v),
+                        onToggle:
+                            (v) => context
+                                .read<SettingsCubit>()
+                                .setCallNotifications(v),
                       ),
                     ],
                   ),
@@ -181,16 +188,20 @@ class _SettingsViewState extends State<SettingsView>
                         label: l10n.settingsReadReceipts,
                         subtitle: l10n.settingsReadReceiptsSubtitle,
                         toggle: settingsState.readReceipts,
-                        onToggle: (v) =>
-                            context.read<SettingsCubit>().setReadReceipts(v),
+                        onToggle:
+                            (v) => context
+                                .read<SettingsCubit>()
+                                .setReadReceipts(v),
                       ),
                       SettingsItemData(
                         icon: Icons.circle_outlined,
                         label: l10n.settingsOnlineStatus,
                         subtitle: l10n.settingsOnlineStatusSubtitle,
                         toggle: settingsState.onlineStatus,
-                        onToggle: (v) =>
-                            context.read<SettingsCubit>().setOnlineStatus(v),
+                        onToggle:
+                            (v) => context
+                                .read<SettingsCubit>()
+                                .setOnlineStatus(v),
                       ),
 
                       SettingsItemData(
@@ -201,10 +212,11 @@ class _SettingsViewState extends State<SettingsView>
                           settingsState.presencePrivacy,
                         ),
                         enabled: settingsState.onlineStatus,
-                        onTap: () => _pickPresencePrivacy(
-                          context,
-                          settingsState.presencePrivacy,
-                        ),
+                        onTap:
+                            () => _pickPresencePrivacy(
+                              context,
+                              settingsState.presencePrivacy,
+                            ),
                       ),
 
                       SettingsItemData(
@@ -212,20 +224,22 @@ class _SettingsViewState extends State<SettingsView>
                         label: l10n.settingsAppLock,
                         subtitle: l10n.settingsAppLockSubtitle,
                         toggle: settingsState.biometricLock,
-                        onToggle: (v) => context
-                            .read<SettingsCubit>()
-                            .toggleBiometricLock(v),
+                        onToggle:
+                            (v) => context
+                                .read<SettingsCubit>()
+                                .toggleBiometricLock(v),
                       ),
                       SettingsItemData(
                         icon: CupertinoIcons.lock_shield_fill,
                         label: l10n.settingsTwoFactor,
-                        subtitle: settingsState.twoFactor
-                            ? (settingsState.recoveryCodesCount != null
-                                  ? l10n.settingsTwoFactorOnRecoveryCodes(
+                        subtitle:
+                            settingsState.twoFactor
+                                ? (settingsState.recoveryCodesCount != null
+                                    ? l10n.settingsTwoFactorOnRecoveryCodes(
                                       settingsState.recoveryCodesCount!,
                                     )
-                                  : l10n.settingsTwoFactorOnAuthenticator)
-                            : l10n.settingsTwoFactorOffSubtitle,
+                                    : l10n.settingsTwoFactorOnAuthenticator)
+                                : l10n.settingsTwoFactorOffSubtitle,
                         toggle: settingsState.twoFactor,
                         onToggle: (v) async {
                           if (v) {
@@ -253,9 +267,10 @@ class _SettingsViewState extends State<SettingsView>
                         icon: Icons.block_outlined,
                         label: l10n.settingsBlockedUsers,
                         subtitle: l10n.settingsBlockedUsersSubtitle,
-                        onTap: () => Navigator.of(
-                          context,
-                        ).pushNamed(AppRoutes.blockedUsersViewRoute),
+                        onTap:
+                            () => Navigator.of(
+                              context,
+                            ).pushNamed(AppRoutes.blockedUsersViewRoute),
                       ),
                     ],
                   ),
@@ -270,9 +285,10 @@ class _SettingsViewState extends State<SettingsView>
 
                         label: l10n.settingsAiSettings,
                         subtitle: l10n.settingsAiSettingsSubtitle,
-                        onTap: () => Navigator.of(
-                          context,
-                        ).pushNamed(AppRoutes.aiSettingsViewRoute),
+                        onTap:
+                            () => Navigator.of(
+                              context,
+                            ).pushNamed(AppRoutes.aiSettingsViewRoute),
                       ),
                     ],
                   ),
@@ -291,9 +307,10 @@ class _SettingsViewState extends State<SettingsView>
                       SettingsItemData(
                         icon: Icons.language_rounded,
                         label: l10n.language,
-                        subtitle: AppLocale.isArabic(settingsState.languageCode)
-                            ? 'العربية'
-                            : 'English (US)',
+                        subtitle:
+                            AppLocale.isArabic(settingsState.languageCode)
+                                ? 'العربية'
+                                : 'English (US)',
                         onTap: () => showLanguageSelectionSheet(context),
                       ),
                     ],
@@ -308,19 +325,21 @@ class _SettingsViewState extends State<SettingsView>
                         icon: Icons.info_outline_rounded,
                         label: l10n.settingsAboutUs,
                         subtitle: l10n.settingsAboutUsSubtitle,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.aboutUsViewRoute,
-                        ),
+                        onTap:
+                            () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.aboutUsViewRoute,
+                            ),
                       ),
                       SettingsItemData(
                         icon: Icons.help_outline_rounded,
                         label: l10n.settingsHelpFaq,
                         subtitle: l10n.settingsHelpFaqSubtitle,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.helpFaqViewRoute,
-                        ),
+                        onTap:
+                            () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.helpFaqViewRoute,
+                            ),
                       ),
                       SettingsItemData(
                         icon: Icons.feedback_outlined,
@@ -332,19 +351,21 @@ class _SettingsViewState extends State<SettingsView>
                         icon: Icons.policy_outlined,
                         label: l10n.settingsPrivacyPolicy,
                         subtitle: l10n.settingsPrivacyPolicySubtitle,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.privacyPolicyViewRoute,
-                        ),
+                        onTap:
+                            () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.privacyPolicyViewRoute,
+                            ),
                       ),
                       SettingsItemData(
                         icon: Icons.gavel_rounded,
                         label: l10n.settingsTermsOfService,
                         subtitle: l10n.settingsTermsOfServiceSubtitle,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AppRoutes.termsOfServiceRoute,
-                        ),
+                        onTap:
+                            () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.termsOfServiceRoute,
+                            ),
                       ),
                     ],
                   ),
@@ -390,9 +411,10 @@ class _SettingsViewState extends State<SettingsView>
     if (result == PresencePrivacy.specific && context.mounted) {
       final selected = await Navigator.of(context).push<Set<String>>(
         MaterialPageRoute(
-          builder: (_) => AudiencePickerView(
-            initialSelectedIds: cubit.state.presenceVisibleTo.toSet(),
-          ),
+          builder:
+              (_) => AudiencePickerView(
+                initialSelectedIds: cubit.state.presenceVisibleTo.toSet(),
+              ),
         ),
       );
       if (selected != null) {

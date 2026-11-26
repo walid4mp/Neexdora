@@ -39,9 +39,10 @@ class ThemedPostCard extends StatelessWidget {
       if (post.authorId == currentUserId) {
         AppToast.info(context.l10n.youMentionedYourselfIn3);
       } else {
-        final name = (post.authorName?.trim().isNotEmpty ?? false)
-            ? post.authorName!.trim()
-            : context.l10n.someone;
+        final name =
+            (post.authorName?.trim().isNotEmpty ?? false)
+                ? post.authorName!.trim()
+                : context.l10n.someone;
         AppToast.info(context.l10n.mentionedYouInThis3(name));
       }
       return;
@@ -109,9 +110,8 @@ class ThemedPostCard extends StatelessWidget {
         mentionColor: theme.mentionColor,
         linkColor: theme.linkColor,
         maxTextWidth: maxTextWidth,
-        collapsedMaxLines: isFullScreen
-            ? 9999
-            : ThemedPostCard.feedCollapsedMaxLines,
+        collapsedMaxLines:
+            isFullScreen ? 9999 : ThemedPostCard.feedCollapsedMaxLines,
         onMentionTap: (userId, _) => _onMentionTap(context, userId),
       );
 
