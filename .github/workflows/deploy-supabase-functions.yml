@@ -4,7 +4,8 @@ name: Deploy Supabase Edge Functions
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
       - "supabase/functions/**"
       - "supabase/config.toml"
@@ -22,6 +23,7 @@ jobs:
     name: Deploy Nexora Edge Functions
     runs-on: ubuntu-latest
     timeout-minutes: 20
+
     env:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
 
@@ -41,12 +43,12 @@ jobs:
             exit 1
           fi
 
-      - name: Deploy seven Nexora Edge Functions
+      - name: Deploy Nexora Edge Functions
         run: |
-          supabase functions deploy send-notification --project-ref uroontxrqsebzsnevevo
-          supabase functions deploy generate-livekit-token --project-ref uroontxrqsebzsnevevo
-          supabase functions deploy ai-gateway --project-ref uroontxrqsebzsnevevo
-          supabase functions deploy delete-media-asset --project-ref uroontxrqsebzsnevevo
-          supabase functions deploy link-preview --project-ref uroontxrqsebzsnevevo
-          supabase functions deploy sync-reels --project-ref uroontxrqsebzsnevevo
-          supabase functions deploy admin-action --project-ref uroontxrqsebzsnevevo
+          supabase functions deploy send-notification --project-ref uroontxrqsebzsnevevo --yes
+          supabase functions deploy generate-livekit-token --project-ref uroontxrqsebzsnevevo --yes
+          supabase functions deploy ai-gateway --project-ref uroontxrqsebzsnevevo --yes
+          supabase functions deploy delete-media-asset --project-ref uroontxrqsebzsnevevo --yes
+          supabase functions deploy link-preview --project-ref uroontxrqsebzsnevevo --yes
+          supabase functions deploy sync-reels --project-ref uroontxrqsebzsnevevo --yes
+          supabase functions deploy admin-action --project-ref uroontxrqsebzsnevevo --yes
