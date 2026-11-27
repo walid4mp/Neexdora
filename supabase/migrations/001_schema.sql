@@ -24,7 +24,9 @@ create table if not exists public.users (
   deleted_at timestamptz,
   presence_privacy text not null default 'everyone' check (presence_privacy in ('everyone','friends','specific','nobody')),
   presence_visible_to uuid[] not null default '{}',
-  social_links jsonb not null default '[]'::jsonb,
+  social_links jsonb not null default '{}'::jsonb,   -- JSON OBJECT (the app casts it to Map)
+  username text,
+  bio text,
   notif_push boolean not null default true,
   notif_previews boolean not null default true,
   notif_calls boolean not null default true,
@@ -116,7 +118,7 @@ create table if not exists public.group_join_requests (
 create table if not exists public.posts (
   id uuid primary key default gen_random_uuid(),
   author_id uuid not null references public.users(id) on delete cascade,
-  text text,
+  text text not null default '',
   image_url text, video_url text, gif_url text,
   image_public_id text, video_public_id text, file_public_id text,
   media_width int, media_height int,
@@ -175,7 +177,7 @@ create table if not exists public.comments (
   post_id uuid not null references public.posts(id) on delete cascade,
   author_id uuid not null references public.users(id) on delete cascade,
   parent_comment_id uuid references public.comments(id) on delete cascade,
-  text text,
+  text text not null default '',
   comment_type text not null default 'text',
   image_url text, video_url text, voice_url text, file_url text, file_name text,
   file_size_bytes bigint, duration_seconds int,
@@ -314,7 +316,7 @@ create table if not exists public.group_messages (
   id uuid primary key default gen_random_uuid(),
   group_id uuid not null references public.groups(id) on delete cascade,
   sender_id uuid references public.users(id) on delete set null,
-  text text,
+  text text not null default '',
   message_type text not null default 'text',
   image_url text, video_url text, voice_url text, file_url text, file_name text,
   file_size_bytes bigint, duration_seconds int, caption text,
@@ -407,7 +409,7 @@ create index if not exists notifications_receiver_idx on public.notifications (r
 create table if not exists public.sticker_packs (
   id uuid primary key default gen_random_uuid(),
   owner_id uuid references public.users(id) on delete cascade,
-  title text not null, cover_url text,
+  title text not null, cover_url text not null default '',
   sticker_count int not null default 0, total_size_bytes bigint not null default 0,
   sort_order int not null default 0, has_animated boolean not null default false,
   privacy_level text not null default 'public' check (privacy_level in ('public','private','friends')),
@@ -567,7 +569,7 @@ create or replace function public.bump_sticker_pack() returns trigger language p
 begin
   if tg_op = 'INSERT' then
     update public.sticker_packs set sticker_count = sticker_count + 1, total_size_bytes = total_size_bytes + coalesce(new.size_bytes,0),
-      has_animated = has_animated or new.is_animated, cover_url = coalesce(cover_url, new.image_url) where id = new.pack_id;
+      has_animated = has_animated or new.is_animated, cover_url = case when cover_url = '' then new.image_url else cover_url end where id = new.pack_id;
   else
     update public.sticker_packs set sticker_count = greatest(sticker_count - 1, 0), total_size_bytes = greatest(total_size_bytes - coalesce(old.size_bytes,0),0) where id = old.pack_id;
   end if;
@@ -575,3 +577,13 @@ begin
 end $$;
 drop trigger if exists trg_sticker_pack on public.stickers;
 create trigger trg_sticker_pack after insert or delete on public.stickers for each row execute function public.bump_sticker_pack();
+
+-- never let NULL text reach the app (it casts these columns to non-null String)
+create or replace function public.coalesce_text() returns trigger language plpgsql as $$
+begin new.text := coalesce(new.text, ''); return new; end $$;
+drop trigger if exists trg_text_posts on public.posts;
+create trigger trg_text_posts before insert or update on public.posts for each row execute function public.coalesce_text();
+drop trigger if exists trg_text_comments on public.comments;
+create trigger trg_text_comments before insert or update on public.comments for each row execute function public.coalesce_text();
+drop trigger if exists trg_text_gmsgs on public.group_messages;
+create trigger trg_text_gmsgs before insert or update on public.group_messages for each row execute function public.coalesce_text();

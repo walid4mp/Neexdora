@@ -65,6 +65,14 @@ class UserData {
     };
   }
 
+  /// Accepts a JSON object; anything else (null, `[]` from an older schema) → empty map.
+  static Map<String, String> _parseSocialLinks(Object? raw) {
+    if (raw is Map) {
+      return raw.map((k, v) => MapEntry(k.toString(), v?.toString() ?? ''));
+    }
+    return <String, String>{};
+  }
+
   factory UserData.fromMap(Map<String, dynamic> map) {
     return UserData(
       id: map['id'] as String? ?? '',
@@ -97,9 +105,7 @@ class UserData {
       presenceVisibleTo: List<String>.from(
         map[UserColumns.presenceVisibleTo] as List? ?? const [],
       ),
-      socialLinks: Map<String, String>.from(
-        (map[UserColumns.socialLinks] as Map?) ?? const {},
-      ),
+      socialLinks: _parseSocialLinks(map[UserColumns.socialLinks]),
       isDeleted: map[UserColumns.isDeleted] as bool? ?? false,
       deletedAt:
           map[UserColumns.deletedAt] != null

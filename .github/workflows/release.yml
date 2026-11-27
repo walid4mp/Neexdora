@@ -100,12 +100,29 @@ jobs:
             --build-name="${{ steps.version.outputs.app_version }}" --build-number="${GITHUB_RUN_NUMBER}" \
             --dart-define-from-file=ci.env.json
 
+      - name: Verify APKs (integrity, signature, manifest) + checksums
+        if: env.BUILD_TYPE == 'apk' || env.BUILD_TYPE == 'both'
+        run: |
+          BT="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)"
+          cd build/app/outputs/flutter-apk
+          for f in *.apk; do
+            echo "=== $f"
+            unzip -tq "$f" | tail -1
+            "$BT/apksigner" verify --verbose --print-certs "$f" | grep -E "^Verifies|scheme|SHA-256 digest" || { echo "::error::$f failed signature verification"; exit 1; }
+            "$BT/aapt2" dump badging "$f" > /tmp/badging.txt
+            grep -E "^package:|^sdkVersion|^targetSdkVersion|^native-code" /tmp/badging.txt | cut -c1-120
+            grep -q "name='com.nexora.app'" /tmp/badging.txt || { echo "::error::$f has an unexpected package name"; exit 1; }
+          done
+          sha256sum *.apk | tee sha256sums.txt
+
       - name: Upload APKs
         if: env.BUILD_TYPE == 'apk' || env.BUILD_TYPE == 'both'
         uses: actions/upload-artifact@v4
         with:
           name: nexora-release-apks
-          path: build/app/outputs/flutter-apk/*.apk
+          path: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/flutter-apk/sha256sums.txt
           if-no-files-found: error
           retention-days: 30
 

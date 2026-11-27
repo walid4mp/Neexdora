@@ -27,13 +27,56 @@ class UserService {
               .eq(UserColumns.id, userId)
               .maybeSingle();
 
-      if (data == null) throw 'User not found';
+      if (data == null) {
+        // Account exists in auth but has no profile row (created before the
+        // signup trigger existed, or the trigger failed). Create it instead of
+        // leaving the whole app on an error screen.
+        final healed = await _ensureProfileRow(userId);
+        if (healed == null) throw 'User not found';
+        return UserData.fromMap(healed);
+      }
 
       return UserData.fromMap(data);
     } catch (e) {
       debugPrint('Error fetching current user: $e');
       rethrow;
     }
+  }
+
+  Future<Map<String, dynamic>?> _ensureProfileRow(String userId) async {
+    final authUser = _supabase.auth.currentUser;
+    if (authUser == null || authUser.id != userId) return null;
+    try {
+      await _supabase.rpc('ensure_my_profile'); // exists after migration 010
+    } catch (e) {
+      debugPrint('ensure_my_profile unavailable, falling back to upsert: $e');
+    }
+    var row =
+        await _supabase
+            .from(SupabaseConstants.users)
+            .select()
+            .eq(UserColumns.id, userId)
+            .maybeSingle();
+    if (row != null) return row;
+
+    final meta = authUser.userMetadata ?? const <String, dynamic>{};
+    final email = authUser.email ?? '';
+    final name =
+        (meta['name'] ?? meta['full_name'] ?? email.split('@').first)
+            .toString();
+    await _supabase.from(SupabaseConstants.users).upsert({
+      UserColumns.id: userId,
+      UserColumns.name: name,
+      UserColumns.email: email,
+      UserColumns.imageUrl: meta['avatar_url'] ?? meta['picture'],
+    }, onConflict: UserColumns.id);
+    row =
+        await _supabase
+            .from(SupabaseConstants.users)
+            .select()
+            .eq(UserColumns.id, userId)
+            .maybeSingle();
+    return row;
   }
 
   Future<int> getProfileMediaCount(String viewedUserId) async {

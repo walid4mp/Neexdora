@@ -48,7 +48,7 @@ android {
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         
-        minSdk = 24
+        minSdk = 23 // Android 6.0. If a plugin needs more, the build fails naming it (manifest merger).
         // minSdk = flutter.minSdkVersion
         
         targetSdk = 36

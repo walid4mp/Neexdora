@@ -73,3 +73,11 @@ keytool -genkey -v -keystore upload-keystore.jks -keyalg RSA -keysize 2048 -vali
 السبب: `flutter build web` بدون `--dart-define-from-file` يُنتج نسخة تُهيّئ Supabase بقيم فارغة، فتخرج الطلبات بلا ترويسة `apikey` (وكان `assert` الذي يفحص ذلك يُحذف في نسخ release).
 الإصلاح الموجود الآن: (أ) فحص تشغيل حقيقي في `AppSecrets` وشاشة خطأ واضحة بدل طلبات بلا مفتاح، (ب) workflow **Web build** يتحقق من الأسرار ويجرّب المفتاح على Supabase مباشرة ويتأكد أن القيم مضمّنة في `main.dart.js` ويرفض أي مفتاح `service_role`/`sb_secret_`، (ج) `scripts/web_smoke_test.sh` يختبر نفس طلبات المتصفح من سطر الأوامر.
 استخدم في `SUPABASE_ANON_KEY` المفتاح **Publishable/anon فقط**.
+
+## 11) "حدثت مشكلة أثناء تحليل الحزمة" عند تثبيت الـ APK
+هذه رسالة أندرويد العامة (Parse error) ولا تحدد السبب. الأسباب الشائعة: ملف تالف/ناقص بعد التحميل أو الفك، أو نسخة أندرويد أقدم من الحد الأدنى (6.0 الآن)، أو APK غير مناسب للجهاز.
+1. ثبّت ملف **`app-arm64-v8a-release.apk`** (الأنسب لمعظم الهواتف الحديثة). ملفات `x86_64` للمحاكيات، و`armeabi-v7a` للهواتف 32-بت القديمة.
+2. قارن الملف بالقيمة الأصلية: نزّل من Artifact الملف `sha256sums.txt` ثم في Termux: `sha256sum app-arm64-v8a-release.apk` — إن اختلفت القيمتان فالتحميل/الفك تالف، أعد التحميل.
+3. خطوة **Verify APKs** في workflow الـ Release تتحقق الآن (سلامة الملف، التوقيع، اسم الحزمة) وتطبع minSdk/targetSdk؛ إن نجحت فالملف سليم من جهة البناء.
+4. معلومات الجهاز من Termux: `getprop ro.build.version.release; getprop ro.product.cpu.abi`.
+5. إن كان مثبتاً نسخة قديمة بتوقيع مختلف فاحذفها أولاً (يظهر عندها "App not installed" وليس Parse error).
